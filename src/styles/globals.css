@@ -144,6 +144,27 @@
   100% { transform: translateX(300%) skewX(-20deg); }
 }
 
+@keyframes vision-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes chart-candle-in {
+  0%   { opacity: 0; transform: translateY(14px); }
+  70%  { opacity: 1; transform: translateY(-2px); }
+  100% { opacity: 1; transform: translateY(0);    }
+}
+@keyframes chart-candle-bob {
+  0%, 100% { transform: translateY(0);    }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes text-shimmer {
+  0%   { background-position: 150% center; }
+  38%  { background-position: -50% center; }
+  100% { background-position: -50% center; }
+}
+
 /* Custom component classes */
 @layer components {
   /* Headings */

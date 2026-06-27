@@ -15,15 +15,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 /* ─── Arrow icon ─────────────────────────────────────────────────── */
-function ArrowIcon({ size = 20 }: { size?: number }) {
+function ArrowIcon() {
   return (
-    <svg width={size} height={size} viewBox="0 0 20 20" fill="none" aria-hidden style={{ flexShrink: 0 }}>
-      <rect x="4.5" y="4.5" width="11" height="11" rx="1.5"
-        stroke="currentColor" strokeWidth="1.7" />
-      <path d="M8 12 L12 8 M12 8 H9.2 M12 8 V10.8"
-        stroke="currentColor" strokeWidth="1.7"
-        strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <path d="M19.8337 8.1665L8.16699 19.8332" stroke="#14181F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M9.33301 8.1665H19.833V18.6665" stroke="#14181F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg> 
   )
 }
 
@@ -101,7 +98,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const showShimmer  = shimmer ?? (variant === 'gold' || variant === 'light')
     const gradient     = SHIMMER_GRADIENT[variant]
     const duration     = SHIMMER_DURATION[variant] ?? '2.8s'
-    const resolvedIcon = icon === true ? <ArrowIcon size={cfg.icon} /> : (icon ?? null)
+    const resolvedIcon = icon === true ? <ArrowIcon /> : (icon ?? null)
 
     return (
       <button

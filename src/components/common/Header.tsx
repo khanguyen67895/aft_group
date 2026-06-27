@@ -6,8 +6,6 @@ import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants'
 import { staggerContainer, staggerItem } from '@/lib/motion'
 import icLogo    from '@/assets/image/ic_logo.png'
-import icLogo2x  from '@/assets/image/ic_logo@2x.png'
-import icLogo3x  from '@/assets/image/ic_logo@3x.png'
 
 const NAV = [
   { to: ROUTES.HOME,      label: 'Trang chủ' },
@@ -30,7 +28,7 @@ export function Header() {
   return (
     <motion.header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-all duration-300',
+        'fixed inset-x-0 top-0 z-1000 transition-all duration-300',
         scrolled
           ? 'bg-bg/95 backdrop-blur-md border-b border-divider'
           : 'bg-[rgba(0,12,29,0.16)] backdrop-blur-sm'

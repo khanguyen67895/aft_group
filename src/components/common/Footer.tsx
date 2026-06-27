@@ -2,15 +2,30 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ROUTES } from '@/constants'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
-import icLogo    from '@/assets/image/ic_logo.png'
-import icLogo2x  from '@/assets/image/ic_logo@2x.png'
-import icLogo3x  from '@/assets/image/ic_logo@3x.png'
+import icLogo         from '@/assets/image/ic_logo.png'
+import icLogo2x       from '@/assets/image/ic_logo@2x.png'
+import icLogo3x       from '@/assets/image/ic_logo@3x.png'
+import icLogoFooter   from '@/assets/image/ic_logo_footer.png'
+import icLogoFooter2x from '@/assets/image/ic_logo_footer@2x.png'
+import icLogoFooter3x from '@/assets/image/ic_logo_footer@3x.png'
+import icMes    from '@/assets/image/ic_mes.png'
+import icMes2x  from '@/assets/image/ic_mes@2x.png'
+import icMes3x  from '@/assets/image/ic_mes@3x.png'
+import icYou    from '@/assets/image/ic_you.png'
+import icYou2x  from '@/assets/image/ic_you@2x.png'
+import icYou3x  from '@/assets/image/ic_you@3x.png'
+import icTik    from '@/assets/image/ic_tik.png'
+import icTik2x  from '@/assets/image/ic_tik@2x.png'
+import icTik3x  from '@/assets/image/ic_tik@3x.png'
+import icFace   from '@/assets/image/ic_face.png'
+import icFace2x from '@/assets/image/ic_face@2x.png'
+import icFace3x from '@/assets/image/ic_face@3x.png'
 
 const MENU_LINKS = [
-  { label: 'Giới thiệu',    to: ROUTES.ABOUT },
-  { label: 'Về chúng tôi',  to: ROUTES.ABOUT },
-  { label: 'Tầm nhìn 2035', to: ROUTES.ABOUT },
-  { label: 'Tin tức',       to: ROUTES.HOME },
+  { label: 'Hệ sinh thái', to: ROUTES.ABOUT },
+  { label: 'Quỹ đầu tư',   to: ROUTES.ABOUT },
+  { label: 'Về chúng tôi', to: ROUTES.ABOUT },
+  { label: 'Liên hệ',      to: ROUTES.HOME },
 ]
 
 const SECTOR_LINKS = [
@@ -21,10 +36,10 @@ const SECTOR_LINKS = [
 ]
 
 const SOCIALS = [
-  { label: 'Messenger', icon: <MessengerIcon />, href: '#', bg: 'bg-[#006AFF]' },
-  { label: 'YouTube',   icon: <YoutubeIcon />,   href: '#', bg: 'bg-[#FF0000]' },
-  { label: 'TikTok',    icon: <TiktokIcon />,    href: '#', bg: 'bg-[#010101]' },
-  { label: 'Facebook',  icon: <FacebookIcon />,  href: '#', bg: 'bg-[#1877F2]' },
+  { label: 'Messenger', src: icMes,  src2x: icMes2x,  src3x: icMes3x,  href: '#' },
+  { label: 'YouTube',   src: icYou,  src2x: icYou2x,  src3x: icYou3x,  href: '#' },
+  { label: 'TikTok',    src: icTik,  src2x: icTik2x,  src3x: icTik3x,  href: '#' },
+  { label: 'Facebook',  src: icFace, src2x: icFace2x, src3x: icFace3x, href: '#' },
 ]
 
 const colVariants = {
@@ -34,10 +49,10 @@ const colVariants = {
 
 export function Footer() {
   return (
-    <footer className="bg-secondary border-t border-divider">
+    <footer style={{ background: 'rgba(11, 31, 58, 0.30)', backdropFilter: 'blur(20px)' }}>
       {/* ── Main columns ─────────────────────────────────── */}
       <motion.div
-        className="container mx-auto px-4 md:px-8 py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10"
+        className="container mx-auto px-4 py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2"
         variants={staggerContainer(0.1, 0.05)} initial="hidden" whileInView="show" viewport={viewport}
       >
         {/* Brand col */}
@@ -47,25 +62,17 @@ export function Footer() {
               src={icLogo}
               srcSet={`${icLogo} 1x, ${icLogo2x} 2x, ${icLogo3x} 3x`}
               alt="AFT Group logo"
-              className="h-8 w-auto shrink-0"
+              className="h-12 w-auto shrink-0"
             />
-            <div className="flex flex-col leading-none gap-0.5">
-              <span className="text-[13px] font-extrabold tracking-[0.14em] font-[Manrope] text-text-primary">
-                AFT <span className="text-primary">GROUP</span>
-              </span>
-              <span className="text-[6.5px] tracking-[0.1em] text-text-disable font-[Manrope] uppercase">
-                Accelerating Finance Through Trust
-              </span>
-            </div>
           </div>
-          <p className="text-body-sm text-text-secondary leading-relaxed max-w-55">
+          <p className="leading-relaxed max-w-80" style={{ color: '#DBDBDB', fontSize: '16px' }}>
             Khai thác giá trị thật, kết nối cơ hội vàng, lan tỏa thịnh vượng bền vững.
           </p>
           <div className="flex items-center gap-2.5 mt-1">
-            {SOCIALS.map(({ label, icon, href, bg }, i) => (
+            {SOCIALS.map(({ label, src, src2x, src3x, href }, i) => (
               <motion.a
                 key={label} href={href} aria-label={label}
-                className={`size-9 rounded-full ${bg} flex items-center justify-center transition-opacity`}
+                className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity"
                 whileHover={{ scale: 1.12, opacity: 0.9 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, scale: 0.7 }}
@@ -73,7 +80,8 @@ export function Footer() {
                 transition={{ delay: 0.3 + i * 0.07, duration: 0.35 }}
                 viewport={{ once: true }}
               >
-                {icon}
+                <img src={src} srcSet={`${src} 1x, ${src2x} 2x, ${src3x} 3x`}
+                  alt={label} className="size-full object-cover" />
               </motion.a>
             ))}
           </div>
@@ -81,14 +89,14 @@ export function Footer() {
 
         {/* Menu col */}
         <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.05 }}>
-          <h4 className="text-sm font-bold tracking-wider font-[Manrope] text-text-primary mb-5">Menu</h4>
+          <h4 className="font-bold tracking-wider font-[Manrope] mb-5" style={{ color: '#FFF', fontSize: '20px' }}>Menu</h4>
           <motion.ul
             className="flex flex-col gap-3"
             variants={staggerContainer(0.06)} initial="hidden" whileInView="show" viewport={viewport}
           >
             {MENU_LINKS.map(({ label, to }) => (
               <motion.li key={label} variants={staggerItem}>
-                <Link to={to} className="text-body-sm text-text-secondary hover:text-primary transition-colors">
+                <Link to={to} className="hover:text-primary transition-colors" style={{ color: '#DBDBDB', fontSize: '16px' }}>
                   {label}
                 </Link>
               </motion.li>
@@ -98,14 +106,14 @@ export function Footer() {
 
         {/* Sectors col */}
         <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.1 }}>
-          <h4 className="text-sm font-bold tracking-wider font-[Manrope] text-text-primary mb-5">Lĩnh vực</h4>
+          <h4 className="font-bold tracking-wider font-[Manrope] mb-5" style={{ color: '#FFF', fontSize: '20px' }}>Lĩnh vực</h4>
           <motion.ul
             className="flex flex-col gap-3"
             variants={staggerContainer(0.06)} initial="hidden" whileInView="show" viewport={viewport}
           >
             {SECTOR_LINKS.map(({ label, to }) => (
               <motion.li key={label} variants={staggerItem}>
-                <Link to={to} className="text-body-sm text-text-secondary hover:text-primary transition-colors">
+                <Link to={to} className="hover:text-primary transition-colors" style={{ color: '#DBDBDB', fontSize: '16px' }}>
                   {label}
                 </Link>
               </motion.li>
@@ -115,19 +123,19 @@ export function Footer() {
 
         {/* Contact col */}
         <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.15 }}>
-          <h4 className="text-sm font-bold tracking-wider font-[Manrope] text-text-primary mb-5">Liên hệ</h4>
+          <h4 className="font-bold tracking-wider font-[Manrope] mb-5" style={{ color: '#FFF', fontSize: '20px' }}>Liên hệ</h4>
           <ul className="flex flex-col gap-3">
             <li className="flex items-start gap-2.5">
               <PhoneIcon />
-              <span className="text-body-sm text-text-secondary">42 Nguyễn Phước Lan, Hòa Xuân, TP Đà Nẵng</span>
+              <span style={{ color: '#DBDBDB', fontSize: '16px' }}>42 Nguyễn Phước Lan, Hòa Xuân, TP Đà Nẵng</span>
             </li>
             <li className="flex items-center gap-2.5">
               <MapIcon />
-              <span className="text-body-sm text-text-secondary">+84 123456789</span>
+              <span style={{ color: '#DBDBDB', fontSize: '16px' }}>+84 123456789</span>
             </li>
             <li className="flex items-center gap-2.5">
               <MailIcon />
-              <a href="mailto:contactaft@gmail.com" className="text-body-sm text-text-secondary hover:text-primary transition-colors">
+              <a href="mailto:contactaft@gmail.com" className="hover:text-primary transition-colors" style={{ color: '#DBDBDB', fontSize: '16px' }}>
                 contactaft@gmail.com
               </a>
             </li>
@@ -136,21 +144,18 @@ export function Footer() {
       </motion.div>
 
       {/* ── Bottom bar ────────────────────────────────────── */}
-      <motion.div
-        className="border-t border-divider py-6"
-        variants={fadeUp} initial="hidden" whileInView="show" viewport={viewport}
-      >
-        <div className="container mx-auto px-4 md:px-8 flex flex-col items-center gap-3">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" opacity="0.5">
-            <path d="M14 3L24 21H4L14 3Z" fill="url(#ft-grad)"/>
-            <defs>
-              <linearGradient id="ft-grad" x1="14" y1="3" x2="14" y2="21" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#F8EBC0"/>
-                <stop offset="1" stopColor="#C09857"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <p className="text-caption text-text-disable">
+      <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={viewport}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1440 27" fill="none" preserveAspectRatio="none">
+          <path d="M0 26H360H540H630H649.543C651.749 26 653.857 25.0892 655.369 23.4829L674.631 3.01708C676.143 1.41079 678.251 0.5 680.457 0.5H721H759.592C761.769 0.5 763.853 1.38738 765.361 2.95739L785.139 23.5426C786.647 25.1126 788.731 26 790.908 26H810H900H1080H1440" stroke="#F6F7F9" strokeOpacity="0.1"/>
+        </svg>
+        <div className="container mx-auto px-4 md:px-8 flex flex-col items-center gap-3 pb-6 -mt-4">
+          <img
+            src={icLogoFooter}
+            srcSet={`${icLogoFooter} 1x, ${icLogoFooter2x} 2x, ${icLogoFooter3x} 3x`}
+            alt="AFT Group"
+            className="h-auto w-auto"
+          />
+          <p className="text-caption" style={{ color: '#DBDBDB' }}>
             © 2026 AFT GROUP all rights reserved.
           </p>
         </div>
@@ -159,32 +164,26 @@ export function Footer() {
   )
 }
 
-/* ── Tiny icon set ─────────────────────────────────────────────────── */
-
-function MessengerIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.906 1.306 5.499 3.37 7.282V22l3.057-1.679A11.023 11.023 0 0012 20.486c5.523 0 10-4.145 10-9.243C22 6.145 17.523 2 12 2zm1.019 12.445l-2.548-2.714-4.973 2.714 5.472-5.807 2.611 2.714 4.91-2.714-5.472 5.807z"/></svg>
-}
-
-function YoutubeIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-}
-
-function TiktokIcon() {
-  return <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.79 1.54V6.79a4.86 4.86 0 01-1.02-.1z"/></svg>
-}
-
-function FacebookIcon() {
-  return <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-}
+/* ── Contact icons ────────────────────────────────────────────────── */
 
 function PhoneIcon() {
-  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" strokeWidth="1.8" className="shrink-0 mt-0.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.82 9.87a19.79 19.79 0 01-3.07-8.67A2 2 0 012.73 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+  return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M5 4H9L11 9L8.5 10.5C9.57096 12.6715 11.3285 14.429 13.5 15.5L15 13L20 15V19C20 20.1046 19.1046 21 18 21C9.92765 20.5094 3.49056 14.0724 3 6C3 4.89543 3.89543 4 5 4" stroke="#C7CCD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M15 7C16.1046 7 17 7.89543 17 9" stroke="#C7CCD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M15 3C18.3137 3 21 5.68629 21 9" stroke="#C7CCD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
 }
 
 function MapIcon() {
-  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" strokeWidth="1.8" className="shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+  return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <circle cx="12" cy="11" r="3" stroke="#C7CCD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M17.657 16.6567L13.414 20.8997C12.6331 21.6798 11.3679 21.6798 10.587 20.8997L6.343 16.6567C3.21892 13.5325 3.21901 8.46723 6.34319 5.3431C9.46738 2.21897 14.5326 2.21897 17.6568 5.3431C20.781 8.46723 20.7811 13.5325 17.657 16.6567V16.6567Z" stroke="#C7CCD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
 }
 
 function MailIcon() {
-  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" strokeWidth="1.8" className="shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+  return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <rect x="3" y="5" width="18" height="14" rx="2" stroke="#C7CCD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M3 7L12 13L21 7" stroke="#C7CCD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
 }

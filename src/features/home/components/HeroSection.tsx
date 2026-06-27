@@ -14,6 +14,36 @@ import icHero2x2  from '@/assets/image/ic_item_hero2@2x.png'
 import icHero2x3  from '@/assets/image/ic_item_hero2@3x.png'
 import icHero3    from '@/assets/image/ic_item_hero3.png'
 import icHero3x3  from '@/assets/image/ic_item_hero3@3x.png'
+import icBgStats    from '@/assets/image/ic_bg_stats.png'
+import icBgStats2x  from '@/assets/image/ic_bg_stats@2x.png'
+import icBgStats3x  from '@/assets/image/ic_bg_stats@3x.png'
+import logo01 from '@/assets/image/logo-01.png'
+import logo02 from '@/assets/image/logo-02.png'
+import logo03 from '@/assets/image/logo-03.png'
+import logo04 from '@/assets/image/logo-04.png'
+import logo05 from '@/assets/image/logo-05.png'
+import logo06 from '@/assets/image/logo-06.png'
+import logo07 from '@/assets/image/logo-07.png'
+import logo08 from '@/assets/image/logo-08.png'
+import logo09 from '@/assets/image/logo-09.png'
+import logo10 from '@/assets/image/logo-10.png'
+import logo11 from '@/assets/image/logo-11.png'
+import logo12 from '@/assets/image/logo-12.png'
+import logo13 from '@/assets/image/logo-13.png'
+import logo14 from '@/assets/image/logo-14.png'
+import logo15 from '@/assets/image/logo-15.png'
+import logo16 from '@/assets/image/logo-16.png'
+import logo17 from '@/assets/image/logo-17.png'
+import logo18 from '@/assets/image/logo-18.png'
+import logo19 from '@/assets/image/logo-19.png'
+import logo20 from '@/assets/image/logo-20.png'
+
+const PARTNER_LOGOS = [
+  logo01, logo02, logo03, logo04, logo05,
+  logo06, logo07, logo08, logo09, logo10,
+  logo11, logo12, logo13, logo14, logo15,
+  logo16, logo17, logo18, logo19, logo20,
+]
 
 const STATS = [
   { value: '10+',  label: 'Năm kinh nghiệm' },
@@ -37,10 +67,6 @@ const FEATURES = [
   },
 ]
 
-const PARTNERS = [
-  'Schneider Electric', 'Fasgreat', 'Hyundai TC Motor',
-  'DEOCA', 'DIAGEO', 'SUZUKI', 'Schneider Electric', 'Fasgreat',
-]
 
 export function HeroSection() {
   return (
@@ -57,7 +83,7 @@ export function HeroSection() {
       </div>
 
       {/* ── Content ──────────────────────────────────────── */}
-      <div className="relative z-10 container mx-auto px-4 md:px-8 pb-10 flex-1 flex flex-col justify-center">
+      <div className="relative z-10 container mx-auto px-4 md:px-8 pb-10 flex-1 flex flex-col mt-40">
         <motion.div
           className="max-w-170"
           variants={staggerContainer(0.12, 0.2)}
@@ -79,31 +105,49 @@ export function HeroSection() {
             className="mt-6 font-[Playfair_Display] font-bold leading-[1.1] text-text-primary"
             variants={staggerContainer(0.08)}
           >
-            <motion.span variants={fadeUp} className="block text-4xl md:text-5xl lg:text-6xl">
-              Kết nối giá trị
+            <motion.span variants={fadeUp} className="block text-5xl md:text-5xl lg:text-6xl">
+              KẾT NỐI GIÁ TRỊ
             </motion.span>
-            <motion.span variants={fadeUp} className="block text-4xl md:text-5xl lg:text-6xl text-primary mt-1">
-              Kiến tạo tương lai
+            <motion.span
+              variants={fadeUp}
+              className="block text-6xl md:text-5xl lg:text-6xl mt-3"
+              style={{
+                background: 'linear-gradient(90deg, #C6A15B 25%, #F8EBC0 45%, #fff8e8 50%, #F8EBC0 55%, #C6A15B 75%)',
+                backgroundSize: '200% 100%',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                animation: 'text-shimmer 2.8s ease-in-out infinite',
+                willChange: 'background-position',
+                lineHeight: '1.35',
+              }}
+            >
+              KIẾN TẠO TƯƠNG LAI
             </motion.span>
           </motion.h1>
 
           {/* Subtitle */}
-          <motion.p variants={fadeUp} className="mt-5 text-body-lg text-text-secondary max-w-125 leading-relaxed">
+          <motion.p variants={fadeUp} className="mt-5 text-xl text-text-primary max-w-full leading-relaxed">
             Hệ sinh thái Tài chính – Tài sản – Công nghệ. Tầm nhìn 2035.
           </motion.p>
 
           {/* Features */}
           <motion.div variants={staggerContainer(0.1)} className="mt-8 flex flex-col sm:flex-row gap-6">
-            {FEATURES.map(({ icon, title, desc }) => (
-              <motion.div key={title} variants={staggerItem} className="flex items-start gap-3">
-                <div className="size-9 rounded-lg bg-primary/15 border border-primary/25 flex items-center justify-center shrink-0 mt-0.5">
-                  {icon}
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-text-primary font-[Manrope]">{title}</div>
-                  <div className="text-body-sm text-text-secondary mt-0.5 leading-snug">{desc}</div>
-                </div>
-              </motion.div>
+            {FEATURES.map(({ icon, title, desc }, i) => (
+              <>
+                <motion.div key={title} variants={staggerItem} className="flex flex-col items-start gap-3">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="size-6 rounded-lg flex items-center justify-center shrink-0">
+                      {icon}
+                    </div>
+                    <div className="text-xl font-bold font-[Playfair_Display] text-text-primary">{title}</div>
+                  </div>
+                  <div className="text-base text-text-secondary mt-0.5 leading-snug">{desc}</div>
+                </motion.div>
+                {i < FEATURES.length - 1 && (
+                  <div key={`sep-${i}`} className="hidden sm:block w-0.5 self-stretch" style={{ background: "radial-gradient(50% 50% at 50% 50%, #D9D9D9 0%, rgba(115, 115, 115, 0.00) 100%)" }} />
+                )}
+              </>
             ))}
           </motion.div>
 
@@ -114,56 +158,48 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      {/* ── Stats bar ────────────────────────────────────── */}
+      {/* ── Stats card — full-width bottom ───────────── */}
       <motion.div
-        className="relative z-10 border-t border-divider bg-bg/60 backdrop-blur-sm"
+        className="absolute bottom-20 right-0 left-0 z-10 hidden lg:flex justify-end"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.5 }}
       >
-        <div className="container mx-auto px-4 md:px-8 py-5 grid grid-cols-2 lg:grid-cols-4 gap-5">
-          {STATS.map(({ value, label }, i) => (
-            <div key={i} className={`flex flex-col items-center gap-1 text-center ${i < STATS.length - 1 ? 'lg:border-r lg:border-divider' : ''}`}>
-              <span className="text-2xl md:text-3xl font-bold text-primary font-[Playfair_Display]">{value}</span>
-              <span className="text-body-sm text-text-secondary">{label}</span>
-            </div>
-          ))}
+        <div
+          className="flex w-1/2 mr-18 mb-8 justify-evenly"
+          style={{
+            backgroundImage: `image-set(url(${icBgStats}) 1x, url(${icBgStats2x}) 2x, url(${icBgStats3x}) 3x)`,
+            backgroundSize: '100% 100%',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          {STATS.flatMap(({ value, label }, i) => [
+            i > 0 && (
+              <div key={`sep-${i}`} className="w-px h-10 self-center" style={{ background: 'linear-gradient(to bottom, transparent, rgba(217,217,217,0.4) 30%, rgba(217,217,217,0.4) 70%, transparent)' }} />
+            ),
+            <div key={label} className="flex flex-col items-center justify-center gap-1 text-center px-8 py-5">
+              <span className="text-[40px] font-bold text-primary font-[Playfair_Display]">{value}</span>
+              <span className="text-base text-text-secondary whitespace-nowrap">{label}</span>
+            </div>,
+          ]).filter(Boolean)}
         </div>
       </motion.div>
 
       {/* ── Partner logos marquee ─────────────────────────── */}
       <motion.div
-        className="relative z-10 bg-secondary/50 border-t border-divider py-4 overflow-hidden"
+        className="relative z-10 py-4 overflow-hidden"
+        style={{ background: 'var(--color-bg-card, #0B1F3A)' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.1, duration: 0.5 }}
       >
-        <div className="flex gap-12 marquee-track w-max">
-          {[...PARTNERS, ...PARTNERS].map((name, i) => (
-            <span key={i} className="text-body-sm font-semibold tracking-wider text-text-disable whitespace-nowrap font-[Manrope] uppercase flex items-center gap-2">
-              <span className="size-1.5 rounded-full bg-primary/40 inline-block" />
-              {name}
-            </span>
+        <div className="flex items-center gap-12 marquee-track w-max">
+          {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((src, i) => (
+            <img key={i} src={src} alt="" className="h-14 w-auto object-contain opacity-70" />
           ))}
         </div>
       </motion.div>
     </section>
-  )
-}
-
-/* ── Shared badge ──────────────────────────────────────────────────── */
-export function SectionBadge({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-divider bg-bg-card-2 backdrop-blur-sm">
-      <div className="size-5 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-          <path d="M5 1.5L8.5 8H1.5L5 1.5Z" fill="#C6A15B"/>
-        </svg>
-      </div>
-      <span className="text-[10px] font-bold tracking-[0.15em] text-text-secondary uppercase font-[Manrope]">
-        {children}
-      </span>
-    </div>
   )
 }
 
