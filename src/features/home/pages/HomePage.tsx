@@ -29,8 +29,9 @@ export function HomePage() {
           disablePictureInPicture
           className="absolute bottom-0 left-0 w-full h-240 object-cover object-bottom"
         />
-        {/* Gradient tối ở TeamSection, mờ dần xuống CTASection */}
-        <div className="absolute inset-0 bg-linear-to-b from-bg from-20% via-bg/10 to-black/12 pointer-events-none" />
+        {/* Blend edges with background */}
+        <div className="absolute inset-0 bg-linear-to-b from-bg from-20% via-bg/10 to-bg pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-r from-bg via-transparent to-bg pointer-events-none" />
         <TeamSection />
         <CTASection />
       </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
@@ -16,23 +16,11 @@ const NAV = [
 ]
 
 export function Header() {
-  const [open,     setOpen]     = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  const [open, setOpen] = useState(false)
 
   return (
     <motion.header
-      className={cn(
-        'fixed inset-x-0 top-0 z-1000 transition-all duration-300',
-        scrolled
-          ? 'bg-bg/95 backdrop-blur-md border-b border-divider'
-          : 'bg-[rgba(0,12,29,0.16)] backdrop-blur-sm'
-      )}
+      className="fixed inset-x-0 top-0 z-1000 bg-[rgba(0,12,29,0.16)] backdrop-blur-sm"
       initial={{ y: -64, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}

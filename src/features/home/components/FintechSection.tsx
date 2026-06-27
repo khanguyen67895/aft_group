@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+﻿import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, fadeRight, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 import icTitle3    from '@/assets/image/ic_title3.png'
@@ -35,8 +35,26 @@ const CHART_STATS = [
   { value: '$300B+', label: 'Kinh tế số DNA' },
 ]
 
+const REF_PRICE = 5344.22
+
 export function FintechSection() {
   const [range, setRange] = useState('1D')
+  const [priceState, setPriceState] = useState({ current: 5591.15, prev: 5591.15 })
+
+  useEffect(() => {
+    const tick = setInterval(() => {
+      setPriceState(s => {
+        const next = +(Math.max(5100, Math.min(6400, s.current + (Math.random() - 0.46) * 5.5)).toFixed(2))
+        return { current: next, prev: s.current }
+      })
+    }, 1100)
+    return () => clearInterval(tick)
+  }, [])
+
+  const { current: price } = priceState
+  const absDelta = +(price - REF_PRICE).toFixed(2)
+  const pctDelta = +((absDelta / REF_PRICE) * 100).toFixed(2)
+  const isUp     = absDelta >= 0
 
   return (
     <section className="py-20 bg-secondary">
@@ -113,14 +131,19 @@ export function FintechSection() {
               <div>
                 <div className="text-[14px] text-text-secondary font-[Manrope] tracking-widest">XAU / USD</div>
                 <div className="flex items-baseline gap-3 mt-1.5">
-                  <span className="text-5xl font-bold text-white font-[Playfair_Display]">5,591.15</span>
-                  <span className="inline-flex items-center gap-1 text-sm font-semibold text-green-400 font-[Manrope]">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+                  <span className="text-5xl font-bold text-white font-[Playfair_Display] tabular-nums">
+                    {price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                  <span className={`inline-flex items-center gap-1 text-sm font-semibold font-[Manrope] ${isUp ? 'text-green-400' : 'text-orange-400'}`}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden
+                      style={{ transform: isUp ? 'none' : 'scaleY(-1)' }}>
                       <path d="M3 11L11 3M11 3H5.5M11 3V8.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                    4.24%
+                    {Math.abs(pctDelta).toFixed(2)}%
                   </span>
-                  <span className="text-sm text-text-secondary font-[Manrope]">+246.93</span>
+                  <span className="text-sm text-text-secondary font-[Manrope] tabular-nums">
+                    {absDelta >= 0 ? '+' : '−'}{Math.abs(absDelta).toFixed(2)}
+                  </span>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1 rounded-full" style={{ border: '1px solid #F8E8C0' }}>
@@ -144,7 +167,7 @@ export function FintechSection() {
             </div>
 
             <div className="min-h-52 z-10 mb-8">
-              <StaticCandleChart />
+              <LiveCandleChart />
             </div>
 
             <div className="grid grid-cols-3 gap-4">
@@ -170,90 +193,153 @@ export function FintechSection() {
   )
 }
 
-function StaticCandleChart() {
-  const candles = [
-    // 00:00 start ~3.5K
-    { o:42, h:56, l:32, c:52 }, { o:52, h:62, l:39, c:43 }, { o:43, h:57, l:34, c:54 },
-    { o:54, h:64, l:40, c:43 }, { o:43, h:58, l:32, c:52 }, { o:52, h:62, l:38, c:41 },
-    { o:41, h:57, l:33, c:54 }, { o:54, h:65, l:41, c:45 }, { o:45, h:59, l:35, c:54 },
-    { o:54, h:64, l:41, c:45 },
-    // 03:00 dip to ~2K
-    { o:45, h:56, l:31, c:36 }, { o:36, h:49, l:23, c:28 }, { o:28, h:43, l:18, c:34 },
-    { o:34, h:48, l:22, c:26 }, { o:26, h:41, l:16, c:32 }, { o:32, h:47, l:23, c:40 },
-    { o:40, h:53, l:29, c:47 }, { o:47, h:58, l:35, c:52 }, { o:52, h:62, l:40, c:48 },
-    { o:48, h:59, l:36, c:54 },
-    // 06:00 rising ~4-5.5K
-    { o:54, h:65, l:42, c:62 }, { o:62, h:72, l:50, c:65 }, { o:65, h:74, l:52, c:58 },
-    { o:58, h:69, l:46, c:67 }, { o:67, h:77, l:55, c:73 }, { o:73, h:82, l:60, c:66 },
-    { o:66, h:77, l:53, c:75 }, { o:75, h:85, l:63, c:80 }, { o:80, h:89, l:67, c:75 },
-    { o:75, h:86, l:62, c:83 },
-    // 09:00 accelerating to peak
-    { o:83, h:93, l:74, c:89 }, { o:89, h:98, l:80, c:94 }, { o:94, h:100, l:84, c:87 },
-    { o:87, h:98, l:81, c:96 }, { o:96, h:100, l:87, c:99 }, { o:99, h:100, l:90, c:100 },
-    // 12:00 peak then drop
-    { o:100, h:100, l:86, c:91 }, { o:91, h:99, l:80, c:83 }, { o:83, h:94, l:74, c:77 },
-    { o:77, h:89, l:69, c:73 }, { o:73, h:84, l:61, c:65 }, { o:65, h:76, l:53, c:58 },
-    { o:58, h:70, l:47, c:52 }, { o:52, h:65, l:43, c:62 }, { o:62, h:74, l:51, c:56 },
-    { o:56, h:68, l:46, c:65 },
-    // 15:00 partial recovery
-    { o:65, h:77, l:54, c:74 }, { o:74, h:84, l:62, c:68 }, { o:68, h:80, l:57, c:77 },
-    { o:77, h:88, l:66, c:82 }, { o:82, h:91, l:70, c:76 }, { o:76, h:86, l:64, c:71 },
-    { o:71, h:82, l:60, c:79 }, { o:79, h:89, l:68, c:74 }, { o:74, h:85, l:63, c:81 },
-    { o:81, h:91, l:69, c:76 },
-  ].map(c => ({ ...c, bull: c.c >= c.o }))
+const Y_LABELS = ['8K', '6K', '4K', '2K', '0']
+const X_LABELS = [
+  { t: '00:00', pct: 1.25 }, { t: '03:00', pct: 18.75 }, { t: '06:00', pct: 36.25 },
+  { t: '09:00', pct: 53.75 }, { t: '12:00', pct: 71.25 }, { t: '15:00', pct: 98.75 },
+]
+const LABEL_STYLE: React.CSSProperties = { color: 'rgba(199,204,209,0.5)', fontFamily: 'Manrope, sans-serif', fontSize: '16px', lineHeight: 1 }
 
-  const W = 560, H = 230
-  const labelW = 34, xAxisH = 20, topPad = 16
-  const chartW = W - labelW - 4, chartH = H - xAxisH - topPad
-  const N = candles.length
-  const slotW = chartW / N
-  const bW = Math.max(Math.floor(slotW * 0.72), 4)
-  const yFn = (v: number) => topPad + (1 - v / 100) * chartH
+function LiveCandleChart() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const yAxis = [
-    { label: '8K', v: 96 }, { label: '6K', v: 72 },
-    { label: '4K', v: 48 }, { label: '2K', v: 24 }, { label: '0', v: 3 },
-  ]
-  const xAxis = [
-    { t: '00:00', i: 0 }, { t: '03:00', i: 10 }, { t: '06:00', i: 20 },
-    { t: '09:00', i: 30 }, { t: '12:00', i: 36 }, { t: '15:00', i: N - 1 },
-  ]
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const dpr = window.devicePixelRatio || 1
+    canvas.width  = canvas.offsetWidth  * dpr
+    canvas.height = canvas.offsetHeight * dpr
+    const ctx = canvas.getContext('2d')!
+    ctx.scale(dpr, dpr)
+
+    const N = 40
+    type Candle = { open: number; close: number; high: number; low: number }
+    const candles: Candle[] = []
+
+    let price = 120
+    for (let i = 0; i < N; i++) {
+      const open  = price
+      const close = Math.max(18, Math.min(232, open + (Math.random() - 0.45) * 6))
+      candles.push({ open, close, high: Math.max(open, close) + Math.random() * 5, low: Math.min(open, close) - Math.random() * 5 })
+      price = close
+    }
+
+    let minVal  = Math.min(...candles.map(c => c.low))  - 6
+    let maxVal  = Math.max(...candles.map(c => c.high)) + 6
+    let lastNew = performance.now()
+    let rafId: number
+
+    const draw = (now: number) => {
+      const W = canvas.offsetWidth
+      const H = canvas.offsetHeight
+      const padT = 10, padB = 6
+
+      const cur = candles[candles.length - 1]
+      cur.close = Math.max(18, Math.min(232, cur.close + (Math.random() - 0.5) * 2.6))
+      cur.high  = Math.max(cur.high, cur.close)
+      cur.low   = Math.min(cur.low,  cur.close)
+
+      if (now - lastNew > 1300) {
+        lastNew = now
+        const open  = cur.close
+        const close = Math.max(18, Math.min(232, open + (Math.random() - 0.45) * 6))
+        candles.push({ open, close, high: Math.max(open, close) + Math.random() * 5, low: Math.min(open, close) - Math.random() * 5 })
+        if (candles.length > N) candles.shift()
+      }
+
+      const tmin = Math.min(...candles.map(c => c.low))  - 6
+      const tmax = Math.max(...candles.map(c => c.high)) + 6
+      minVal += (tmin - minVal) * 0.08
+      maxVal += (tmax - maxVal) * 0.08
+
+      const cnt = candles.length
+      const cw  = W / N
+      const Y   = (v: number) => padT + (1 - (v - minVal) / (maxVal - minVal)) * (H - padT - padB)
+
+      ctx.clearRect(0, 0, W, H)
+
+      // Grid lines
+      ctx.strokeStyle = 'rgba(199,204,209,0.07)'
+      ctx.lineWidth   = 1
+      for (let g = 0; g <= 4; g++) {
+        const yy = padT + g * (H - padT - padB) / 4
+        ctx.beginPath(); ctx.moveTo(0, yy); ctx.lineTo(W, yy); ctx.stroke()
+      }
+
+      // Close-price line
+      ctx.beginPath()
+      ctx.strokeStyle = 'rgba(198,161,91,0.3)'
+      ctx.lineWidth   = 1.5
+      for (let i = 0; i < cnt; i++) {
+        const x = i * cw + cw / 2
+        const y = Y(candles[i].close)
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
+      }
+      ctx.stroke()
+
+      // Candles
+      for (let i = 0; i < cnt; i++) {
+        const c   = candles[i]
+        const x   = i * cw + cw / 2
+        const col = c.close >= c.open ? '#C6A15B' : '#1C5D88'
+        ctx.globalAlpha  = i === cnt - 1 ? 0.92 : 1
+        ctx.strokeStyle  = col
+        ctx.fillStyle    = col
+        ctx.lineWidth    = 1
+        ctx.beginPath(); ctx.moveTo(x, Y(c.high)); ctx.lineTo(x, Y(c.low)); ctx.stroke()
+        const bw = Math.max(2, cw * 0.55)
+        const yo = Y(c.open), yc = Y(c.close)
+        ctx.fillRect(x - bw / 2, Math.min(yo, yc), bw, Math.max(2, Math.abs(yc - yo)))
+        ctx.globalAlpha = 1
+      }
+
+      // Dashed current-price line
+      const lx = (cnt - 1) * cw + cw / 2
+      const ly = Y(candles[cnt - 1].close)
+      ctx.setLineDash([4, 4])
+      ctx.strokeStyle = 'rgba(232,206,145,.45)'
+      ctx.lineWidth   = 1
+      ctx.beginPath(); ctx.moveTo(0, ly); ctx.lineTo(W, ly); ctx.stroke()
+      ctx.setLineDash([])
+
+      // Pulsing dot
+      const pulse = 8 + Math.sin(now * 0.006) * 3
+      const grd   = ctx.createRadialGradient(lx, ly, 0, lx, ly, pulse + 6)
+      grd.addColorStop(0, 'rgba(244,230,190,.85)')
+      grd.addColorStop(1, 'rgba(244,230,190,0)')
+      ctx.fillStyle = grd
+      ctx.beginPath(); ctx.arc(lx, ly, pulse + 6, 0, Math.PI * 2); ctx.fill()
+      ctx.fillStyle = '#F4E6BE'
+      ctx.beginPath(); ctx.arc(lx, ly, 2.6, 0, Math.PI * 2); ctx.fill()
+
+      rafId = requestAnimationFrame(draw)
+    }
+
+    rafId = requestAnimationFrame(draw)
+    return () => cancelAnimationFrame(rafId)
+  }, [])
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-full" preserveAspectRatio="none" overflow="visible">
-      {yAxis.map(({ label, v }) => (
-        <g key={label}>
-          <text x={labelW - 5} y={yFn(v) + 4}
-            fontSize="9.5" fill="rgba(199,204,209,0.5)" fontFamily="Manrope" textAnchor="end">{label}</text>
-          <line x1={labelW} y1={yFn(v)} x2={W - 4} y2={yFn(v)}
-            stroke="rgba(246,247,249,0.07)" strokeWidth="1" strokeDasharray="4 7"/>
-        </g>
-      ))}
+    <div className="relative w-full" style={{ height: '248px' }}>
+      {/* Y-axis labels — aligned to each grid line (0%, 25%, 50%, 75%, 100% of chart height) */}
+      <div className="absolute left-0 w-8" style={{ top: '10px', bottom: '26px' }}>
+        {Y_LABELS.map((l, g) => (
+          <span key={l} className="absolute right-0 -translate-y-1/2" style={{ ...LABEL_STYLE, top: `${g * 25}%` }}>{l}</span>
+        ))}
+      </div>
 
-      <line x1={labelW} y1={yFn(87)} x2={W - 4} y2={yFn(87)}
-        stroke="rgba(198,161,91,0.65)" strokeWidth="1.3" strokeDasharray="8 5"/>
+      {/* Canvas — leaves room for Y labels left, X labels bottom */}
+      <div className="absolute" style={{ left: '34px', top: 0, right: 0, bottom: '20px' }}>
+        <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
+      </div>
 
-      {candles.map((c, i) => {
-        const cx  = labelW + (i + 0.5) * slotW
-        const x   = cx - bW / 2
-        const col = c.bull ? '#38bdf8' : '#fb923c'
-        const bT  = yFn(Math.max(c.o, c.c))
-        const bH  = Math.max(Math.abs(c.o - c.c) * chartH / 100, 2)
-        return (
-          <g key={i} style={{
-            animation: 'chart-candle-in 0.5s ease both, chart-candle-bob 2.4s ease-in-out infinite',
-            animationDelay: `${(0.03 + i * 0.016).toFixed(2)}s, ${(i * 0.08).toFixed(2)}s`,
-          }}>
-            <line x1={cx} y1={yFn(c.h)} x2={cx} y2={yFn(c.l)} stroke={col} strokeWidth="1.2" opacity="0.88"/>
-            <rect x={x} y={bT} width={bW} height={bH} fill={col} opacity="0.9"/>
-          </g>
-        )
-      })}
-
-      {xAxis.map(({ t, i }) => (
-        <text key={t} x={labelW + (i + 0.5) * slotW} y={H - 4}
-          fontSize="9.5" fill="rgba(199,204,209,0.5)" fontFamily="Manrope" textAnchor="middle">{t}</text>
-      ))}
-    </svg>
+      {/* X-axis labels — positioned by % matching candle center positions */}
+      <div className="absolute h-5" style={{ left: '34px', right: 0, bottom: 0 }}>
+        {X_LABELS.map(({ t, pct }) => (
+          <span key={t} className="absolute -translate-x-1/2" style={{ ...LABEL_STYLE, left: `${pct}%`, bottom: '3px' }}>{t}</span>
+        ))}
+      </div>
+    </div>
   )
 }

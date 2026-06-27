@@ -31,10 +31,10 @@ import icAvatar5x3 from '@/assets/image/ic_avatar5@3x.png'
 
 const EXPERTS = [
   { name: 'Nguyễn Quang Việt', role: 'CEO, Founder', src: icAvatar1, src2x: icAvatar1x2, src3x: icAvatar1x3 },
-  { name: 'Nguyễn Quân',       role: 'Co-Founder',   src: icAvatar2, src2x: icAvatar2x2, src3x: icAvatar2x3 },
-  { name: 'Nguyễn Quân',       role: 'Co-Founder',   src: icAvatar3, src2x: icAvatar3x2, src3x: icAvatar3x3 },
-  { name: 'AFT Member',        role: 'Co-Founder',   src: icAvatar4, src2x: icAvatar4x2, src3x: icAvatar4x3 },
-  { name: 'AFT Member',        role: 'Co-Founder',   src: icAvatar5, src2x: icAvatar5x2, src3x: icAvatar5x3 },
+  { name: 'Nguyễn Anh Tuấn',       role: 'Co-Founder',   src: icAvatar2, src2x: icAvatar2x2, src3x: icAvatar2x3 },
+  { name: 'Nguyễn Hải Sơn',       role: 'Co-Founder',   src: icAvatar3, src2x: icAvatar3x2, src3x: icAvatar3x3 },
+  { name: 'Nguyễn Văn Nguyện',        role: 'Co-Founder',   src: icAvatar4, src2x: icAvatar4x2, src3x: icAvatar4x3 },
+  { name: 'Trần Đại Nghĩa',        role: 'Co-Founder',   src: icAvatar5, src2x: icAvatar5x2, src3x: icAvatar5x3 },
 ]
 
 export function TeamSection() {
