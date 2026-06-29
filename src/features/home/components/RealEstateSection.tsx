@@ -40,8 +40,8 @@ export function RealEstateSection() {
 
       <div className="relative grid grid-cols-1 lg:grid-cols-[55fr_45fr] min-h-140">
 
-        {/* Left: ic_project_feature centered */}
-        <div className="flex items-center justify-center mt-60 mr-60">
+        {/* Left: ic_project_feature centered — hidden on mobile */}
+        <div className="hidden lg:flex items-center justify-center lg:mt-60 lg:mr-60">
           <img
             src={icProjFeat}
             srcSet={`${icProjFeat} 1x, ${icProjFeat2x} 2x, ${icProjFeat3x} 3x`}
@@ -52,7 +52,7 @@ export function RealEstateSection() {
 
         {/* Right: content */}
         <motion.div
-          className="flex flex-col justify-center py-16 relative z-10"
+          className="flex flex-col justify-center py-12 lg:py-16 px-4 md:px-8 lg:px-0 relative z-10"
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.div variants={fadeUp}>
@@ -71,10 +71,10 @@ export function RealEstateSection() {
             Tài sản thực làm nền tảng vay vốn và tạo dòng tiền ổn định cho hệ sinh thái.
           </motion.p>
 
-          <motion.div variants={staggerContainer(0.1)} className="flex gap-4 mt-10">
+          <motion.div variants={staggerContainer(0.1)} className="flex flex-col sm:flex-row gap-3 mt-8">
             {STATS.map(({ value, label, src, src2x, src3x }) => (
               <motion.div key={label} variants={staggerItem}
-                className="flex items-center gap-3 px-4 py-3.5 w-80"
+                className="flex items-center gap-3 px-4 py-3.5 sm:w-72"
                 style={{
                   borderRadius: '16px',
                   border: '1px solid rgba(246,247,249,0.10)',

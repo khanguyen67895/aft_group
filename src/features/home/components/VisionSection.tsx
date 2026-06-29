@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { fadeUp, fadeLeft, fadeRight, scaleIn, staggerContainer, viewport } from '@/lib/motion'
+import { fadeLeft, fadeRight, scaleIn, viewport } from '@/lib/motion'
 import icBgVision    from '@/assets/image/ic_bg_vision.png'
 import icBgVision2x  from '@/assets/image/ic_bg_vision@2x.png'
 import icBgVision3x  from '@/assets/image/ic_bg_vision@3x.png'
+import icBgVisionMb    from '@/assets/image/ic_bg_vision_mb.png'
+import icBgVisionMb2x  from '@/assets/image/ic_bg_vision_mb@2x.png'
+import icBgVisionMb3x  from '@/assets/image/ic_bg_vision_mb@3x.png'
 import icItem1       from '@/assets/image/ic_item_vision1.png'
 import icItem1x2     from '@/assets/image/ic_item_vision1@2x.png'
 import icItem1x3     from '@/assets/image/ic_item_vision1@3x.png'
@@ -29,6 +32,7 @@ const CARDS = [
 
 export function VisionSection() {
   const [active, setActive] = useState('vision')
+  const activeIdx = CARDS.findIndex(c => c.key === active)
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -42,16 +46,15 @@ export function VisionSection() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* BG image — chiều cao section = chiều cao tự nhiên ảnh, không bao giờ bị cắt */}
-      <img
-        src={icBgVision}
-        srcSet={`${icBgVision} 1x, ${icBgVision2x} 2x, ${icBgVision3x} 3x`}
-        alt=""
-        className="w-full h-auto block"
-      />
+      {/* Desktop BG */}
+      <img src={icBgVision} srcSet={`${icBgVision} 1x, ${icBgVision2x} 2x, ${icBgVision3x} 3x`}
+        alt="" className="hidden md:block w-full h-auto" />
+      {/* Mobile BG */}
+      <img src={icBgVisionMb} srcSet={`${icBgVisionMb} 1x, ${icBgVisionMb2x} 2x, ${icBgVisionMb3x} 3x`}
+        alt="" className="md:hidden w-full h-auto" />
 
       {/* Content overlay */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 md:px-8">
+      <div className="absolute inset-0 z-10 overflow-hidden flex flex-col items-center justify-center md:px-8">
 
         {/* Desktop */}
         <div className="hidden md:grid pb-40 grid-cols-3 items-center w-full max-w-7xl mx-auto">
@@ -75,19 +78,30 @@ export function VisionSection() {
           </motion.div>
         </div>
 
-        {/* Mobile */}
-        <motion.div
-          variants={staggerContainer(0.12)} initial="hidden" whileInView="show" viewport={viewport}
-          className="flex flex-col items-center gap-4 md:hidden"
-        >
-          {CARDS.map(card => (
-            <motion.div key={card.key} variants={fadeUp}
-              className="cursor-pointer" onClick={() => setActive(card.key)}
-            >
-              <VisionCard {...card} isActive={active === card.key} center={card.key === 'vision'} />
-            </motion.div>
-          ))}
-        </motion.div>
+        {/* Mobile: horizontal peek carousel */}
+        <div className="w-full md:hidden pb-4">
+          <div
+            className="flex items-center"
+            style={{
+              paddingLeft: '22vw',
+              gap: '6vw',
+              transform: `translateX(calc(${-activeIdx} * 62vw))`,
+              transition: 'transform 0.5s cubic-bezier(0.22,1,0.36,1)',
+              willChange: 'transform',
+            }}
+          >
+            {CARDS.map(card => (
+              <div
+                key={card.key}
+                className="shrink-0 flex justify-center cursor-pointer"
+                style={{ width: '55vw' }}
+                onClick={() => setActive(card.key)}
+              >
+                <VisionCard {...card} isActive={active === card.key} center floatDelay={0} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Bottom fade → blend vào EcosystemSection (#0B1F3A) */}
@@ -142,21 +156,21 @@ function VisionCard({ title, icon, desc, isActive, center, floatDelay = 0 }: {
             ? `${icItem2} 1x, ${icItem2x2} 2x`
             : `${icItem1} 1x, ${icItem1x2} 2x, ${icItem1x3} 3x`}
           alt=""
-          className={`block ${center ? 'w-84' : 'w-95'}`}
+          className={`block max-w-full ${center ? 'w-84' : 'w-95'}`}
         />
 
         <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
           {center ? (
-            <div className="flex flex-col items-center text-center gap-3 px-8">
+            <div className="flex flex-col items-center text-center gap-1.5 md:gap-3 px-4 md:px-8">
               <img
                 style={iconStyle}
                 src={icon.src} srcSet={`${icon.src} 1x, ${icon.x2} 2x, ${icon.x3} 3x`}
-                alt="" className="size-18.5 object-contain"
+                alt="" className="size-10 md:size-18.5 object-contain"
               />
-              <span style={titleStyle} className="font-[Playfair_Display] font-bold text-text-primary text-2xl uppercase tracking-widest">
+              <span style={titleStyle} className="font-[Playfair_Display] font-bold text-text-primary text-sm md:text-2xl uppercase tracking-widest">
                 {title}
               </span>
-              <p style={descStyle} className="text-xl text-text-secondary leading-relaxed max-w-60">{desc}</p>
+              <p style={descStyle} className="text-xs md:text-xl text-text-secondary leading-snug max-w-[90%] md:max-w-60">{desc}</p>
             </div>
           ) : (
             <div className="flex gap-4 items-center justify-center px-6 w-full">

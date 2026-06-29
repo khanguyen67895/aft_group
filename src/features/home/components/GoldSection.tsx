@@ -28,7 +28,7 @@ const STATS = [
 
 export function GoldSection() {
   return (
-    <section className="py-40 bg-bg relative overflow-hidden">
+    <section className="py-16 md:py-28 lg:py-40 bg-bg relative overflow-hidden">
       <img src={icBgGold} srcSet={`${icBgGold} 1x, ${icBgGold2x} 2x, ${icBgGold3x} 3x`} alt="" className="absolute inset-0 w-full h-full object-cover object-top" />
 
       {/* Warm gold glow */}
@@ -49,9 +49,9 @@ export function GoldSection() {
                   alt="Lĩnh vực" className="h-auto w-auto" />
             </motion.div>
 
-            <motion.h2 variants={fadeUp} className="relative gap-1 flex mt-6 font-[Playfair_Display] font-bold text-text-primary leading-tight">
-              <span className="text-primary text-3xl md:text-4xl block">{"Vàng"}</span>
-              <span className="text-3xl md:text-4xl block">– Khai thác và giao dịch</span>
+            <motion.h2 variants={fadeUp} className="relative gap-1 flex mt-6 font-[Playfair_Display] font-bold text-text-primary leading-tight uppercase">
+              <span className="text-primary text-3xl md:text-[40px] block">{"Vàng"}</span>
+              <span className="text-3xl md:text-[40px] block">– Khai thác và giao dịch</span>
             </motion.h2>
 
             <motion.p variants={fadeUp} className="relative mt-5 text-body-md text-text-secondary leading-relaxed max-w-120">

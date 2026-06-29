@@ -53,7 +53,7 @@ export function FundSection() {
               alt="Quỹ đầu tư mạo hiểm" className="h-auto w-auto mx-auto" />
           </motion.div>
 
-          <motion.h2 variants={fadeUp} className="mt-4 font-[Playfair_Display] font-bold text-text-primary text-3xl md:text-[40px] lg:text-4xl">
+          <motion.h2 variants={fadeUp} className="mt-4 font-[Playfair_Display] font-bold text-text-primary text-3xl md:text-[40px] lg:text-4xl uppercase">
             Rót vốn cho những <span className="text-primary">ý tưởng tiềm năng</span>
           </motion.h2>
 
@@ -131,7 +131,7 @@ export function FundSection() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">Số điện thoại</label>
                     <input

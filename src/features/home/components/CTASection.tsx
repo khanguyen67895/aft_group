@@ -7,7 +7,7 @@ export function CTASection() {
     <section className="relative h-140 items-end">
 
       <motion.div
-        className="relative z-10 container mx-auto px-4 text-center flex h-full justify-end pb-20 flex-col items-center gap-7"
+        className="relative z-10 container mx-auto px-4 text-center flex h-full justify-end pb-10 flex-col items-center gap-7"
         variants={staggerContainer(0.15, 0.1)} initial="hidden" whileInView="show" viewport={viewport}
       >
         {/* Tagline */}

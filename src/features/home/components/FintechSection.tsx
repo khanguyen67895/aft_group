@@ -131,7 +131,7 @@ export function FintechSection() {
               <div>
                 <div className="text-[14px] text-text-secondary font-[Manrope] tracking-widest">XAU / USD</div>
                 <div className="flex items-baseline gap-3 mt-1.5">
-                  <span className="text-5xl font-bold text-white font-[Playfair_Display] tabular-nums">
+                  <span className="text-5xl font-bold text-white font-[Manrope] tabular-nums">
                     {price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                   <span className={`inline-flex items-center gap-1 text-sm font-semibold font-[Manrope] ${isUp ? 'text-green-400' : 'text-orange-400'}`}>

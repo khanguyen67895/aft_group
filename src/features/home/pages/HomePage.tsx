@@ -27,7 +27,7 @@ export function HomePage() {
           src={videoCta}
           autoPlay muted loop playsInline
           disablePictureInPicture
-          className="absolute bottom-0 left-0 w-full h-240 object-cover object-bottom"
+          className="absolute bottom-0 left-0 w-full h-300 object-cover object-bottom"
         />
         {/* Blend edges with background */}
         <div className="absolute inset-0 bg-linear-to-b from-bg from-20% via-bg/10 to-bg pointer-events-none" />

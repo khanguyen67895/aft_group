@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui'
 import { fadeUp, fadeIn, staggerContainer, staggerItem } from '@/lib/motion'
-import heroVideo from '@/assets/video/video_herobanner.mp4'
+import heroVideo   from '@/assets/video/video_herobanner.mp4'
+import heroVideoMb from '@/assets/video/video_herobanner_mb.mp4'
 import heroImg   from '@/assets/hero.png'
 import icTitle1    from '@/assets/image/ic_title1.png'
 import icTitle1x2  from '@/assets/image/ic_title1@2x.png'
@@ -70,20 +71,26 @@ const FEATURES = [
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden">
+    <section className="relative md:min-h-screen flex flex-col overflow-hidden">
 
       {/* ── Background video ─────────────────────────────── */}
       <div className="absolute inset-0">
-        <video
-          autoPlay muted loop playsInline poster={heroImg}
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        >
+        {/* Desktop video */}
+        <video autoPlay muted loop playsInline poster={heroImg}
+          className="hidden md:block absolute inset-0 w-full h-full object-cover object-center">
           <source src={heroVideo} type="video/mp4" />
         </video>
+        {/* Mobile video */}
+        <video autoPlay muted loop playsInline poster={heroImg}
+          className="md:hidden absolute inset-0 w-full h-full object-cover object-center">
+          <source src={heroVideoMb} type="video/mp4" />
+        </video>
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/35 md:bg-black/20" />
       </div>
 
       {/* ── Content ──────────────────────────────────────── */}
-      <div className="relative z-10 container mx-auto px-4 md:px-8 pb-10 flex-1 flex flex-col mt-40">
+      <div className="relative z-10 container mx-auto px-4 md:px-8 pb-6 md:pb-10 md:flex-1 flex flex-col mt-24 md:mt-40">
         <motion.div
           className="max-w-170"
           variants={staggerContainer(0.12, 0.2)}
@@ -105,12 +112,12 @@ export function HeroSection() {
             className="mt-6 font-[Playfair_Display] font-bold leading-[1.1] text-text-primary"
             variants={staggerContainer(0.08)}
           >
-            <motion.span variants={fadeUp} className="block text-5xl md:text-5xl lg:text-6xl">
+            <motion.span variants={fadeUp} className="block text-3xl md:text-5xl lg:text-6xl">
               KẾT NỐI GIÁ TRỊ
             </motion.span>
             <motion.span
               variants={fadeUp}
-              className="block text-6xl md:text-5xl lg:text-6xl mt-3"
+              className="block text-3xl md:text-5xl lg:text-[64px] mt-3"
               style={{
                 background: 'linear-gradient(90deg, #C6A15B 25%, #F8EBC0 45%, #fff8e8 50%, #F8EBC0 55%, #C6A15B 75%)',
                 backgroundSize: '200% 100%',
@@ -132,28 +139,31 @@ export function HeroSection() {
           </motion.p>
 
           {/* Features */}
-          <motion.div variants={staggerContainer(0.1)} className="mt-8 flex flex-col sm:flex-row gap-6">
+          <motion.div variants={staggerContainer(0.1)} className="mt-6 flex flex-row gap-3 sm:gap-6">
             {FEATURES.map(({ icon, title, desc }, i) => (
               <>
-                <motion.div key={title} variants={staggerItem} className="flex flex-col items-start gap-3">
-                  <div className="flex items-center justify-center gap-3">
-                    <div className="size-6 rounded-lg flex items-center justify-center shrink-0">
+                <motion.div key={title} variants={staggerItem} className="flex-1 flex flex-col items-start gap-1 sm:gap-3">
+                  <div className="flex items-center justify-start gap-2 sm:gap-3">
+                    <div className="size-5 sm:size-6 rounded-lg flex items-center justify-center shrink-0">
                       {icon}
                     </div>
-                    <div className="text-xl font-bold font-[Playfair_Display] text-text-primary">{title}</div>
+                    <div className="text-sm sm:text-xl font-bold font-[Playfair_Display] text-text-primary leading-tight">{title}</div>
                   </div>
-                  <div className="text-base text-text-secondary mt-0.5 leading-snug">{desc}</div>
+                  <div className="text-xs sm:text-base text-text-secondary leading-snug">{desc}</div>
                 </motion.div>
                 {i < FEATURES.length - 1 && (
-                  <div key={`sep-${i}`} className="hidden sm:block w-0.5 self-stretch" style={{ background: "radial-gradient(50% 50% at 50% 50%, #D9D9D9 0%, rgba(115, 115, 115, 0.00) 100%)" }} />
+                  <div key={`sep-${i}`} className="w-px self-stretch" style={{ background: "radial-gradient(50% 50% at 50% 50%, #D9D9D9 0%, rgba(115, 115, 115, 0.00) 100%)" }} />
                 )}
               </>
             ))}
           </motion.div>
 
           {/* CTA */}
-          <motion.div variants={fadeUp} className="mt-10">
-            <Button variant="gold" size="lg" icon={true}>Kết nối hợp tác</Button>
+          <motion.div variants={fadeUp} className="mt-6 md:mt-10">
+            <Button variant="gold" size="lg" icon={true}
+              className="h-11 px-5 text-sm gap-2 md:h-16 md:px-8 md:text-2xl md:gap-3">
+              Kết nối hợp tác
+            </Button>
           </motion.div>
         </motion.div>
       </div>

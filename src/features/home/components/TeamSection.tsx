@@ -67,7 +67,7 @@ export function TeamSection() {
             </motion.div>
 
             <motion.h2 variants={fadeUp}
-              className="mt-5 font-[Playfair_Display] font-bold text-text-primary uppercase text-[40px] md:text-5xl leading-tight">
+              className="mt-5 font-[Playfair_Display] font-bold text-text-primary uppercase text-[30px] md:text-[40px] leading-tight">
               Đội ngũ chuyên gia
             </motion.h2>
 
@@ -81,8 +81,8 @@ export function TeamSection() {
             </motion.div>
           </motion.div>
 
-          {/* ── Right: Fan carousel — ml-auto → sát phải ─── */}
-          <div className="relative overflow-visible ml-auto" style={{ width: '480px' }}>
+          {/* ── Right: Fan carousel — desktop only ─── */}
+          <div className="hidden lg:block relative overflow-visible ml-auto" style={{ width: '480px' }}>
 
             {/* Nav arrows top-right */}
             <div className="absolute top-0 right-0 flex gap-2 z-20">
@@ -113,7 +113,7 @@ export function TeamSection() {
 
                 return (
                   <div key={i}
-                    className="absolute top-0 left-0 cursor-pointer"
+                    className="absolute top-0 right-55 cursor-pointer"
                     style={{
                       width: '320px',
                       height: '460px',
@@ -128,6 +128,30 @@ export function TeamSection() {
                   </div>
                 )
               })}
+            </div>
+          </div>
+
+          {/* ── Mobile: single centered card with arrows ─── */}
+          <div className="lg:hidden">
+            <div className="relative mx-auto" style={{ width: '280px', height: '380px' }}>
+              {EXPERTS.map((expert, i) => (
+                <div key={i} className={`absolute inset-0 transition-all duration-[450ms] ${i === activeIdx ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'}`}>
+                  <ExpertCard expert={expert} isActive={i === activeIdx} />
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center items-center gap-4 mt-4">
+              <button onClick={prev} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
+                <img src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`} alt="Prev" className="size-full object-cover" />
+              </button>
+              <div className="flex gap-2">
+                {EXPERTS.map((_, i) => (
+                  <span key={i} className={`h-2 rounded-full transition-all duration-300 ${i === activeIdx ? 'w-5 bg-primary' : 'w-2 bg-white/25'}`} />
+                ))}
+              </div>
+              <button onClick={next} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
+                <img src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`} alt="Next" className="size-full object-cover" />
+              </button>
             </div>
           </div>
 

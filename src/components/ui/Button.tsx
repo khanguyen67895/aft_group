@@ -148,7 +148,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {variant === 'gold' && (
           <span
             className="absolute inset-0"
-            style={{ background: 'radial-gradient(at 50% 3%, #F8EBC0 0%, #C09857 100%)' }}
+            style={{ background: 'radial-gradient(at 50% 3%, #FFD9A4 0%, #EBC87B 10%, #CD9D50 100%)' }}
           />
         )}
 
@@ -156,7 +156,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {variant === 'gold' && (
           <span
             className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-[56%] h-9 rounded-full blur-[20px] mix-blend-soft-light"
-            style={{ background: 'rgba(255,242,170,0.75)' }}
+            style={{ background: 'rgba(255,217,164,0.70)' }}
           />
         )}
 

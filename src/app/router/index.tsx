@@ -12,7 +12,7 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTES.ECOSYSTEM,
-        lazy: () => import('@/features/home/pages/HomePage').then(m => ({ Component: m.HomePage })),
+        lazy: () => import('@/features/ecosystem/pages/EcosystemPage').then(m => ({ Component: m.EcosystemPage })),
       },
       {
         path: ROUTES.SECTORS,

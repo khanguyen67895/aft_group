@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { fadeUp, scaleIn, staggerContainer, viewport } from '@/lib/motion'
 import icTitle2    from '@/assets/image/ic_title2.png'
@@ -47,36 +47,54 @@ const SECTORS: Sector[] = [
 
 export function EcosystemSection() {
   const [selected, setSelected] = useState(SECTORS[0].id)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const pauseRef    = useRef<ReturnType<typeof setTimeout>  | null>(null)
 
-  useEffect(() => {
-    const t = setInterval(() => {
+  const startAutoRotate = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    intervalRef.current = setInterval(() => {
       setSelected(prev => {
         const i = SECTORS.findIndex(s => s.id === prev)
         return SECTORS[(i + 1) % SECTORS.length].id
       })
     }, 3500)
-    return () => clearInterval(t)
   }, [])
+
+  useEffect(() => {
+    startAutoRotate()
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+      if (pauseRef.current)    clearTimeout(pauseRef.current)
+    }
+  }, [startAutoRotate])
+
+  const handleSelect = useCallback((id: string) => {
+    setSelected(id)
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    if (pauseRef.current)    clearTimeout(pauseRef.current)
+    pauseRef.current = setTimeout(startAutoRotate, 20_000)
+  }, [startAutoRotate])
 
   const current = SECTORS.find(s => s.id === selected)!
 
   return (
-    <section
-      className="-mt-16 relative z-999"
-      style={{ background: 'linear-gradient(180deg, transparent 0%, #0B1F3A 8%, #0B1F3A 100%, #14181F 83.48%)' }}
-    >
-      <div className="container mx-auto px-4 md:px-8">
+    <section className="-mt-8 md:-mt-16 relative z-999 bg-[#0B1F3A] md:bg-transparent">
+      {/* Desktop: transparent-to-solid gradient (blends with VisionSection) */}
+      <div className="absolute inset-0 hidden md:block pointer-events-none"
+        style={{ background: 'linear-gradient(180deg, transparent 0%, #0B1F3A 8%, #0B1F3A 100%)' }} />
+
+      <div className="relative z-10 container mx-auto px-4 md:px-8">
 
         {/* Header */}
         <motion.div
-          className="text-center mb-14"
+          className="text-center mb-8 md:mb-14 pt-6 md:pt-0"
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.div variants={fadeUp}>
             <img src={icTitle2} srcSet={`${icTitle2} 1x, ${icTitle2x2} 2x, ${icTitle2x3} 3x`}
               alt="Hệ sinh thái AFT" className="h-auto w-auto mx-auto" />
           </motion.div>
-          <motion.h2 variants={fadeUp} className="mt-5 text-h3 font-[Playfair_Display] text-text-primary">
+          <motion.h2 variants={fadeUp} className="mt-5 text-h3 uppercase font-[Playfair_Display] text-text-primary">
             Hệ sinh thái <span className="text-primary">AFT Holdings</span>
           </motion.h2>
         </motion.div>
@@ -88,18 +106,18 @@ export function EcosystemSection() {
             className="flex justify-center"
             variants={scaleIn} initial="hidden" whileInView="show" viewport={viewport}
           >
-            <EcosystemWheel sectors={SECTORS} selected={selected} onSelect={setSelected} />
+            <EcosystemWheel sectors={SECTORS} selected={selected} onSelect={handleSelect} />
           </motion.div>
 
-          {/* Right: ecosystem image */}
-          <div className="flex items-center justify-center">
+          {/* Right: ecosystem image — hidden on mobile, shows wheel + tabs instead */}
+          <div className="lg:flex items-center -mt-48 md:mt-0 justify-center">
             <AnimatePresence mode="wait">
               <motion.img
                 key={selected}
                 src={current.ecosystemImg}
                 srcSet={`${current.ecosystemImg} 1x, ${current.ecosystemImg2x} 2x, ${current.ecosystemImg3x} 3x`}
                 alt={current.label}
-                className="w-145 h-138 object-contain max-w-lg"
+                className="w-180 h-160 object-contain"
                 initial={{ opacity: 0, scale: 0.96, x: 16 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.96, x: -16 }}
@@ -108,20 +126,6 @@ export function EcosystemSection() {
             </AnimatePresence>
           </div>
         </div>
-
-        {/* Mobile tabs */}
-        <motion.div
-          variants={fadeUp} initial="hidden" whileInView="show" viewport={viewport}
-          className="flex flex-wrap justify-center gap-2 mt-10 lg:hidden"
-        >
-          {SECTORS.map(s => (
-            <button key={s.id} onClick={() => setSelected(s.id)}
-              className={`px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wide font-[Manrope] transition-all
-                ${selected === s.id ? 'bg-primary text-zinc-900' : 'border border-divider text-text-secondary hover:border-primary/40'}`}>
-              {s.shortLabel}
-            </button>
-          ))}
-        </motion.div>
       </div>
     </section>
   )
@@ -199,12 +203,15 @@ function EcosystemWheel({ sectors, selected, onSelect }: {
           const isSel    = sector.id === selected
 
           const lines      = splitToLines(sector.label)
-          // Bottom sectors (sin > 0.5): shift icon toward center so content sits higher
           const isBottom   = Math.sin((midDeg - 100) * Math.PI / 200) > 0.5
-          const iconRadius = isBottom ? (ri + ro) / 2 - 20 : (ri + ro) / 1.8
-          const iconPos    = pos(midDeg, iconRadius)
+          const iconRadius = (ri + ro) / 2 - (isBottom ? 20 : 0)
+          const basePos    = pos(midDeg, iconRadius)
+          // Per-sector fine-tune: [dx, dy] — 0:realestate 1:commodity 2:mining 3:asset 4:education
+          const OFFSETS    = [[0,0],[0,-30],[10,-30],[-10,-15],[-5,-45]] as const
+          const [odx, ody] = OFFSETS[i] ?? [0, 0]
+          const iconPos    = { x: basePos.x + odx, y: basePos.y + ody }
           const textX      = iconPos.x
-          const textY0     = iconPos.y + 49 + 20      // icon bottom + gap
+          const textY0     = iconPos.y + 49 + 20
           const lineH      = 24
 
           return (
