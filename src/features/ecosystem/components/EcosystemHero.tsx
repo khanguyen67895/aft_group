@@ -9,8 +9,6 @@ export function EcosystemHero() {
         disablePictureInPicture
         className="absolute inset-0 w-full h-full object-cover"
       />
-      {/* Bottom fade to blend into detail sections */}
-      <div className="absolute bottom-0 inset-x-0 h-150 bg-linear-to-t from-bg to-transparent pointer-events-none" />
     </section>
   )
 }

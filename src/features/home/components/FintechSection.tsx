@@ -57,24 +57,28 @@ export function FintechSection() {
   const isUp     = absDelta >= 0
 
   return (
-    <section className="py-20 bg-secondary">
-      <div className="container mx-auto px-4 md:px-8">
+    <section className="md:pt-20 pb-16 md:pb-20 bg-secondary">
+      <div className="container mx-auto px-3 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[45fr_55fr] gap-10 items-stretch">
 
           {/* Left column */}
           <motion.div
             variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
             className="flex flex-col relative overflow-hidden rounded-2xl"
-            style={{
+          >
+            {/* Desktop: gold background image */}
+            <div className="absolute inset-0 hidden md:block" style={{
               backgroundImage: `image-set(url(${icBgGold}) 1x, url(${icBgGold2x}) 2x, url(${icBgGold3x}) 3x)`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-            }}
-          >
-            <div className="absolute inset-0" style={{
+            }} />
+            {/* Desktop overlay */}
+            <div className="absolute inset-0 hidden md:block" style={{
               background: 'radial-gradient(ellipse 55% 60% at 50% 45%, transparent 10%, rgba(11,31,58,0.55) 55%, rgba(11,31,58,0.92) 80%, #0B1F3A 100%)',
             }} />
-            <div className="relative z-10 flex flex-col h-full">
+            {/* Mobile: solid dark background */}
+            <div className="absolute inset-0 md:hidden" style={{ background: '#0B1527' }} />
+            <div className="relative z-10 flex flex-col md:h-full px-3 py-5 md:p-7">
               <motion.div variants={fadeUp} className="self-start">
                 <img src={icTitle3} srcSet={`${icTitle3} 1x, ${icTitle3x2} 2x, ${icTitle3x3} 3x`}
                   alt="Lĩnh vực" className="h-auto w-auto" />
@@ -83,21 +87,21 @@ export function FintechSection() {
               <motion.h2 variants={fadeUp}
                 className="mt-5 font-[Playfair_Display] font-bold text-text-primary leading-tight"
               >
-                <span className="block text-[40px] md:text-5xl uppercase">Hàng hóa phái sinh</span>
-                <span className="block text-[40px] md:text-5xl uppercase text-primary mt-1">– Lõi Fintech</span>
+                <span className="block text-2xl md:text-[40px] uppercase">Hàng hóa phái sinh</span>
+                <span className="block text-2xl md:text-[40px] uppercase text-primary mt-1">– Lõi Fintech</span>
               </motion.h2>
 
-              <motion.p variants={fadeUp} className="mt-5 text-xl text-text-secondary leading-relaxed">
+              <motion.p variants={fadeUp} className="mt-5 text-base md:text-xl text-text-secondary leading-relaxed">
                 Mảng lõi của AFT: giao dịch hàng hóa phái sinh, copy trade vàng, mô hình P2P
                 và trung tâm tài chính — vận hành bằng kỷ luật, dữ liệu và công nghệ riêng.
               </motion.p>
 
-              <motion.div variants={staggerContainer(0.07)} className="mt-auto flex gap-4">
+              <motion.div variants={staggerContainer(0.07)} className="mt-6 lg:mt-auto grid grid-cols-2 lg:flex gap-3 lg:gap-4">
                 {FEATURES.map(({ label, src, src2x, src3x }) => (
                   <motion.div
                     key={label}
                     variants={staggerItem}
-                    className="flex-1 flex flex-col items-center gap-2.5 px-3 py-4"
+                    className="flex flex-col items-center gap-2.5 px-3 py-4"
                     style={{
                       borderRadius: '16px',
                       border: '1px solid rgba(246, 247, 249, 0.10)',
@@ -113,13 +117,20 @@ export function FintechSection() {
                   </motion.div>
                 ))}
               </motion.div>
+
+              {/* Mobile: gold image below features */}
+              <img
+                src={icBgGold} srcSet={`${icBgGold} 1x, ${icBgGold2x} 2x, ${icBgGold3x} 3x`}
+                alt=""
+                className="md:hidden -mx-3 -mb-5 mt-4 w-[calc(100%+24px)] h-40 object-cover object-bottom"
+              />
             </div>
           </motion.div>
 
           {/* Right column: price widget */}
           <motion.div
             variants={fadeRight} initial="hidden" whileInView="show" viewport={viewport}
-            className="p-6 flex flex-col"
+            className="p-4 md:p-6 flex flex-col"
             style={{
               borderRadius: '16px',
               border: '1px solid rgba(246, 247, 249, 0.10)',
@@ -127,11 +138,11 @@ export function FintechSection() {
               backdropFilter: 'blur(20px)',
             }}
           >
-            <div className="flex items-start justify-between mb-5">
+            <div className="flex items-start justify-between mb-4 md:mb-5">
               <div>
-                <div className="text-[14px] text-text-secondary font-[Manrope] tracking-widest">XAU / USD</div>
-                <div className="flex items-baseline gap-3 mt-1.5">
-                  <span className="text-5xl font-bold text-white font-[Manrope] tabular-nums">
+                <div className="text-[13px] text-text-secondary font-[Manrope] tracking-widest">XAU / USD</div>
+                <div className="flex flex-wrap items-baseline gap-2 md:gap-3 mt-1">
+                  <span className="text-[38px] md:text-5xl font-bold text-white font-[Manrope] tabular-nums leading-none">
                     {price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                   <span className={`inline-flex items-center gap-1 text-sm font-semibold font-[Manrope] ${isUp ? 'text-green-400' : 'text-orange-400'}`}>
@@ -146,16 +157,16 @@ export function FintechSection() {
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full" style={{ border: '1px solid #F8E8C0' }}>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full shrink-0" style={{ border: '1px solid #F8E8C0' }}>
                 <span className="size-2 rounded-full animate-pulse" style={{ background: 'radial-gradient(50% 50% at 50% 50%, #F8E8C0 0%, #C09857 100%)' }} />
-                <span className="text-[14px] font-bold text-amber-400 font-[Manrope]">Live</span>
+                <span className="text-[13px] font-bold text-amber-400 font-[Manrope]">Live</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-1 mb-5">
+            <div className="flex items-center gap-0.5 md:gap-1 mb-4 md:mb-5">
               {TIME_RANGES.map(r => (
                 <button key={r} onClick={() => setRange(r)}
-                  className={`px-3 py-1 text-xs font-bold font-[Manrope] transition-all ${range === r ? 'text-primary' : 'text-text-secondary hover:text-text-primary'}`}
+                  className={`px-2.5 md:px-3 py-1 text-xs font-bold font-[Manrope] transition-all ${range === r ? 'text-primary' : 'text-text-secondary hover:text-text-primary'}`}
                   style={range === r ? {
                     borderRadius: '30px',
                     border: '1px solid #C6A15B',
@@ -166,22 +177,22 @@ export function FintechSection() {
               ))}
             </div>
 
-            <div className="min-h-52 z-10 mb-8">
+            <div className="min-h-52 z-10 mb-4 md:mb-8">
               <LiveCandleChart />
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-2 md:gap-4">
               {CHART_STATS.map(({ value, label }) => (
                 <div key={label}
-                  className="flex flex-col items-start gap-1 px-3 py-4"
+                  className="flex flex-col items-start gap-1 px-2.5 py-3 md:px-3 md:py-4"
                   style={{
-                    borderRadius: '16px',
+                    borderRadius: '12px',
                     border: '1px solid rgba(246, 247, 249, 0.10)',
                     background: 'rgba(11, 31, 58, 0.05)',
                     backdropFilter: 'blur(20px)',
                   }}>
-                  <div className="text-2xl font-bold text-text-primary font-[Manrope]">{value}</div>
-                  <div className="text-xs text-text-secondary font-[Manrope] leading-snug">{label}</div>
+                  <div className="text-xl md:text-2xl font-bold text-text-primary font-[Manrope]">{value}</div>
+                  <div className="text-[11px] md:text-xs text-text-secondary font-[Manrope] leading-snug">{label}</div>
                 </div>
               ))}
             </div>

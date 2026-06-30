@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTES.SECTORS,
-        lazy: () => import('@/features/home/pages/HomePage').then(m => ({ Component: m.HomePage })),
+        lazy: () => import('@/features/sectors/pages/SectorsPage').then(m => ({ Component: m.SectorsPage })),
       },
       {
         path: ROUTES.FUND,
