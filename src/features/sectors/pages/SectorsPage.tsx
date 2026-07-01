@@ -11,17 +11,17 @@ export function SectorsPage() {
       <SectorsHero />
       <FeaturedProjects />
       <DevelopmentFields />
-      <KeyLocations />
-
+      {/* Shared video background for KeyLocations + CTASection */}
       <div className="relative overflow-hidden">
         <video
           src={videoCta}
           autoPlay muted loop playsInline
           disablePictureInPicture
-          className="absolute bottom-0 left-0 w-full h-240 object-cover object-bottom"
+          className="absolute bottom-0 left-0 w-full h-300 object-cover object-bottom"
         />
-        <div className="absolute inset-0 bg-linear-to-r from-bg via-transparent to-bg pointer-events-none" />
-        <div className="h-40" />
+        <div className="absolute inset-0 bg-linear-to-b from-secondary from-40% via-bg/10 to-bg pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-r from-secondary via-transparent to-secondary pointer-events-none" />
+        <KeyLocations />
         <CTASection />
       </div>
     </>

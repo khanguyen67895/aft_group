@@ -3,7 +3,6 @@ import { Button } from '@/components/ui'
 import { fadeUp, fadeIn, staggerContainer, staggerItem } from '@/lib/motion'
 import heroVideo   from '@/assets/video/video_herobanner.mp4'
 import heroVideoMb from '@/assets/video/video_herobanner_mb.mp4'
-import heroImg   from '@/assets/hero.png'
 import icTitle1    from '@/assets/image/ic_title1.png'
 import icTitle1x2  from '@/assets/image/ic_title1@2x.png'
 import icTitle1x3  from '@/assets/image/ic_title1@3x.png'
@@ -76,12 +75,12 @@ export function HeroSection() {
       {/* ── Background video ─────────────────────────────── */}
       <div className="absolute inset-0">
         {/* Desktop video */}
-        <video autoPlay muted loop playsInline poster={heroImg}
+        <video autoPlay muted loop playsInline
           className="hidden md:block absolute inset-0 w-full h-full object-cover object-center">
           <source src={heroVideo} type="video/mp4" />
         </video>
         {/* Mobile video */}
-        <video autoPlay muted loop playsInline poster={heroImg}
+        <video autoPlay muted loop playsInline
           className="md:hidden absolute inset-0 w-full h-full object-cover object-center">
           <source src={heroVideoMb} type="video/mp4" />
         </video>
