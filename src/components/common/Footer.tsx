@@ -25,7 +25,7 @@ const MENU_LINKS = [
   { label: 'Hệ sinh thái', to: ROUTES.ABOUT },
   { label: 'Quỹ đầu tư',   to: ROUTES.ABOUT },
   { label: 'Về chúng tôi', to: ROUTES.ABOUT },
-  { label: 'Liên hệ',      to: ROUTES.HOME },
+  { label: 'Liên hệ',      to: ROUTES.CONTACT },
 ]
 
 const SECTOR_LINKS = [

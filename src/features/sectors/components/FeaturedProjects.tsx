@@ -210,7 +210,7 @@ export function FeaturedProjects() {
                     <h3
                       className="font-[Playfair_Display] font-bold text-xl leading-tight px-4 pt-4 pb-1"
                       style={{
-                        background: 'var(--Main-Colors-Primary-Radius, radial-gradient(50% 50% at 50% 50%, #F8E8C0 0%, var(--Miscellaneous-Button---Tinted-Fill, rgba(0, 122, 255, 0.15)) 100%))',
+                        background: 'var(--Main-Colors-Primary-Radius, radial-gradient(50% 50% at 50% 50%, #F8E8C0 0%, #C09857 100%))',
                         backgroundSize: '200% 100%',
                         WebkitBackgroundClip: 'text',
                         backgroundClip: 'text',

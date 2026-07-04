@@ -1,0 +1,26 @@
+import { AboutHero }          from '../components/AboutHero'
+import { AboutValues }        from '../components/AboutValues'
+import { AboutTeam }          from '../components/AboutTeam'
+import { AboutPrinciples }    from '../components/AboutPrinciples'
+import { AboutRoadmap }       from '../components/AboutRoadmap'
+import { CTASection }         from '@/features/home/components/CTASection'
+import { VideoCtaBackground } from '@/components/common'
+
+export function AboutPage() {
+  return (
+    <>
+      <AboutHero />
+      <AboutValues />
+      <AboutTeam />
+      <AboutPrinciples />
+
+      {/* Shared video background for AboutRoadmap + CTASection */}
+      <VideoCtaBackground tone="bg">
+        <AboutRoadmap />
+        <CTASection />
+      </VideoCtaBackground>
+    </>
+  )
+}
+
+export default AboutPage

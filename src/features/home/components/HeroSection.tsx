@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui'
+import { ROUTES } from '@/constants'
 import { fadeUp, fadeIn, staggerContainer, staggerItem } from '@/lib/motion'
 import heroVideo   from '@/assets/video/video_herobanner.mp4'
 import heroVideoMb from '@/assets/video/video_herobanner_mb.mp4'
@@ -69,6 +71,8 @@ const FEATURES = [
 
 
 export function HeroSection() {
+  const navigate = useNavigate()
+
   return (
     <section className="relative md:min-h-screen flex flex-col overflow-hidden">
 
@@ -160,7 +164,8 @@ export function HeroSection() {
           {/* CTA */}
           <motion.div variants={fadeUp} className="mt-6 md:mt-10">
             <Button variant="gold" size="lg" icon={true}
-              className="h-11 px-5 text-sm gap-2 md:h-16 md:px-8 md:text-2xl md:gap-3">
+              className="h-11 px-5 text-sm gap-2 md:h-16 md:px-8 md:text-2xl md:gap-3"
+              onClick={() => navigate(ROUTES.CONTACT)}>
               Kết nối hợp tác
             </Button>
           </motion.div>

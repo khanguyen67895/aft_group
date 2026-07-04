@@ -10,7 +10,7 @@ import icFieldDevelop3x from '@/assets/image/ic_feild_develop@3x.png'
 import icItemEco1       from '@/assets/image/ic_item_eco1.png'
 
 const nameStyle: React.CSSProperties = {
-  background: 'var(--Main-Colors-Primary-Radius, radial-gradient(50% 50% at 50% 50%, #F8E8C0 0%, rgba(0,122,255,0.15) 100%))',
+  background: 'var(--Main-Colors-Primary-Radius, radial-gradient(50% 50% at 50% 50%, #F8E8C0 0%, #C09857 100%))',
   backgroundSize: '200% 100%',
   WebkitBackgroundClip: 'text',
   backgroundClip: 'text',

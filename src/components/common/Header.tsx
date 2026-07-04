@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, Link, useLocation } from 'react-router-dom'
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui'
@@ -23,9 +23,9 @@ const NAV: NavItem[] = [
   {
     label: 'Lĩnh vực',
     children: [
-      { to: ROUTES.SECTORS, label: 'Bất động sản' },
-      { to: null,            label: 'Hàng hóa phái sinh' },
-      { to: null,            label: 'Vàng - Khai thác và giao dịch' },
+      { to: ROUTES.SECTORS,     label: 'Bất động sản' },
+      { to: ROUTES.DERIVATIVES, label: 'Hàng hóa phái sinh' },
+      { to: ROUTES.GOLD,        label: 'Vàng - Khai thác và giao dịch' },
     ],
   },
   { to: ROUTES.FUND,  label: 'Quỹ đầu tư' },
@@ -80,6 +80,7 @@ export function Header() {
   const [open, setOpen] = useState(false)
   const [mobileDropOpen, setMobileDropOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
 
   const sectorsActive = NAV.find(n => n.children)
     ?.children?.some(c => c.to && location.pathname.startsWith(c.to)) ?? false
@@ -183,7 +184,7 @@ export function Header() {
           transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1], delay: 0.55 }}
         >
           <LangToggle />
-          <Button variant="gold" size="sm">Kết nối hợp tác</Button>
+          <Button variant="gold" size="sm" onClick={() => navigate(ROUTES.CONTACT)}>Kết nối hợp tác</Button>
         </motion.div>
 
         {/* Mobile hamburger */}
@@ -271,7 +272,7 @@ export function Header() {
                   )
                 )}
                 <div className="pt-3 border-t border-divider mt-2">
-                  <Button variant="gold" size="sm" fullWidth>Kết nối hợp tác</Button>
+                  <Button variant="gold" size="sm" fullWidth onClick={() => { setOpen(false); navigate(ROUTES.CONTACT) }}>Kết nối hợp tác</Button>
                 </div>
               </nav>
             </div>

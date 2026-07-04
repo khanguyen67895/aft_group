@@ -1,7 +1,7 @@
 import { EcosystemHero }           from '../components/EcosystemHero'
 import { EcosystemDetailSections } from '../components/EcosystemDetailSections'
 import { CTASection }               from '@/features/home/components/CTASection'
-import videoCta from '@/assets/video/video_cta.mp4'
+import { VideoCtaBackground }       from '@/components/common'
 
 export function EcosystemPage() {
   return (
@@ -9,17 +9,10 @@ export function EcosystemPage() {
       <EcosystemHero />
       <EcosystemDetailSections />
 
-      <div className="relative overflow-hidden">
-        <video
-          src={videoCta}
-          autoPlay muted loop playsInline
-          disablePictureInPicture
-          className="absolute bottom-0 left-0 w-full h-240 object-cover object-bottom"
-        />
-        <div className="absolute inset-0 bg-linear-to-r from-bg via-transparent to-bg pointer-events-none" />
+      <VideoCtaBackground tone="bg" heightClass="h-240" verticalFade={false}>
         <div className="h-40" />
         <CTASection />
-      </div>
+      </VideoCtaBackground>
     </>
   )
 }

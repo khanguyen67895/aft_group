@@ -19,12 +19,24 @@ export const router = createBrowserRouter([
         lazy: () => import('@/features/sectors/pages/SectorsPage').then(m => ({ Component: m.SectorsPage })),
       },
       {
+        path: ROUTES.DERIVATIVES,
+        lazy: () => import('@/features/derivatives/pages/DerivativesPage').then(m => ({ Component: m.DerivativesPage })),
+      },
+      {
+        path: ROUTES.GOLD,
+        lazy: () => import('@/features/gold/pages/GoldPage').then(m => ({ Component: m.GoldPage })),
+      },
+      {
         path: ROUTES.FUND,
-        lazy: () => import('@/features/home/pages/HomePage').then(m => ({ Component: m.HomePage })),
+        lazy: () => import('@/features/fund/pages/FundPage').then(m => ({ Component: m.FundPage })),
       },
       {
         path: ROUTES.ABOUT,
-        lazy: () => import('@/features/home/pages/HomePage').then(m => ({ Component: m.HomePage })),
+        lazy: () => import('@/features/about/pages/AboutPage').then(m => ({ Component: m.AboutPage })),
+      },
+      {
+        path: ROUTES.CONTACT,
+        lazy: () => import('@/features/contact/pages/ContactPage').then(m => ({ Component: m.ContactPage })),
       },
       {
         path: ROUTES.COURSES,

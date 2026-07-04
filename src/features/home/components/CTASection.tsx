@@ -1,8 +1,17 @@
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui'
+import { ROUTES } from '@/constants'
 import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
 
-export function CTASection() {
+interface CTASectionProps {
+  /** Ẩn nút "Hợp tác ngay" — dùng khi CTASection nằm ngay trên trang Liên hệ. */
+  hideButton?: boolean
+}
+
+export function CTASection({ hideButton }: CTASectionProps = {}) {
+  const navigate = useNavigate()
+
   return (
     <section className="relative h-140 items-end">
 
@@ -16,9 +25,11 @@ export function CTASection() {
         </motion.p>
 
         {/* CTA Button */}
-        <motion.div variants={fadeUp}>
-          <Button variant="gold" size="lg" icon={true}>Hợp tác ngay</Button>
-        </motion.div>
+        {!hideButton && (
+          <motion.div variants={fadeUp}>
+            <Button variant="gold" size="lg" icon={true} onClick={() => navigate(ROUTES.CONTACT)}>Hợp tác ngay</Button>
+          </motion.div>
+        )}
       </motion.div>
     </section>
   )
