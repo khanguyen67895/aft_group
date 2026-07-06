@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { fadeLeft, fadeRight, scaleIn, viewport } from '@/lib/motion'
 import icBgVision    from '@/assets/image/ic_bg_vision.png'
@@ -33,6 +33,8 @@ const CARDS = [
 export function VisionSection() {
   const [active, setActive] = useState('vision')
   const activeIdx = CARDS.findIndex(c => c.key === active)
+  const mobileTrackRef = useRef<HTMLDivElement>(null)
+  const programmaticUntil = useRef(0)
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -43,6 +45,41 @@ export function VisionSection() {
     }, 3000)
     return () => clearInterval(t)
   }, [])
+
+  // Keep the touch-scrollable mobile track in sync with the auto-rotating
+  // active card (from autoplay above, or from a tap on a card).
+  // Scrolls the track's own scrollLeft directly instead of card.scrollIntoView() —
+  // scrollIntoView walks every scrollable ancestor including the page itself, so
+  // once the user had scrolled past this section the background autoplay tick
+  // would yank the whole page back up to "bring the card into view".
+  // Uses getBoundingClientRect() (not card.offsetLeft) because the track itself
+  // isn't a positioned element — offsetLeft would resolve against whatever
+  // positioned ancestor is above it instead of the track, always computing ~0.
+  useEffect(() => {
+    const track = mobileTrackRef.current
+    if (!track) return
+    const card = track.children[activeIdx] as HTMLElement | undefined
+    if (!card) return
+    const delta = card.getBoundingClientRect().left - track.getBoundingClientRect().left
+    const target = track.scrollLeft + delta - (track.clientWidth - card.clientWidth) / 2
+    // Mute the onScroll → setActive sync below while this programmatic scroll is
+    // in flight — otherwise every 'scroll' event fired mid-animation reads the
+    // not-yet-arrived scrollLeft, recomputes `active` from it, and snaps it right
+    // back to the old card, which cancels the scroll before it can go anywhere.
+    programmaticUntil.current = Date.now() + 700
+    track.scrollTo({ left: target, behavior: 'smooth' })
+  }, [activeIdx])
+
+  // If the user swipes the track manually, snap `active` to whichever card
+  // ends up nearest so the opacity/scale styling follows the drag.
+  const handleMobileScroll = () => {
+    if (Date.now() < programmaticUntil.current) return
+    const track = mobileTrackRef.current
+    if (!track) return
+    const step = track.scrollWidth / CARDS.length
+    const idx = Math.min(CARDS.length - 1, Math.max(0, Math.round(track.scrollLeft / step)))
+    setActive(CARDS[idx].key)
+  }
 
   return (
     <section className="relative overflow-hidden">
@@ -78,22 +115,18 @@ export function VisionSection() {
           </motion.div>
         </div>
 
-        {/* Mobile: horizontal peek carousel */}
+        {/* Mobile: horizontal peek carousel — native scroll-snap for smooth touch drag */}
         <div className="w-full md:hidden pb-4">
           <div
-            className="flex items-center"
-            style={{
-              paddingLeft: '22vw',
-              gap: '6vw',
-              transform: `translateX(calc(${-activeIdx} * 62vw))`,
-              transition: 'transform 0.5s cubic-bezier(0.22,1,0.36,1)',
-              willChange: 'transform',
-            }}
+            ref={mobileTrackRef}
+            onScroll={handleMobileScroll}
+            className="flex items-center overflow-x-auto snap-x snap-mandatory scrollbar-hide py-4"
+            style={{ paddingLeft: '22vw', paddingRight: '22vw', gap: '6vw' }}
           >
             {CARDS.map(card => (
               <div
                 key={card.key}
-                className="shrink-0 flex justify-center cursor-pointer"
+                className="shrink-0 snap-center flex justify-center cursor-pointer"
                 style={{ width: '55vw' }}
                 onClick={() => setActive(card.key)}
               >

@@ -94,7 +94,7 @@ export function EcosystemSection() {
             <img src={icTitle2} srcSet={`${icTitle2} 1x, ${icTitle2x2} 2x, ${icTitle2x3} 3x`}
               alt="Hệ sinh thái AFT" className="h-auto w-auto mx-auto" />
           </motion.div>
-          <motion.h2 variants={fadeUp} className="mt-5 text-h3 uppercase font-[Playfair_Display] text-text-primary">
+          <motion.h2 variants={fadeUp} className="mt-5 text-3xl md:text-h3 uppercase font-[Playfair_Display] text-text-primary">
             Hệ sinh thái <span className="text-primary">AFT Holdings</span>
           </motion.h2>
         </motion.div>
@@ -110,14 +110,14 @@ export function EcosystemSection() {
           </motion.div>
 
           {/* Right: ecosystem image — hidden on mobile, shows wheel + tabs instead */}
-          <div className="lg:flex items-center -mt-48 md:mt-0 justify-center">
+          <div className="lg:flex items-center -mt-4 md:mt-0 justify-center">
             <AnimatePresence mode="wait">
               <motion.img
                 key={selected}
                 src={current.ecosystemImg}
                 srcSet={`${current.ecosystemImg} 1x, ${current.ecosystemImg2x} 2x, ${current.ecosystemImg3x} 3x`}
                 alt={current.label}
-                className="w-180 h-160 object-contain"
+                className="w-full max-w-full md:max-w-180 h-auto md:w-180 md:h-160 object-contain"
                 initial={{ opacity: 0, scale: 0.96, x: 16 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.96, x: -16 }}

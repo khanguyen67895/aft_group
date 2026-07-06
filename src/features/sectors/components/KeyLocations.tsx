@@ -6,7 +6,7 @@ import icLocation3x from '@/assets/image/ic_location@3x.png'
 
 export function KeyLocations() {
   return (
-    <section className="relative z-10 overflow-hidden mb-40">
+    <section className="relative z-10 overflow-hidden mb-16 md:mb-40">
       <div className="container mx-auto px-4 md:px-8">
 
         {/* Map image */}

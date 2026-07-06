@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
 import icTitle5      from '@/assets/image/ic_title5.png'
@@ -49,6 +49,47 @@ export function TeamSection() {
     const t = setInterval(() => setActiveIdx(i => (i + 1) % total), 3500)
     return () => clearInterval(t)
   }, [total, autoKey])
+
+  // Mobile carousel: real horizontal scroll-snap track, tracked independently
+  // from the desktop fan carousel's activeIdx so swiping doesn't fight the
+  // desktop autoplay/fan positioning logic above.
+  const mobileTrackRef = useRef<HTMLDivElement>(null)
+  const [mobileActive, setMobileActive] = useState(0)
+  const programmaticUntil = useRef(0)
+
+  // Scrolls the track's own scrollLeft directly instead of card.scrollIntoView() —
+  // scrollIntoView walks every scrollable ancestor including the page itself, which
+  // can yank the whole page's vertical scroll position if this section isn't
+  // currently in view when it fires.
+  // Uses getBoundingClientRect() (not card.offsetLeft) because the track itself
+  // isn't a positioned element — offsetLeft would resolve against whatever
+  // positioned ancestor is above it instead of the track, always computing ~0.
+  const scrollMobileTo = (i: number) => {
+    const track = mobileTrackRef.current
+    if (!track) return
+    const card = track.children[i] as HTMLElement | undefined
+    if (!card) return
+    const delta = card.getBoundingClientRect().left - track.getBoundingClientRect().left
+    const target = track.scrollLeft + delta - (track.clientWidth - card.clientWidth) / 2
+    // Mute the onScroll → setMobileActive sync below while this programmatic scroll
+    // is in flight — otherwise every 'scroll' event fired mid-animation reads the
+    // not-yet-arrived scrollLeft and snaps mobileActive right back, cancelling the
+    // scroll before it can go anywhere.
+    programmaticUntil.current = Date.now() + 700
+    setMobileActive(i)
+    track.scrollTo({ left: target, behavior: 'smooth' })
+  }
+  const mobilePrev = () => scrollMobileTo((mobileActive - 1 + total) % total)
+  const mobileNext = () => scrollMobileTo((mobileActive + 1) % total)
+
+  const handleMobileScroll = () => {
+    if (Date.now() < programmaticUntil.current) return
+    const track = mobileTrackRef.current
+    if (!track) return
+    const step = track.scrollWidth / total
+    const idx = Math.min(total - 1, Math.max(0, Math.round(track.scrollLeft / step)))
+    setMobileActive(idx)
+  }
 
   return (
     <section className="pb-20 pt-8 relative overflow-hidden">
@@ -131,25 +172,29 @@ export function TeamSection() {
             </div>
           </div>
 
-          {/* ── Mobile: single centered card with arrows ─── */}
+          {/* ── Mobile: real horizontal touch-scroll carousel ─── */}
           <div className="lg:hidden">
-            <div className="relative mx-auto" style={{ width: '280px', height: '380px' }}>
+            <div
+              ref={mobileTrackRef}
+              onScroll={handleMobileScroll}
+              className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 px-[15vw] py-2"
+            >
               {EXPERTS.map((expert, i) => (
-                <div key={i} className={`absolute inset-0 transition-all duration-[450ms] ${i === activeIdx ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'}`}>
-                  <ExpertCard expert={expert} isActive={i === activeIdx} />
+                <div key={i} className="shrink-0 snap-center w-[70vw] max-w-70 h-95">
+                  <ExpertCard expert={expert} isActive={i === mobileActive} />
                 </div>
               ))}
             </div>
             <div className="flex justify-center items-center gap-4 mt-4">
-              <button onClick={prev} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
+              <button onClick={mobilePrev} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
                 <img src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`} alt="Prev" className="size-full object-cover" />
               </button>
               <div className="flex gap-2">
                 {EXPERTS.map((_, i) => (
-                  <span key={i} className={`h-2 rounded-full transition-all duration-300 ${i === activeIdx ? 'w-5 bg-primary' : 'w-2 bg-white/25'}`} />
+                  <span key={i} className={`h-2 rounded-full transition-all duration-300 ${i === mobileActive ? 'w-5 bg-primary' : 'w-2 bg-white/25'}`} />
                 ))}
               </div>
-              <button onClick={next} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
+              <button onClick={mobileNext} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
                 <img src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`} alt="Next" className="size-full object-cover" />
               </button>
             </div>

@@ -70,6 +70,7 @@ export function SectorsHero() {
   const [active, setActive] = useState(0)
   const total = SLIDES.length
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const mobileScrollRef = useRef<HTMLDivElement | null>(null)
 
   const startAuto = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -85,6 +86,16 @@ export function SectorsHero() {
 
   const handlePrev = () => { setActive(i => (i - 1 + total) % total); startAuto() }
   const handleNext = () => { setActive(i => (i + 1) % total);         startAuto() }
+
+  const scrollMobileBy = (dir: 1 | -1) => {
+    const el = mobileScrollRef.current
+    if (!el) return
+    const card = el.firstElementChild as HTMLElement | null
+    const step = card ? card.getBoundingClientRect().width + 12 /* gap-3 */ : el.clientWidth * 0.78
+    el.scrollBy({ left: dir * step, behavior: 'smooth' })
+  }
+  const handleMobilePrev = () => scrollMobileBy(-1)
+  const handleMobileNext = () => scrollMobileBy(1)
 
   return (
     <section className="bg-secondary pt-24 pb-0">
@@ -140,8 +151,8 @@ export function SectorsHero() {
         </motion.p>
       </motion.div>
 
-      {/* ── Carousel ──────────────────────────────────── */}
-      <div className="relative" style={{ height: '600px' }}>
+      {/* ── Carousel — desktop/tablet: fan-style coverflow ─ */}
+      <div className="relative hidden md:block md:h-150">
 
         {/* Left arrow — overlaps the ±2 left card */}
         <button
@@ -219,6 +230,65 @@ export function SectorsHero() {
         </button>
       </div>
 
+      {/* ── Carousel — mobile: simple horizontal scroll-snap ─ */}
+      <div className="md:hidden">
+        <div className="relative -mx-4 px-4">
+          <div
+            ref={mobileScrollRef}
+            className="overflow-x-auto snap-x snap-mandatory scrollbar-hide flex gap-3 pb-2"
+          >
+            {SLIDES.map((slide, i) => (
+              <div
+                key={slide.name}
+                className="relative shrink-0 snap-center w-[78vw] h-95 rounded-2xl overflow-hidden cursor-pointer"
+                onClick={() => setActive(i)}
+              >
+                <img
+                  src={slide.img}
+                  alt={slide.name}
+                  className="w-full h-full object-cover"
+                />
+                <div
+                  className="absolute inset-0 flex items-end"
+                  style={{ background: 'linear-gradient(to top, rgba(11,31,58,0.88) 0%, rgba(11,31,58,0.18) 55%, transparent 100%)' }}
+                >
+                  <div className="w-full text-center pb-6 px-4">
+                    <div className="font-[Playfair_Display] font-bold text-white text-2xl uppercase tracking-wide">
+                      {slide.name}
+                    </div>
+                    <div className="text-white text-base font-[Manrope] font-semibold mt-1 tracking-[0.15em] uppercase">
+                      {slide.location}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Prev/next controls — scroll the mobile track by one card width */}
+          <button
+            onClick={handleMobilePrev}
+            aria-label="Previous"
+            className="absolute z-20 top-1/2 -translate-y-1/2 left-2 size-9 flex items-center justify-center"
+          >
+            <img
+              src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`}
+              alt="prev" className="w-full h-full object-contain"
+            />
+          </button>
+          <button
+            onClick={handleMobileNext}
+            aria-label="Next"
+            className="absolute z-20 top-1/2 -translate-y-1/2 right-2 size-9 flex items-center justify-center"
+          >
+            <img
+              src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`}
+              alt="next" className="w-full h-full object-contain"
+            />
+          </button>
+        </div>
+      </div>
+
       {/* ── Description ───────────────────────────────── */}
       <motion.p
         variants={fadeUp}
@@ -251,7 +321,7 @@ export function SectorsHero() {
               <motion.div key={label} variants={fadeUp} className="flex flex-col items-center text-center">
                 <div className="flex items-baseline">
                   <span
-                    className="font-[Manrope] font-bold text-[52px] md:text-4xl"
+                    className="font-[Manrope] font-bold text-3xl md:text-4xl"
                     style={{
                       background: 'linear-gradient(90deg, #C6A15B 25%, #F8EBC0 50%, #C6A15B 75%)',
                       backgroundSize: '200% 100%',

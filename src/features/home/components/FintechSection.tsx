@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
-import { PriceChartWidget } from '@/components/common'
+import { ResponsivePriceChart } from '@/components/common'
 import icTitle3    from '@/assets/image/ic_title3.png'
 import icTitle3x2  from '@/assets/image/ic_title3@2x.png'
 import icTitle3x3  from '@/assets/image/ic_title3@3x.png'
@@ -29,7 +29,7 @@ const FEATURES = [
 
 export function FintechSection() {
   return (
-    <section className="md:pt-20 pb-16 md:pb-20 bg-secondary">
+    <section className="md:pt-20 pb-12 md:pb-20 bg-secondary">
       <div className="container mx-auto px-3 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[45fr_55fr] gap-10 items-stretch">
 
@@ -94,13 +94,13 @@ export function FintechSection() {
               <img
                 src={icBgGold} srcSet={`${icBgGold} 1x, ${icBgGold2x} 2x, ${icBgGold3x} 3x`}
                 alt=""
-                className="md:hidden -mx-3 -mb-5 mt-4 w-[calc(100%+24px)] h-40 object-cover object-bottom"
+                className="md:hidden -mx-3 -mb-5 mt-4 w-[calc(100%+24px)] h-70 object-cover object-bottom"
               />
             </div>
           </motion.div>
 
           {/* Right column: price widget */}
-          <PriceChartWidget />
+          <ResponsivePriceChart />
 
         </div>
       </div>

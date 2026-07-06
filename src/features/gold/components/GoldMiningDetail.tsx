@@ -27,7 +27,7 @@ export function GoldMiningDetail() {
             src={icMining}
             srcSet={`${icMining} 1x, ${icMining2x} 2x, ${icMining3x} 3x`}
             alt="Khai thác vàng"
-            className="w-full h-120 rounded-2xl object-cover"
+            className="w-full h-64 md:h-120 rounded-2xl object-cover"
             variants={fadeRight} initial="hidden" whileInView="show" viewport={viewport}
           />
 

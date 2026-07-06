@@ -133,6 +133,63 @@ function IconPin() {
   )
 }
 
+function ProjectCardContent({ project }: { project: Project }) {
+  return (
+    <>
+      {/* Image — no overlay */}
+      <div className="overflow-hidden h-56 md:h-69">
+        <img
+          src={project.img}
+          alt={project.name}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+        />
+      </div>
+
+      {/* Name — outside image, gold shimmer */}
+      <h3
+        className="font-[Playfair_Display] font-bold text-xl leading-tight px-4 pt-4 pb-1"
+        style={{
+          background: 'var(--Main-Colors-Primary-Radius, radial-gradient(50% 50% at 50% 50%, #F8E8C0 0%, #C09857 100%))',
+          backgroundSize: '200% 100%',
+          WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          animation: 'text-shimmer 2.8s ease-in-out infinite',
+        }}
+      >
+        {project.name}
+      </h3>
+
+      {/* Specs */}
+      <div className="flex mt-4 flex-col gap-2.5 px-4 pb-4">
+        <div className="flex gap-2">
+          <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
+            <IconEye /><span className="truncate">{project.view}</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
+            <IconArea /><span className="truncate">{project.area}</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
+            <IconBed /><span className="truncate">{project.beds} phòng ngủ</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
+            <IconWC /><span className="truncate">{project.wc} WC</span>
+          </div>
+        </div>
+        <div className="flex items-start gap-1.5 text-text-secondary text-base font-[Manrope]">
+          <IconBuilding />
+          <span>Chủ đầu tư: <span className="text-text-primary">{project.developer}</span></span>
+        </div>
+        <div className="flex items-start gap-1.5 text-text-secondary text-base font-[Manrope]">
+          <IconPin /><span>{project.address}</span>
+        </div>
+      </div>
+    </>
+  )
+}
+
 export function FeaturedProjects() {
   const [start, setStart] = useState(0)
   const [dir, setDir] = useState(1)
@@ -145,7 +202,7 @@ export function FeaturedProjects() {
 
   return (
     <section className="py-12 bg-secondary overflow-hidden">
-      <div className="container mx-auto px-45 md:px-50">
+      <div className="container mx-auto px-4 md:px-50">
 
         {/* Header */}
         <motion.div
@@ -163,8 +220,8 @@ export function FeaturedProjects() {
           </motion.h2>
         </motion.div>
 
-        {/* Carousel */}
-        <div className="relative">
+        {/* Carousel — desktop/tablet: 3-card grid + arrows */}
+        <div className="relative hidden md:block">
 
           {/* Left arrow */}
           <button
@@ -197,56 +254,7 @@ export function FeaturedProjects() {
                       backdropFilter: 'blur(12px)',
                     }}
                   >
-                    {/* Image — no overlay */}
-                    <div className="overflow-hidden" style={{ height: '276px' }}>
-                      <img
-                        src={project.img}
-                        alt={project.name}
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                      />
-                    </div>
-
-                    {/* Name — outside image, gold shimmer */}
-                    <h3
-                      className="font-[Playfair_Display] font-bold text-xl leading-tight px-4 pt-4 pb-1"
-                      style={{
-                        background: 'var(--Main-Colors-Primary-Radius, radial-gradient(50% 50% at 50% 50%, #F8E8C0 0%, #C09857 100%))',
-                        backgroundSize: '200% 100%',
-                        WebkitBackgroundClip: 'text',
-                        backgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        animation: 'text-shimmer 2.8s ease-in-out infinite',
-                      }}
-                    >
-                      {project.name}
-                    </h3>
-
-                    {/* Specs */}
-                    <div className="flex mt-4 flex-col gap-2.5 px-4 pb-4">
-                      <div className="flex gap-2">
-                        <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
-                          <IconEye /><span className="truncate">{project.view}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
-                          <IconArea /><span className="truncate">{project.area}</span>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
-                          <IconBed /><span className="truncate">{project.beds} phòng ngủ</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
-                          <IconWC /><span className="truncate">{project.wc} WC</span>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-1.5 text-text-secondary text-base font-[Manrope]">
-                        <IconBuilding />
-                        <span>Chủ đầu tư: <span className="text-text-primary">{project.developer}</span></span>
-                      </div>
-                      <div className="flex items-start gap-1.5 text-text-secondary text-base font-[Manrope]">
-                        <IconPin /><span>{project.address}</span>
-                      </div>
-                    </div>
+                    <ProjectCardContent project={project} />
                   </div>
                 ))}
               </motion.div>
@@ -262,6 +270,25 @@ export function FeaturedProjects() {
           >
             <img src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`} alt="next" className="w-full h-full object-contain" />
           </button>
+        </div>
+
+        {/* Carousel — mobile: horizontal scroll-snap, 1 card at a time (peek of next) */}
+        <div className="md:hidden -mx-4 px-4">
+          <div className="overflow-x-auto snap-x snap-mandatory scrollbar-hide flex gap-4 pb-2">
+            {PROJECTS.map((project) => (
+              <div
+                key={project.name}
+                className="overflow-hidden shrink-0 snap-center w-[85vw] rounded-2xl flex flex-col"
+                style={{
+                  border: '1px solid rgba(246,247,249,0.08)',
+                  background: 'rgba(11,31,58,0.60)',
+                  backdropFilter: 'blur(12px)',
+                }}
+              >
+                <ProjectCardContent project={project} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

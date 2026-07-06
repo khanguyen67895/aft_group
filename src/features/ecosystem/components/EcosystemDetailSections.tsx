@@ -122,8 +122,8 @@ export function EcosystemDetailSections() {
 function SectorSection({ sector }: { sector: SectorDetail }) {
   return (
     <section
-      className="relative overflow-hidden"
-      style={{ background: sector.bgColor, minHeight: '500px' }}
+      className="relative overflow-hidden min-h-100 md:min-h-125"
+      style={{ background: sector.bgColor }}
     >
       {/* Full-width background image */}
       <motion.img

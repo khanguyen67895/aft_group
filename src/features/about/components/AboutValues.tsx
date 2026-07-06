@@ -48,7 +48,7 @@ export function AboutValues() {
                 background: 'rgba(11, 31, 58, 0.30)',
               }}
             >
-              <div className="overflow-hidden" style={{ height: '360px' }}>
+              <div className="overflow-hidden h-52 md:h-90">
                 <img
                   src={img}
                   srcSet={`${img} 1x, ${img2x} 2x, ${img3x} 3x`}
@@ -61,7 +61,7 @@ export function AboutValues() {
                   className="w-18 h-0.5"
                   style={{ background: 'linear-gradient(270deg, rgba(203,150,76,0) 3%, #DBAB59 96%)' }}
                 />
-                <h3 className="mt-3 font-[Playfair_Display] font-bold text-[32px] text-text-primary uppercase">
+                <h3 className="mt-3 font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
                   {title}
                 </h3>
                 <p className="mt-4 text-base text-text-secondary font-[Manrope] leading-relaxed">

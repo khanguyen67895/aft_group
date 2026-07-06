@@ -6,6 +6,9 @@ import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants'
 import { staggerContainer, staggerItem } from '@/lib/motion'
 import icLogo from '@/assets/image/ic_logo.png'
+import icSidebarMenu   from '@/assets/image/ic_sidebar_menu.png'
+import icSidebarMenu2x from '@/assets/image/ic_sidebar_menu@2x.png'
+import icSidebarMenu3x from '@/assets/image/ic_sidebar_menu@3x.png'
 
 interface NavChild {
   to: string | null
@@ -101,7 +104,7 @@ export function Header() {
           transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
         >
           <Link to={ROUTES.HOME} className="flex items-center gap-2.5 shrink-0">
-            <img src={icLogo} srcSet={icLogo} alt="AFT Group logo" className="h-12 w-auto shrink-0" />
+            <img src={icLogo} srcSet={icLogo} alt="AFT Group logo" className="h-8 md:h-12 w-auto shrink-0" />
           </Link>
         </motion.div>
 
@@ -187,15 +190,27 @@ export function Header() {
           <Button variant="gold" size="sm" onClick={() => navigate(ROUTES.CONTACT)}>Kết nối hợp tác</Button>
         </motion.div>
 
-        {/* Mobile hamburger */}
-        <button className="lg:hidden p-1 text-text-secondary hover:text-text-primary transition-colors"
-          onClick={() => setOpen(v => !v)} aria-label="Menu">
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-            {open
-              ? <><path d="M4 4l14 14"/><path d="M18 4L4 18"/></>
-              : <><line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="11" x2="19" y2="11"/><line x1="3" y1="16" x2="19" y2="16"/></>}
-          </svg>
-        </button>
+        {/* Mobile: CTA + menu toggle */}
+        <div className="flex lg:hidden items-center gap-3 shrink-0">
+          <Button variant="gold" size="sm" onClick={() => navigate(ROUTES.CONTACT)}>Hợp tác</Button>
+
+          <button
+            className="size-11 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center transition-opacity hover:opacity-80"
+            onClick={() => setOpen(v => !v)} aria-label="Menu"
+          >
+            {open ? (
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="text-text-secondary">
+                <path d="M4 4l14 14"/><path d="M18 4L4 18"/>
+              </svg>
+            ) : (
+              <img
+                src={icSidebarMenu}
+                srcSet={`${icSidebarMenu} 1x, ${icSidebarMenu2x} 2x, ${icSidebarMenu3x} 3x`}
+                alt="" className="size-full object-cover"
+              />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile drawer */}

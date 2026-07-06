@@ -16,6 +16,9 @@ interface VideoCtaBackgroundProps {
   children: ReactNode
   tone?: keyof typeof TONE_CLASSES
   heightClass?: string
+  mobileHeightClass?: string
+  /** TODO(mobile-asset): pass a lighter/mobile-optimized video once available — defaults to the same desktop file. */
+  mobileSrc?: string
   verticalFade?: boolean
 }
 
@@ -23,17 +26,27 @@ export function VideoCtaBackground({
   children,
   tone = 'secondary',
   heightClass = 'h-300',
+  mobileHeightClass = 'h-140',
+  mobileSrc = videoCta,
   verticalFade = true,
 }: VideoCtaBackgroundProps) {
   const classes = TONE_CLASSES[tone]
 
   return (
     <div className="relative overflow-hidden">
+      {/* Desktop video */}
       <video
         src={videoCta}
         autoPlay muted loop playsInline
         disablePictureInPicture
-        className={`absolute bottom-0 left-0 w-full ${heightClass} object-cover object-bottom`}
+        className={`hidden md:block absolute bottom-0 left-0 w-full ${heightClass} object-cover object-bottom`}
+      />
+      {/* Mobile video — shorter height so it doesn't dominate/clip the shorter mobile section stack */}
+      <video
+        src={mobileSrc}
+        autoPlay muted loop playsInline
+        disablePictureInPicture
+        className={`md:hidden absolute bottom-0 left-0 w-full ${mobileHeightClass} object-cover object-bottom`}
       />
       {verticalFade && <div className={`absolute inset-0 ${classes.vertical} pointer-events-none`} />}
       <div className={`absolute inset-0 ${classes.horizontal} pointer-events-none`} />

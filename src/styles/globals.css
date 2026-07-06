@@ -79,6 +79,15 @@
     color: var(--color-text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Safety net: off-screen elements mid-entrance-animation (fadeLeft/fadeRight use an
+       x transform before their whileInView triggers) can otherwise widen the page's
+       scrollable area even though nothing is visually meant to show there, which makes
+       mobile browsers miscompute the initial viewport until the user scrolls. */
+    overflow-x: hidden;
+  }
+
+  body {
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -205,5 +214,14 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+  }
+
+  /* Hide scrollbar on horizontal-scroll mobile carousels (scroll-snap driven, no visible scrollbar needed) */
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }

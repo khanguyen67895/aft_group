@@ -30,7 +30,7 @@ export function GoldWhyChoose() {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-5 gap-4"
+            className="grid grid-cols-2 md:grid-cols-5 gap-4"
             variants={staggerContainer(0.08)}
           >
             {REASONS.map(({ Icon, title, desc }) => (

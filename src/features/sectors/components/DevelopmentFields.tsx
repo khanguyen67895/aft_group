@@ -41,10 +41,9 @@ export function DevelopmentFields() {
     <section className="py-16 bg-secondary">
       {/* Card: 1280×566, radius 16 */}
       <div
-        className="relative mx-auto overflow-hidden"
+        className="relative mx-auto overflow-hidden h-180 md:h-141.5"
         style={{
           maxWidth: '1280px',
-          height: '566px',
           borderRadius: '16px',
         }}
       >
@@ -66,14 +65,14 @@ export function DevelopmentFields() {
 
         {/* Blue overlay on left */}
         <div
-          className="absolute inset-y-0 left-0 w-[55%] pointer-events-none"
+          className="absolute inset-y-0 left-0 w-full md:w-[55%] pointer-events-none"
           style={{
             background: 'linear-gradient(to right, rgba(11,31,58,0.85) 0%, rgba(11,31,58,0.70) 70%, transparent 100%)',
           }}
         />
 
         {/* Content */}
-        <div className="relative z-10 h-full flex items-center px-14">
+        <div className="relative z-10 h-full flex items-center px-6 md:px-14">
           <motion.div
             className="max-w-160"
             variants={staggerContainer(0.1)}

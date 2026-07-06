@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui'
-import { PriceChartWidget } from '@/components/common'
+import { ResponsivePriceChart } from '@/components/common'
 import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
 
 import icBgField      from '@/assets/image/ic_bg_field.png'
@@ -53,7 +53,7 @@ export function DerivativesHero() {
           </motion.div>
 
           {/* Right column: shared live price chart widget */}
-          <PriceChartWidget />
+          <ResponsivePriceChart />
 
         </div>
 

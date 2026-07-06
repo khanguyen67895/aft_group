@@ -58,7 +58,7 @@ export function GoldSolutions() {
                 backdropFilter: 'blur(12px)',
               }}
             >
-              <div className="overflow-hidden" style={{ height: '250px' }}>
+              <div className="overflow-hidden h-45 md:h-62.5">
                 <img
                   src={img}
                   srcSet={`${img} 1x, ${img2x} 2x, ${img3x} 3x`}

@@ -93,7 +93,7 @@ export function GoldHero() {
               src={icBgGold}
               srcSet={`${icBgGold} 1x, ${icBgGold2x} 2x, ${icBgGold3x} 3x`}
               alt="Vàng AURUM"
-              className="w-full h-108 object-contain rounded-2xl"
+              className="w-full h-56 md:h-108 object-contain rounded-2xl"
             />
           </motion.div>
         </div>
