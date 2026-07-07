@@ -28,13 +28,17 @@ import icAvatar4x3 from '@/assets/image/ic_avatar4@3x.png'
 import icAvatar5   from '@/assets/image/ic_avatar5.png'
 import icAvatar5x2 from '@/assets/image/ic_avatar5@2x.png'
 import icAvatar5x3 from '@/assets/image/ic_avatar5@3x.png'
+import icAvatar6 from '@/assets/image/ic_avatar6@3x.png'
+import icAvatar6x2 from '@/assets/image/ic_avatar6@3x.png'
+import icAvatar6x3 from '@/assets/image/ic_avatar6@3x.png'
 
 const EXPERTS = [
-  { name: 'Nguyễn Quang Việt', role: 'CEO, Founder', src: icAvatar1, src2x: icAvatar1x2, src3x: icAvatar1x3 },
-  { name: 'Nguyễn Anh Tuấn',       role: 'Co-Founder',   src: icAvatar2, src2x: icAvatar2x2, src3x: icAvatar2x3 },
-  { name: 'Nguyễn Hải Sơn',       role: 'Co-Founder',   src: icAvatar3, src2x: icAvatar3x2, src3x: icAvatar3x3 },
-  { name: 'Nguyễn Văn Nguyện',        role: 'Co-Founder',   src: icAvatar4, src2x: icAvatar4x2, src3x: icAvatar4x3 },
-  { name: 'Trần Đại Nghĩa',        role: 'Co-Founder',   src: icAvatar5, src2x: icAvatar5x2, src3x: icAvatar5x3 },
+  { name: 'Nguyễn Đình Cương', role: 'Chairman/CEO', dept: '(Chủ tịch kiêm điều hành)', src: icAvatar6, src2x: icAvatar6x2, src3x: icAvatar6x3 },
+  { name: 'Nguyễn Văn Nghuyện', role: 'COO',          dept: '(Vận hành)',                 src: icAvatar4, src2x: icAvatar4x2, src3x: icAvatar4x3 },
+  { name: 'Nguyễn Hải Sơn',     role: 'CFO',          dept: '(Tài chính)',                src: icAvatar3, src2x: icAvatar3x2, src3x: icAvatar3x3 },
+  { name: 'Nguyễn Quang Việt',  role: 'CDO',          dept: '(Chuyển đổi số, Công nghệ và Marketing)', src: icAvatar1, src2x: icAvatar1x2, src3x: icAvatar1x3 },
+  { name: 'Nguyễn Anh Tuấn',    role: 'CLO',          dept: '(Pháp chế)',                 src: icAvatar2, src2x: icAvatar2x2, src3x: icAvatar2x3 },
+  { name: 'Trần Đại Nghĩa',     role: 'CSO',          dept: '(Chiến lược)',               src: icAvatar5, src2x: icAvatar5x2, src3x: icAvatar5x3 },
 ]
 
 export function TeamSection() {
@@ -92,7 +96,7 @@ export function TeamSection() {
   }
 
   return (
-    <section className="pb-20 pt-8 relative overflow-hidden">
+    <section className="pb-6 md:pb-20 pt-8 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-100 h-100 rounded-full bg-primary/5 blur-[120px] pointer-events-none"/>
 
       <div className="container mx-auto px-4 md:px-8">
@@ -189,11 +193,9 @@ export function TeamSection() {
               <button onClick={mobilePrev} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
                 <img src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`} alt="Prev" className="size-full object-cover" />
               </button>
-              <div className="flex gap-2">
-                {EXPERTS.map((_, i) => (
-                  <span key={i} className={`h-2 rounded-full transition-all duration-300 ${i === mobileActive ? 'w-5 bg-primary' : 'w-2 bg-white/25'}`} />
-                ))}
-              </div>
+              <span className="text-sm font-[Manrope] font-semibold text-text-secondary tabular-nums">
+                {mobileActive + 1}/{total}
+              </span>
               <button onClick={mobileNext} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
                 <img src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`} alt="Next" className="size-full object-cover" />
               </button>
@@ -207,7 +209,7 @@ export function TeamSection() {
 }
 
 function ExpertCard({ expert, isActive }: {
-  expert: { name: string; role: string; src: string; src2x: string; src3x: string }
+  expert: { name: string; role: string; dept:string; src: string; src2x: string; src3x: string }
   isActive: boolean
 }) {
   return (
@@ -239,8 +241,12 @@ function ExpertCard({ expert, isActive }: {
         <div className="font-bold text-white font-[Manrope] text-sm tracking-wide uppercase leading-tight">
           {expert.name}
         </div>
-        <div className="text-[10px] text-white/60 font-[Manrope] tracking-widest uppercase mt-0.5">
+
+        <div className="text-[14px] md:text-[14px] text-text-secondary font-[Manrope] tracking-widest uppercase mt-1">
           {expert.role}
+        </div>
+        <div className="text-[14px] md:text-[14px] text-text-secondary font-[Manrope] uppercase mt-0.5 leading-snug">
+          {expert.dept}
         </div>
       </div>
     </div>

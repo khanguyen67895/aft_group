@@ -40,11 +40,13 @@ export function DerivativesMarkets() {
           style={{
             borderRadius: '24px',
             border: '1px solid rgba(246, 247, 249, 0.10)',
+            backgroundColor: 'var(--color-secondary)',
           }}
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
+          {/* Desktop: full-bleed cover image */}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="hidden md:block absolute inset-0 pointer-events-none"
             style={{
               backgroundImage: `image-set(url(${icBgMarkets}) 1x, url(${icBgMarkets_2x}) 2x, url(${icBgMarkets_3x}) 3x)`,
               backgroundSize: 'cover',
@@ -53,7 +55,7 @@ export function DerivativesMarkets() {
           />
 
           <div className="relative z-10">
-            <motion.h2 variants={fadeUp} className="text-left font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase mb-10">
+            <motion.h2 variants={fadeUp} className="text-center md:text-left font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase mb-10">
               Danh mục thị trường trọng tâm
             </motion.h2>
 
@@ -65,7 +67,7 @@ export function DerivativesMarkets() {
                 <motion.div
                   key={name}
                   variants={staggerItem}
-                  className="flex flex-col items-center text-center gap-3 p-5"
+                  className="flex flex-col items-start md:items-center text-center gap-3 p-5"
                   style={{
                     borderRadius: '16px',
                     border: '1px solid rgba(246, 247, 249, 0.15)',
@@ -75,12 +77,26 @@ export function DerivativesMarkets() {
                 >
                   <img src={icon} srcSet={srcSet} alt={name} className="size-12 object-contain" />
                   <div>
-                    <div className="text-base md:text-xl font-bold text-text-primary font-[Playfair_Display] uppercase tracking-wide">{name}</div>
-                    <div className="text-sm md:text-base text-text-secondary font-[Manrope] mt-1 leading-relaxed">{desc}</div>
+                    <div className="text-base md:text-xl text-left md:text-center font-bold text-text-primary font-[Playfair_Display] uppercase tracking-wide">{name}</div>
+                    <div className="text-sm md:text-base text-left md:text-center text-text-secondary font-[Manrope] mt-1 leading-relaxed">{desc}</div>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
+
+            {/* Mobile: chart graphic below the cards, blended into the blue bg */}
+            <div className="md:hidden relative -mx-6 -mb-6 mt-6">
+              <div
+                className="absolute inset-x-0 top-0 h-8 pointer-events-none"
+                style={{ background: 'linear-gradient(to bottom, var(--color-secondary) 0%, transparent 100%)' }}
+              />
+              <img
+                src={icBgMarkets}
+                srcSet={`${icBgMarkets} 1x, ${icBgMarkets_2x} 2x, ${icBgMarkets_3x} 3x`}
+                alt=""
+                className="w-full h-70 object-cover"
+              />
+            </div>
           </div>
         </motion.div>
       </div>

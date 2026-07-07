@@ -31,7 +31,7 @@ const SOLUTIONS = [
 
 export function GoldSolutions() {
   return (
-    <section className="py-16 bg-secondary">
+    <section className="py-8 bg-secondary">
       <div className="container mx-auto px-4 md:px-8">
         <motion.div
           className="text-center mb-12 md:mb-16"

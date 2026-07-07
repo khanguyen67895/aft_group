@@ -201,7 +201,7 @@ export function FeaturedProjects() {
   const visible = PROJECTS.slice(start, start + VISIBLE)
 
   return (
-    <section className="py-12 bg-secondary overflow-hidden">
+    <section className="py-8 bg-secondary overflow-hidden">
       <div className="container mx-auto px-4 md:px-50">
 
         {/* Header */}

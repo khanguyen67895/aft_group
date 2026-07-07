@@ -28,8 +28,8 @@ const STATS = [
 
 export function GoldSection() {
   return (
-    <section className="py-16 md:py-28 lg:py-40 bg-bg relative overflow-hidden">
-      <img src={icBgGold} srcSet={`${icBgGold} 1x, ${icBgGold2x} 2x, ${icBgGold3x} 3x`} alt="" className="absolute inset-0 w-full h-full object-cover object-top" />
+    <section className="py-8 md:py-28 lg:py-40 bg-bg relative overflow-hidden">
+      <img src={icBgGold} srcSet={`${icBgGold} 1x, ${icBgGold2x} 2x, ${icBgGold3x} 3x`} alt="" className="absolute inset-x-0 bottom-12 w-full h-2/3 object-contain object-bottom pointer-events-none md:inset-0 md:bottom-auto md:h-full md:object-cover md:object-top" />
 
       {/* Warm gold glow */}
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-full h-full rounded-full bg-primary/5 blur-[100px] pointer-events-none" />
@@ -62,7 +62,7 @@ export function GoldSection() {
             <motion.div variants={staggerContainer(0.07)} className="relative mt-8 grid grid-cols-2 gap-4">
               {STATS.map(({ value, label, src, src2x, src3x }) => (
                 <motion.div key={value} variants={staggerItem}
-                  className="flex items-center gap-3 p-4 rounded-xl"
+                  className="flex flex-col md:flex-row items-start md:items-center gap-3 p-4 rounded-xl"
                   style={{ border: '1px solid rgba(246,247,249,0.10)', background: 'rgba(11,31,58,0.35)', backdropFilter: 'blur(12px)' }}
                 >
                   <img src={src} srcSet={`${src} 1x, ${src2x} 2x, ${src3x} 3x`} alt={label} className="size-14 object-contain shrink-0" />

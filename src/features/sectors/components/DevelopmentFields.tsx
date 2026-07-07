@@ -38,7 +38,7 @@ const SUB_FIELDS = [
 
 export function DevelopmentFields() {
   return (
-    <section className="py-16 bg-secondary">
+    <section className="py-8 bg-secondary">
       {/* Card: 1280×566, radius 16 */}
       <div
         className="relative mx-auto overflow-hidden h-180 md:h-141.5"

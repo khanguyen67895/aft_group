@@ -183,7 +183,7 @@ export function AboutPrinciples() {
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           variants={staggerContainer(0.06)} initial="hidden" whileInView="show" viewport={viewport}
         >
           {PRINCIPLES.map(({ Icon, title, desc }) => (
@@ -198,7 +198,7 @@ export function AboutPrinciples() {
               }}
             >
               <Icon />
-              <div className='mx-8 -mt-6'>
+              <div className='mx-4 md:mx-8 -mt-6'>
                 <div className="text-xl font-bold text-primary font-[Playfair Display]">{title}</div>
                 <div className="mt-0.5 text-base text-text-secondary font-[Manrope] leading-snug">{desc}</div>
               </div>

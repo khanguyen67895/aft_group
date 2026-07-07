@@ -122,23 +122,20 @@ export function EcosystemDetailSections() {
 function SectorSection({ sector }: { sector: SectorDetail }) {
   return (
     <section
-      className="relative overflow-hidden min-h-100 md:min-h-125"
+      className="relative overflow-hidden lg:min-h-125"
       style={{ background: sector.bgColor }}
     >
-      {/* Full-width background image */}
+      {/* Desktop: full-width background image */}
       <motion.img
         src={sector.img}
         srcSet={`${sector.img} 1x, ${sector.img2x} 2x, ${sector.img3x} 3x`}
         alt={sector.title}
-        className="absolute inset-0 w-full h-full object-cover object-center"
+        className="hidden lg:block absolute inset-0 w-full h-full object-cover object-center"
         variants={scaleIn}
         initial="hidden"
         whileInView="show"
         viewport={viewport}
       />
-
-      {/* Mobile full overlay for readability */}
-      <div className="absolute inset-0 pointer-events-none lg:hidden" style={{ background: 'rgba(11,21,39,0.72)' }} />
 
       {/* Desktop gradient overlay – dense on text side, transparent on image side */}
       <div
@@ -225,6 +222,29 @@ function SectorSection({ sector }: { sector: SectorDetail }) {
           ))}
         </motion.ul>
       </motion.div>
+
+      {/* Mobile: image below the content */}
+      <div className="lg:hidden relative z-10 w-full h-64 overflow-hidden">
+        <motion.img
+          src={sector.img}
+          srcSet={`${sector.img} 1x, ${sector.img2x} 2x, ${sector.img3x} 3x`}
+          alt={sector.title}
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          variants={scaleIn}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+        />
+        {/* Blend into section bg color at top and bottom */}
+        <div
+          className="absolute inset-x-0 top-0 h-10 pointer-events-none"
+          style={{ background: `linear-gradient(to bottom, ${sector.bgColor} 0%, transparent 100%)` }}
+        />
+        <div
+          className="absolute inset-x-0 bottom-0 h-10 pointer-events-none"
+          style={{ background: `linear-gradient(to top, ${sector.bgColor} 0%, transparent 100%)` }}
+        />
+      </div>
     </section>
   )
 }

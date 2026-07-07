@@ -18,7 +18,7 @@ export function GoldWhyChoose() {
         className="absolute top-0 inset-x-0 h-64 pointer-events-none"
         style={{ background: 'linear-gradient(to bottom, var(--color-secondary) 0%, transparent 100%)' }}
       />
-      <div className="container mx-auto px-4 md:px-8">
+      <div className="container mx-auto px-0 md:px-8">
         <motion.div
           className="relative overflow-hidden p-6 md:p-10"
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
@@ -30,26 +30,27 @@ export function GoldWhyChoose() {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-5 gap-4"
+            className="grid grid-cols-1 md:grid-cols-5 gap-4"
             variants={staggerContainer(0.08)}
           >
             {REASONS.map(({ Icon, title, desc }) => (
               <motion.div
                 key={title}
                 variants={staggerItem}
-                className="flex flex-col gap-3 p-5 items-center"
+                className="w-full flex flex-row md:flex-col gap-3 px-4 py-5 items-center"
                 style={{
                   borderRadius: '16px',
                   border: '1px solid rgba(246, 247, 249, 0.15)',
                   background: 'rgba(246, 247, 249, 0.02)',
                 }}
               >
-                  <div className="text-primary shrink-0 [&>svg]:w-13.5 [&>svg]:h-13.5">
-                    <Icon />
-                  </div>
-                  <div className="text-xl text-center font-bold text-text-primary font-[Playfair Display] leading-snug">{title}</div>
-                
-                <div className="text-base text-center text-text-secondary font-[Manrope] leading-relaxed">{desc}</div>
+                <div className="text-primary shrink-0 [&>svg]:w-13.5 [&>svg]:h-13.5">
+                  <Icon />
+                </div>
+                <div className='flex flex-col md:flex-row'>
+                  <div className="text-xl text-left md:text-center font-bold text-text-primary font-[Playfair Display] leading-snug">{title}</div>
+                  <div className="text-base text-left md:text-center text-text-secondary font-[Manrope] leading-relaxed">{desc}</div>
+                </div>
               </motion.div>
             ))}
           </motion.div>

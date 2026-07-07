@@ -31,9 +31,9 @@ const STATS = [
 
 export function GoldHero() {
   return (
-    <section className="relative overflow-hidden bg-secondary pt-28 pb-16">
-      {/* Ambient gold glow background */}
-      <div className="absolute inset-0 pointer-events-none" style={{
+    <section className="relative overflow-hidden bg-secondary pt-28 pb-8">
+      {/* Ambient gold glow background — smaller strip on mobile, full-bleed on desktop */}
+      <div className="absolute inset-x-0 top-0 h-90 md:inset-0 md:h-auto pointer-events-none" style={{
         backgroundImage: `image-set(url(${icBgField}) 1x, url(${icBgField2x}) 2x, url(${icBgField3x}) 3x)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -60,9 +60,10 @@ export function GoldHero() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
           {/* Left column */}
           <motion.div
+            className="order-2 lg:order-1"
             variants={staggerContainer(0.1)} initial="hidden" animate="show"
           >
-            <motion.p variants={fadeUp} className="text-base md:text-xl text-text-secondary leading-relaxed max-w-140">
+            <motion.p variants={fadeUp} className="text-base md:mt-0 -mt-12 md:text-xl text-text-secondary leading-relaxed max-w-140">
               Khai thác vàng, đầu tư vàng - bạc, copy trade vàng và truyền thông data quốc tế.
               Vàng là sợi chỉ vàng trong suốt, biến giá trị hữu hình thành niềm tin và di sản.
             </motion.p>
@@ -71,7 +72,7 @@ export function GoldHero() {
             <motion.div variants={staggerContainer(0.07)} className="mt-8 grid grid-cols-2 gap-4">
               {STATS.map(({ value, label, src, src2x, src3x }) => (
                 <motion.div key={value} variants={staggerItem}
-                  className="flex items-center gap-3 p-4 rounded-xl"
+                  className="flex md:flex-row flex-col md:items-center items-start gap-3 p-4 rounded-xl"
                   style={{ border: '1px solid rgba(246,247,249,0.10)', background: 'rgba(11,31,58,0.35)', backdropFilter: 'blur(12px)' }}
                 >
                   <img src={src} srcSet={`${src} 1x, ${src2x} 2x, ${src3x} 3x`} alt={label} className="size-14 object-contain shrink-0" />
@@ -87,13 +88,13 @@ export function GoldHero() {
           {/* Right column: hero image */}
           <motion.div
             variants={fadeUp} initial="hidden" animate="show"
-            className="relative"
+            className="relative order-1 lg:order-2"
           >
             <img
               src={icBgGold}
               srcSet={`${icBgGold} 1x, ${icBgGold2x} 2x, ${icBgGold3x} 3x`}
               alt="Vàng AURUM"
-              className="w-full h-56 md:h-108 object-contain rounded-2xl"
+              className="w-full h-86 md:mt-0 -mt-12 md:h-108 object-contain rounded-2xl"
             />
           </motion.div>
         </div>

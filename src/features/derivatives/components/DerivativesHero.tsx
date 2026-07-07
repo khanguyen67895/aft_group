@@ -36,18 +36,22 @@ export function DerivativesHero() {
             variants={staggerContainer(0.1)} initial="hidden" animate="show"
           >
             <motion.h1 variants={fadeUp}
-              className="mt-5 font-[Playfair_Display] font-bold text-text-primary leading-tight uppercase"
+              className="mt-5 font-[Playfair_Display] text-center md:text-left font-bold text-text-primary leading-tight uppercase"
             >
               <span className="block text-3xl md:text-[48px]">Hàng hóa phái sinh – <br /> Lõi Fintech</span>
             </motion.h1>
 
-            <motion.p variants={fadeUp} className="mt-5 text-base md:text-xl text-text-secondary leading-relaxed max-w-140">
-              Giao dịch chuyên nghiệp – Tối ưu lợi nhuận. Mảng lõi của AFT: giao dịch hàng hóa
+            <motion.p variants={fadeUp} className="mt-5 text-xl text-center md:text-left md:text-2xl text-text-primary leading-relaxed max-w-140">
+              Giao dịch chuyên nghiệp – Tối ưu lợi nhuận.
+            </motion.p>
+
+            <motion.p variants={fadeUp} className="mt-5 text-base text-center md:text-left md:text-xl text-text-secondary leading-relaxed max-w-140">
+              Mảng lõi của AFT: giao dịch hàng hóa
               phái sinh, copy trade vàng, mô hình P2P và trung tâm tài chính — vận hành bằng
               kỷ luật, dữ liệu và công nghệ riêng.
             </motion.p>
 
-            <motion.div variants={fadeUp} className="mt-8">
+            <motion.div variants={fadeUp} className="hidden md:block mt-8">
               <Button variant="gold" size="lg" icon={true}>Hợp tác ngay</Button>
             </motion.div>
           </motion.div>

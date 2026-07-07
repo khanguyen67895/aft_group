@@ -5,12 +5,6 @@ import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
 import icPhase1   from '@/assets/image/ic_about_phase1.png'
 import icPhase1x2 from '@/assets/image/ic_about_phase1@2x.png'
 import icPhase1x3 from '@/assets/image/ic_about_phase1@3x.png'
-import icPhase2   from '@/assets/image/ic_about_phase2.png'
-import icPhase2x2 from '@/assets/image/ic_about_phase2@2x.png'
-import icPhase2x3 from '@/assets/image/ic_about_phase2@3x.png'
-import icPhase3   from '@/assets/image/ic_about_phase3.png'
-import icPhase3x2 from '@/assets/image/ic_about_phase3@2x.png'
-import icPhase3x3 from '@/assets/image/ic_about_phase3@3x.png'
 
 import icCheckbox   from '@/assets/image/ic_checkbox.png'
 import icCheckbox2x from '@/assets/image/ic_checkbox@2x.png'
@@ -32,7 +26,7 @@ const PHASES = [
   {
     range: '2029 - 2032',
     label: 'Nền tảng hóa',
-    img: icPhase2, img2x: icPhase2x2, img3x: icPhase2x3,
+    img: icPhase1, img2x: icPhase1x2, img3x: icPhase1x3,
     heading: 'Mở rộng hệ sinh thái',
     desc: 'Giai đoạn hai, AFT mở rộng quy mô vận hành, chuẩn hóa quy trình và số hóa toàn bộ hệ sinh thái tài chính - tài sản - công nghệ.',
     items: [
@@ -44,7 +38,7 @@ const PHASES = [
   {
     range: '2033 - 2035',
     label: 'Dẫn đầu di sản',
-    img: icPhase3, img2x: icPhase3x2, img3x: icPhase3x3,
+    img: icPhase1, img2x: icPhase1x2, img3x: icPhase1x3,
     heading: 'Kiến tạo di sản bền vững',
     desc: 'Giai đoạn cuối, AFT khẳng định vị thế tập đoàn tài chính số hàng đầu khu vực, tạo dựng di sản lâu dài cho đối tác và cộng đồng nhà đầu tư.',
     items: [
@@ -78,12 +72,12 @@ export function AboutRoadmap() {
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex flex-col sm:flex-row rounded-tl-xl rounded-tr-xl overflow-hidden mb-0" style={{ border: '1px solid rgba(246,247,249,0.10)' }}>
+        <div className="flex flex-row rounded-tl-xl rounded-tr-xl overflow-hidden mb-0" style={{ border: '1px solid rgba(246,247,249,0.10)' }}>
           {PHASES.map((p, i) => (
             <button
               key={p.range}
               onClick={() => setActive(i)}
-              className="flex-1 px-6 py-4 text-left transition-colors"
+              className="flex-1 px-2 md:px-6 py-4 text-left transition-colors"
               style={{
                 background: active === i ? 'rgba(21,79,133,0.55)' : 'transparent',
                 borderLeft: i > 0 ? '1px solid rgba(246,247,249,0.10)' : 'none',
@@ -105,7 +99,7 @@ export function AboutRoadmap() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.35 }}
-            className="relative overflow-hidden p-6 md:p-10"
+            className="relative overflow-hidden p-6 md:p-10 min-h-140 md:min-h-0"
             style={{
               borderRadius: '0 0 16px 16px',
               border: '1px solid rgba(246,247,249,0.10)',

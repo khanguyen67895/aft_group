@@ -10,6 +10,10 @@ import icFundHero   from '@/assets/image/ic_fund_hero.png'
 import icFundHero2x from '@/assets/image/ic_fund_hero@2x.png'
 import icFundHero3x from '@/assets/image/ic_fund_hero@3x.png'
 
+import icBgField   from '@/assets/image/ic_bg_field.png'
+import icBgField2x from '@/assets/image/ic_bg_field@2x.png'
+import icBgField3x from '@/assets/image/ic_bg_field@3x.png'
+
 import icHero1   from '@/assets/image/ic_item_hero1.png'
 import icHero1x2 from '@/assets/image/ic_item_hero1@2x.png'
 import icHero1x3 from '@/assets/image/ic_item_hero1@3x.png'
@@ -45,17 +49,22 @@ const STATS = [
 export function FundHero() {
   return (
     <section className="relative overflow-hidden bg-secondary pt-28 pb-0">
-      {/* Background illustration — bleeds on the right */}
+      {/* Background illustration — desktop only, bleeds on the right */}
       <img
         src={icFundHero}
         srcSet={`${icFundHero} 1x, ${icFundHero2x} 2x, ${icFundHero3x} 3x`}
         alt=""
         aria-hidden
-        className="absolute inset-0 w-full h-full object-cover object-right pointer-events-none"
+        className="hidden md:block absolute inset-0 w-full h-full object-cover object-right pointer-events-none"
       />
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'linear-gradient(to right, rgba(11,31,58,0.94) 0%, rgba(11,31,58,0.65) 45%, transparent 100%)',
-      }} />
+      {/* Mobile: ambient glow background instead */}
+      <img
+        src={icBgField}
+        srcSet={`${icBgField} 1x, ${icBgField2x} 2x, ${icBgField3x} 3x`}
+        alt=""
+        aria-hidden
+        className="md:hidden absolute top-1/2 -translate-y-3/4 w-full h-full object-cover opacity-35 pointer-events-none"
+      />
 
       {/* Bottom fade: transparent → bg-secondary (#0B1F3A) */}
         <div
@@ -69,7 +78,7 @@ export function FundHero() {
           variants={staggerContainer(0.1)} initial="hidden" animate="show"
         >
           {/* Badge */}
-          <motion.div variants={fadeUp}>
+          <motion.div variants={fadeUp} className="flex justify-center md:justify-start">
             <img
               src={icTitle4}
               srcSet={`${icTitle4} 1x, ${icTitle4x2} 2x, ${icTitle4x3} 3x`}
@@ -79,7 +88,7 @@ export function FundHero() {
           </motion.div>
 
           <motion.h1 variants={fadeUp}
-            className="mt-6 font-[Playfair_Display] font-bold text-text-primary leading-tight uppercase"
+            className="mt-6 font-[Playfair_Display] font-bold text-text-primary leading-tight uppercase text-center md:text-left"
           >
             <span className="block text-3xl md:text-[48px]">Kiến tạo tương lai </span>
             <span
@@ -98,11 +107,11 @@ export function FundHero() {
             </span>
           </motion.h1>
 
-          <motion.p variants={fadeUp} className="mt-4 text-lg md:text-2xl font-semibold text-text-primary">
+          <motion.p variants={fadeUp} className="mt-4 text-lg md:text-2xl font-semibold text-text-primary text-center md:text-left">
             Đầu tư vào trí tuệ - Kiến tạo tương lai
           </motion.p>
 
-          <motion.p variants={fadeUp} className="mt-4 text-base md:text-xl text-text-secondary leading-relaxed max-w-200">
+          <motion.p variants={fadeUp} className="mt-4 text-base md:text-xl text-text-secondary leading-relaxed max-w-200 text-center md:text-left">
             Chúng tôi đầu tư vào những doanh nghiệp tiên phong trong công nghệ và mô hình kinh
             doanh mới, có khả năng tạo ra ảnh hưởng lớn và tăng trưởng bền vững.
           </motion.p>
@@ -127,8 +136,28 @@ export function FundHero() {
             ))}
           </motion.div>
 
-          <motion.div variants={fadeUp} className="mt-8">
-            <Button variant="gold" size="lg" icon={true}>Gửi hồ sơ gọi vốn</Button>
+          <motion.div variants={fadeUp} className="mt-8 flex justify-center md:justify-start">
+            <Button variant="gold" size="md" icon={true} className="md:hidden relative z-30">Gửi hồ sơ gọi vốn</Button>
+            <Button variant="gold" size="lg" icon={true} className="hidden md:inline-flex">Gửi hồ sơ gọi vốn</Button>
+          </motion.div>
+
+          {/* Mobile: hero illustration below the CTA button */}
+          <motion.div variants={fadeUp} className="md:hidden relative -mx-4 mt-8">
+            <img
+              src={icFundHero}
+              srcSet={`${icFundHero} 1x, ${icFundHero2x} 2x, ${icFundHero3x} 3x`}
+              alt=""
+              className="w-full h-90 object-cover"
+            />
+            {/* Blend into the section's blue bg at top and bottom — held solid a bit before fading, since the photo's own sky/floor tones don't match the bg color exactly */}
+            <div
+              className="absolute inset-x-0 -top-10 h-28 pointer-events-none"
+              style={{ background: 'linear-gradient(to bottom, var(--color-secondary) 0%, var(--color-secondary) 25%, transparent 100%)' }}
+            />
+            <div
+              className="absolute inset-x-0 -bottom-20 h-60 pointer-events-none"
+              style={{ background: 'linear-gradient(to top, var(--color-secondary) 0%, var(--color-secondary) 25%, transparent 100%)' }}
+            />
           </motion.div>
         </motion.div>
       </div>
@@ -144,8 +173,12 @@ export function FundHero() {
         <div className="w-screen relative left-1/2 right-1/2 mx-[-50vw] h-px" style={{ background: 'rgba(246,247,249,0.10)' }} />
         <div className="container mx-auto px-4 md:px-8 py-8">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-4">
-            {STATS.map(({ value, label }) => (
-              <motion.div key={label} variants={fadeUp} className="flex flex-col max-w-50 items-center text-center">
+            {STATS.map(({ value, label }, i) => (
+              <motion.div
+                key={label}
+                variants={fadeUp}
+                className={`flex flex-col max-w-50 items-center text-center ${i === STATS.length - 1 ? 'col-span-2 md:col-span-1 mx-auto' : ''}`}
+              >
                 <span
                   className="font-[Manrope] font-bold text-3xl md:text-[52px]"
                   style={{

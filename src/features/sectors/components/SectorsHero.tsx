@@ -54,6 +54,14 @@ const SLOT: Record<number, { w: number; h: number; x: number; y: number; opacity
   [2]:  { w: 140, h: 244, x:  472, y: 178, opacity: 0.60, z: 1 },
 }
 
+/* Same fan-coverflow math as SLOT above, scaled down for mobile viewports —
+   only center + immediate ±1 sliver (no ±2, not enough width to show it). */
+const MOBILE_SLOT: Record<number, { w: number; h: number; x: number; y: number; opacity: number; z: number }> = {
+  [-1]: { w: 56,  h: 280, x: -192, y: 30, opacity: 0.55, z: 3 },
+  [0]:  { w: 260, h: 340, x: -130, y: 0,  opacity: 1.00, z: 5 },
+  [1]:  { w: 56,  h: 280, x: 136,  y: 30, opacity: 0.55, z: 3 },
+}
+
 /* Arrow icon positions: sit at the inner boundary of the ±2 cards, overlapping them */
 const ARROW_RIGHT_LEFT = 'calc(50% + 590px)'   /* right arrow left edge */
 const ARROW_LEFT_LEFT  = 'calc(50% - 630px)'   /* left  arrow left edge */
@@ -70,7 +78,20 @@ export function SectorsHero() {
   const [active, setActive] = useState(0)
   const total = SLIDES.length
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const mobileScrollRef = useRef<HTMLDivElement | null>(null)
+
+  // Only one of the desktop/mobile fan-coverflow carousels is ever visible —
+  // track which via matchMedia so we render (and animate) just that one instead
+  // of both simultaneously, which was doubling continuous spring-animation work
+  // (width/height are layout-affecting, not just transforms) on every autoplay tick.
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(min-width: 768px)').matches : true
+  )
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 768px)')
+    const onChange = () => setIsDesktop(mql.matches)
+    mql.addEventListener('change', onChange)
+    return () => mql.removeEventListener('change', onChange)
+  }, [])
 
   const startAuto = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -86,16 +107,6 @@ export function SectorsHero() {
 
   const handlePrev = () => { setActive(i => (i - 1 + total) % total); startAuto() }
   const handleNext = () => { setActive(i => (i + 1) % total);         startAuto() }
-
-  const scrollMobileBy = (dir: 1 | -1) => {
-    const el = mobileScrollRef.current
-    if (!el) return
-    const card = el.firstElementChild as HTMLElement | null
-    const step = card ? card.getBoundingClientRect().width + 12 /* gap-3 */ : el.clientWidth * 0.78
-    el.scrollBy({ left: dir * step, behavior: 'smooth' })
-  }
-  const handleMobilePrev = () => scrollMobileBy(-1)
-  const handleMobileNext = () => scrollMobileBy(1)
 
   return (
     <section className="bg-secondary pt-24 pb-0">
@@ -122,17 +133,6 @@ export function SectorsHero() {
           style={{ zIndex: 1, mixBlendMode: 'screen' }}
         />
 
-        {/* Top fade: bg-secondary (#0B1F3A) → transparent */}
-        <div
-          className="absolute inset-x-0 top-0 h-40 pointer-events-none"
-          style={{ zIndex: 2, background: 'linear-gradient(to bottom, #0B1F3A 0%, transparent 100%)' }}
-        />
-        {/* Bottom fade: transparent → bg-secondary (#0B1F3A) */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-100 pointer-events-none"
-          style={{ zIndex: 2, background: 'linear-gradient(to top, #0B1F3A 0%, transparent 100%)' }}
-        />
-
       {/* ── Title ─────────────────────────────────────── */}
       <motion.div
         variants={staggerContainer(0.12, 0.1)}
@@ -142,16 +142,17 @@ export function SectorsHero() {
       >
         <motion.h1
           variants={fadeUp}
-          className="font-[Playfair_Display] font-bold text-3xl md:text-5xl text-text-primary uppercase tracking-wide"
+          className="font-[Playfair_Display] font-bold text-[28px] md:text-5xl text-text-primary uppercase tracking-wide"
         >
           Bất động sản – Dự án
         </motion.h1>
-        <motion.p variants={fadeUp} className="mt-3 text-base md:text-xl text-text-secondary font-[Manrope]">
+        <motion.p variants={fadeUp} className="mt-3 text-sm md:text-xl text-text-secondary font-[Manrope]">
           Kiến tạo không gian sống · Gia tăng giá trị bền vững
         </motion.p>
       </motion.div>
 
       {/* ── Carousel — desktop/tablet: fan-style coverflow ─ */}
+      {isDesktop && (
       <div className="relative hidden md:block md:h-150">
 
         {/* Left arrow — overlaps the ±2 left card */}
@@ -229,65 +230,85 @@ export function SectorsHero() {
           />
         </button>
       </div>
+      )}
 
-      {/* ── Carousel — mobile: simple horizontal scroll-snap ─ */}
-      <div className="md:hidden">
-        <div className="relative -mx-4 px-4">
-          <div
-            ref={mobileScrollRef}
-            className="overflow-x-auto snap-x snap-mandatory scrollbar-hide flex gap-3 pb-2"
-          >
-            {SLIDES.map((slide, i) => (
-              <div
-                key={slide.name}
-                className="relative shrink-0 snap-center w-[78vw] h-95 rounded-2xl overflow-hidden cursor-pointer"
-                onClick={() => setActive(i)}
-              >
-                <img
-                  src={slide.img}
-                  alt={slide.name}
-                  className="w-full h-full object-cover"
-                />
+      {/* ── Carousel — mobile: fan-style coverflow (mirrors desktop) ─ */}
+      {!isDesktop && (
+      <div className="relative md:hidden" style={{ height: '340px' }}>
+
+        {/* Left arrow */}
+        <button
+          onClick={handlePrev}
+          aria-label="Previous"
+          className="absolute z-20 top-1/2 -translate-y-1/2 left-2 size-9 flex items-center justify-center"
+        >
+          <img
+            src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`}
+            alt="prev" className="w-full h-full object-contain"
+          />
+        </button>
+
+        {/* Slides */}
+        {SLIDES.map((slide, i) => {
+          const slot = getSlot(i, active, total)
+          if (Math.abs(slot) > 1) return null
+          const cfg = MOBILE_SLOT[slot]
+
+          return (
+            <motion.div
+              key={slide.name}
+              className="absolute top-0 rounded-2xl overflow-hidden cursor-pointer"
+              style={{ left: '50%' }}
+              animate={{
+                width:   cfg.w,
+                height:  cfg.h,
+                x:       cfg.x,
+                y:       cfg.y,
+                opacity: cfg.opacity,
+                zIndex:  cfg.z,
+              }}
+              transition={{ type: 'spring', stiffness: 240, damping: 30 }}
+              onClick={() => { setActive(i); startAuto() }}
+            >
+              <img
+                src={slide.img}
+                alt={slide.name}
+                className="w-full h-full object-cover"
+              />
+
+              {/* Overlay: name + location on center card only */}
+              {slot === 0 && (
                 <div
-                  className="absolute inset-0 flex items-end"
+                  className="absolute inset-0 flex items-center"
                   style={{ background: 'linear-gradient(to top, rgba(11,31,58,0.88) 0%, rgba(11,31,58,0.18) 55%, transparent 100%)' }}
                 >
-                  <div className="w-full text-center pb-6 px-4">
-                    <div className="font-[Playfair_Display] font-bold text-white text-2xl uppercase tracking-wide">
+                  <div className="w-full text-center pb-6 px-3">
+                    <div className="font-[Playfair_Display] font-bold text-white text-xl uppercase tracking-wide">
                       {slide.name}
                     </div>
-                    <div className="text-white text-base font-[Manrope] font-semibold mt-1 tracking-[0.15em] uppercase">
+                    <div className="text-white text-sm font-[Manrope] font-semibold mt-1 tracking-[0.15em] uppercase">
                       {slide.location}
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </motion.div>
+          )
+        })}
 
-          {/* Prev/next controls — scroll the mobile track by one card width */}
-          <button
-            onClick={handleMobilePrev}
-            aria-label="Previous"
-            className="absolute z-20 top-1/2 -translate-y-1/2 left-2 size-9 flex items-center justify-center"
-          >
-            <img
-              src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`}
-              alt="prev" className="w-full h-full object-contain"
-            />
-          </button>
-          <button
-            onClick={handleMobileNext}
-            aria-label="Next"
-            className="absolute z-20 top-1/2 -translate-y-1/2 right-2 size-9 flex items-center justify-center"
-          >
-            <img
-              src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`}
-              alt="next" className="w-full h-full object-contain"
-            />
-          </button>
-        </div>
+        {/* Right arrow */}
+        <button
+          onClick={handleNext}
+          aria-label="Next"
+          className="absolute z-20 top-1/2 -translate-y-1/2 right-2 size-9 flex items-center justify-center"
+        >
+          <img
+            src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`}
+            alt="next" className="w-full h-full object-contain"
+          />
+        </button>
       </div>
+      )}
 
       {/* ── Description ───────────────────────────────── */}
       <motion.p

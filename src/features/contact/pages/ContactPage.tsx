@@ -5,9 +5,7 @@ import { VideoCtaBackground } from '@/components/common'
 export function ContactPage() {
   return (
     <>
-
-      {/* Shared video background for CTASection */}
-      <VideoCtaBackground>
+      <VideoCtaBackground tone="bg">
         <ContactHero />
         <CTASection hideButton />
       </VideoCtaBackground>

@@ -78,12 +78,36 @@ export function DerivativesProcess() {
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.div
-            className="text-center mb-14"
+            className="text-left lg:text-center mb-14"
             variants={staggerContainer(0.1)}
           >
             <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
               Quy trình triển khai tại AFT
             </motion.h2>
+          </motion.div>
+
+          {/* Mobile/tablet: vertical timeline — same line + dot pattern as FundSection's O.R.E.B.R list */}
+          <motion.div className="lg:hidden relative" variants={staggerContainer(0.08)}>
+            <div className="absolute left-1.25 top-3 bottom-3 w-0.5 bg-linear-to-b from-transparent via-primary to-transparent" />
+            <div className="flex flex-col gap-4">
+              {STEPS.map(({ Icon, title, desc }) => (
+                <motion.div key={title} variants={staggerItem} className="flex items-center gap-5">
+                  {/* Dot */}
+                  <div className="relative z-10 size-3 rounded-full shrink-0 bg-primary shadow-[0_0_10px_3px_rgba(212,175,55,0.45)]" />
+
+                  {/* Card — icon framed above title + description */}
+                  <div className="flex items-center gap-3 p-4" style={{ borderRadius: '16px', border: '1px solid rgba(246,247,249,0.10)', background: 'rgba(11,31,58,0.35)' }}>
+                    <div className="text-primary [&>svg]:w-7 [&>svg]:h-7 mb-2">
+                      <Icon />
+                    </div>
+                    <div className='flex flex-col'>
+                      <div className="font-[Playfair_Display] font-bold text-text-primary text-lg leading-snug">{title}</div>
+                      <div className="mt-1.5 text-sm text-text-secondary font-[Manrope] leading-relaxed">{desc}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
 
           {/* Dot timeline — desktop only, sits above the cards */}
@@ -102,7 +126,7 @@ export function DerivativesProcess() {
           </div>
 
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4"
+            className="hidden lg:grid lg:grid-cols-6 gap-4"
             variants={staggerContainer(0.08)}
           >
             {STEPS.map(({ Icon, title, desc }) => (

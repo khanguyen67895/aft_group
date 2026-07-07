@@ -3,6 +3,10 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui'
 import { fadeUp, fadeLeft, fadeRight, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 
+import icBgField   from '@/assets/image/ic_bg_field.png'
+import icBgField2x from '@/assets/image/ic_bg_field@2x.png'
+import icBgField3x from '@/assets/image/ic_bg_field@3x.png'
+
 function PhoneIcon() {
   return (
     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,8 +51,17 @@ export function ContactHero() {
   const [form, setForm] = useState({ name: '', phone: '', email: '', desc: '' })
 
   return (
-    <section className="bg-secondary pt-28 pb-16 md:pb-24">
-      <div className="container mx-auto px-4 md:px-8">
+    <section className="relative overflow-hidden bg-transparent pt-28 pb-16 md:pb-24">
+      {/* Mobile: ambient glow background */}
+      <img
+        src={icBgField}
+        srcSet={`${icBgField} 1x, ${icBgField2x} 2x, ${icBgField3x} 3x`}
+        alt=""
+        aria-hidden
+        className="absolute bottom-80 w-full h-full object-cover object-top opacity-35 pointer-events-none"
+      />
+      
+      <div className="relative z-10 container mx-auto px-4 md:px-8">
         {/* Title */}
         <motion.div
           className="text-center mb-12"

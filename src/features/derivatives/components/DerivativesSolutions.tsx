@@ -43,7 +43,7 @@ export function DerivativesSolutions() {
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+          className="grid grid-cols-2 lg:grid-cols-3 gap-5"
           variants={staggerContainer(0.08)} initial="hidden" whileInView="show" viewport={viewport}
         >
           {SOLUTIONS.map(({ icon, srcSet, title, desc }) => (

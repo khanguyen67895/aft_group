@@ -46,7 +46,7 @@ export function VideoCtaBackground({
         src={mobileSrc}
         autoPlay muted loop playsInline
         disablePictureInPicture
-        className={`md:hidden absolute bottom-0 left-0 w-full ${mobileHeightClass} object-cover object-bottom`}
+        className={`md:hidden absolute bottom-40 left-0 w-full ${mobileHeightClass} object-cover object-bottom`}
       />
       {verticalFade && <div className={`absolute inset-0 ${classes.vertical} pointer-events-none`} />}
       <div className={`absolute inset-0 ${classes.horizontal} pointer-events-none`} />

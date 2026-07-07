@@ -38,16 +38,18 @@ export function SplashScreen({
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.04, transition: { duration: 0.75, ease: [0.4, 0, 0.2, 1] } }}
         >
-          <video
-            autoPlay muted loop={false} playsInline
-            disablePictureInPicture
-            className="absolute inset-0 w-full h-full object-cover"
-            onEnded={dismiss}
-            onError={() => {}}
-          >
-            <source src={videoSrc} type="video/mp4" />
-            <source src={videoSrc.replace(/\.mp4$/i, '.webm')} type="video/webm" />
-          </video>
+          <div className="absolute inset-0 flex items-center justify-center md:block">
+            <video
+              autoPlay muted loop={false} playsInline
+              disablePictureInPicture
+              className="w-auto h-full max-w-full object-contain md:absolute md:inset-0 md:w-full md:max-w-none md:object-cover"
+              onEnded={dismiss}
+              onError={() => {}}
+            >
+              <source src={videoSrc} type="video/mp4" />
+              <source src={videoSrc.replace(/\.mp4$/i, '.webm')} type="video/webm" />
+            </video>
+          </div>
 
           <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-bg to-transparent pointer-events-none" />
 

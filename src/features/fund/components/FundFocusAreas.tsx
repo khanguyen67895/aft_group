@@ -35,21 +35,36 @@ const AREAS = [
 
 export function FundFocusAreas() {
   return (
-    <section className="pb-16 bg-secondary">
+    <section className="bg-secondary">
       <div className="container mx-auto px-4 md:px-8">
         <motion.div
-          className="relative overflow-hidden p-6 md:p-10"
-          style={{ borderRadius: '24px', border: '1px solid rgba(246,247,249,0.10)' }}
+          className="relative overflow-hidden px-6 pt-6 pb-100 md:p-10"
+          style={{ borderRadius: '24px', border: '1px solid rgba(246,247,249,0.10)', backgroundColor: 'var(--color-secondary)' }}
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
+          {/* Mobile: image anchored to the bottom over the solid blue background */}
           <img
             src={icBgFocus}
             srcSet={`${icBgFocus} 1x, ${icBgFocus2x} 2x, ${icBgFocus3x} 3x`}
             alt=""
             aria-hidden
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            className="md:hidden absolute inset-x-0 bottom-0 w-full h-110 object-cover object-bottom pointer-events-none"
           />
-          <div className="absolute inset-0 pointer-events-none" style={{
+          {/* Mobile: solid bg-secondary overlay fading out — covers the image's top edge so it blends into the bg above instead of cutting off hard */}
+          <div
+            className="md:hidden absolute inset-x-0 bottom-0 w-full h-110 pointer-events-none"
+            style={{ background: 'linear-gradient(to bottom, var(--color-secondary) 0%, transparent 20%)' }}
+          />
+
+          {/* Desktop: full-bleed cover image */}
+          <img
+            src={icBgFocus}
+            srcSet={`${icBgFocus} 1x, ${icBgFocus2x} 2x, ${icBgFocus3x} 3x`}
+            alt=""
+            aria-hidden
+            className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none"
+          />
+          <div className="hidden md:block absolute inset-0 pointer-events-none" style={{
             background: 'linear-gradient(180deg, rgba(11,31,58,0.55) 100%, rgba(11,31,58,0.85) 100%)',
           }} />
 
@@ -64,14 +79,14 @@ export function FundFocusAreas() {
             </motion.p>
 
             <motion.div
-              className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+              className="mt-10 grid grid-cols-2 lg:grid-cols-3 gap-4"
               variants={staggerContainer(0.06)}
             >
               {AREAS.map(({ icon, srcSet, label }) => (
                 <motion.div
                   key={label}
                   variants={staggerItem}
-                  className="flex items-center gap-3 p-4"
+                  className="flex md:flex-row flex-col items-start md:items-center gap-3 p-4"
                   style={{
                     borderRadius: '12px',
                     border: '1px solid rgba(246,247,249,0.15)',

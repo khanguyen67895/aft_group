@@ -19,7 +19,7 @@ const FEATURES = [
 
 export function AboutHero() {
   return (
-    <section className="relative overflow-hidden bg-secondary pt-28 pb-16 md:pb-24">
+    <section className="relative overflow-hidden bg-secondary pt-28 md:pb-24">
       {/* Ambient gold glow background */}
       <div className="absolute inset-0 pointer-events-none" style={{
         backgroundImage: `image-set(url(${icBgField}) 1x, url(${icBgField2x}) 2x, url(${icBgField3x}) 3x)`,
