@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion'
 import { staggerContainer, staggerItem, viewport } from '@/lib/motion'
-import icBgStats    from '@/assets/image/ic_bg_stats.png'
-import icBgStats2x  from '@/assets/image/ic_bg_stats@2x.png'
-import icBgStats3x  from '@/assets/image/ic_bg_stats@3x.png'
+import { EditableText, EditableImage } from '@/components/cms'
+import icBgStats from '@/assets/image/ic_bg_stats.png'
 
 const STATS = [
   { value: '15+',     label: 'Dự án thành công' },
@@ -15,9 +14,9 @@ export function SectorsStats() {
   return (
     <section className="relative bg-bg overflow-hidden py-10 md:py-14">
       {/* Background */}
-      <img
-        src={icBgStats}
-        srcSet={`${icBgStats} 1x, ${icBgStats2x} 2x, ${icBgStats3x} 3x`}
+      <EditableImage
+        id="sectors.stats.img.bg"
+        fallbackSrc={icBgStats}
         alt=""
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
       />
@@ -31,7 +30,7 @@ export function SectorsStats() {
           viewport={viewport}
           className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
         >
-          {STATS.map(({ value, label }) => (
+          {STATS.map(({ value, label }, i) => (
             <motion.div
               key={label}
               variants={staggerItem}
@@ -43,7 +42,10 @@ export function SectorsStats() {
                 backdropFilter: 'blur(16px)',
               }}
             >
-              <span
+              <EditableText
+                id={`sectors.stats.item.${i}.value`}
+                fallbackVi={value}
+                as="span"
                 className="font-[Manrope] font-bold text-3xl md:text-4xl"
                 style={{
                   background: 'linear-gradient(90deg, #C6A15B 25%, #F8EBC0 50%, #C6A15B 75%)',
@@ -53,12 +55,13 @@ export function SectorsStats() {
                   WebkitTextFillColor: 'transparent',
                   animation: 'text-shimmer 2.8s ease-in-out infinite',
                 }}
-              >
-                {value}
-              </span>
-              <span className="mt-2 text-sm md:text-base text-text-secondary font-[Manrope]">
-                {label}
-              </span>
+              />
+              <EditableText
+                id={`sectors.stats.item.${i}.label`}
+                fallbackVi={label}
+                as="span"
+                className="mt-2 text-sm md:text-base text-text-secondary font-[Manrope]"
+              />
             </motion.div>
           ))}
         </motion.div>

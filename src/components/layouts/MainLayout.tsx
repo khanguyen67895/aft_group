@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom'
+import { AdminToolbar } from '@/components/common/AdminToolbar'
 import { Header } from '@/components/common/Header'
 import { Footer } from '@/components/common/Footer'
 import { ScrollToTop } from '@/components/common/ScrollToTop'
@@ -12,6 +13,7 @@ export function MainLayout() {
         <Outlet />
       </main>
       <Footer />
+      <AdminToolbar />
     </div>
   )
 }

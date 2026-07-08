@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui'
 import { ResponsivePriceChart } from '@/components/common'
+import { EditableText } from '@/components/cms'
 import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
 
 import icBgField      from '@/assets/image/ic_bg_field.png'
@@ -38,21 +39,24 @@ export function DerivativesHero() {
             <motion.h1 variants={fadeUp}
               className="mt-5 font-[Playfair_Display] text-center md:text-left font-bold text-text-primary leading-tight uppercase"
             >
-              <span className="block text-3xl md:text-[48px]">Hàng hóa phái sinh – <br /> Lõi Fintech</span>
+              <span className="block text-3xl md:text-[48px]">
+                <EditableText id="derivatives.hero.title1" fallbackVi="Hàng hóa phái sinh –" /> <br />
+                <EditableText id="derivatives.hero.title2" fallbackVi="Lõi Fintech" />
+              </span>
             </motion.h1>
 
             <motion.p variants={fadeUp} className="mt-5 text-xl text-center md:text-left md:text-2xl text-text-primary leading-relaxed max-w-140">
-              Giao dịch chuyên nghiệp – Tối ưu lợi nhuận.
+              <EditableText id="derivatives.hero.subtitle" fallbackVi="Giao dịch chuyên nghiệp – Tối ưu lợi nhuận." />
             </motion.p>
 
             <motion.p variants={fadeUp} className="mt-5 text-base text-center md:text-left md:text-xl text-text-secondary leading-relaxed max-w-140">
-              Mảng lõi của AFT: giao dịch hàng hóa
-              phái sinh, copy trade vàng, mô hình P2P và trung tâm tài chính — vận hành bằng
-              kỷ luật, dữ liệu và công nghệ riêng.
+              <EditableText id="derivatives.hero.description" fallbackVi="Mảng lõi của AFT: giao dịch hàng hóa phái sinh, copy trade vàng, mô hình P2P và trung tâm tài chính — vận hành bằng kỷ luật, dữ liệu và công nghệ riêng." />
             </motion.p>
 
             <motion.div variants={fadeUp} className="hidden md:block mt-8">
-              <Button variant="gold" size="lg" icon={true}>Hợp tác ngay</Button>
+              <Button variant="gold" size="lg" icon={true}>
+                <EditableText id="derivatives.hero.cta" fallbackVi="Hợp tác ngay" />
+              </Button>
             </motion.div>
           </motion.div>
 
@@ -72,9 +76,11 @@ export function DerivativesHero() {
           <div className="w-screen relative left-1/2 right-1/2 mx-[-50vw] h-px" style={{ background: 'rgba(246,247,249,0.10)' }} />
           <div className="py-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
-              {STATS.map(({ value, label }) => (
+              {STATS.map(({ value, label }, i) => (
                 <motion.div key={label} variants={fadeUp} className="flex flex-col items-center text-center">
-                  <span
+                  <EditableText
+                    id={`derivatives.hero.stat.${i}.value`}
+                    fallbackVi={value}
                     className="font-[Manrope] font-bold text-[40px] md:text-4xl"
                     style={{
                       background: 'linear-gradient(90deg, #C6A15B 25%, #F8EBC0 50%, #C6A15B 75%)',
@@ -84,12 +90,12 @@ export function DerivativesHero() {
                       WebkitTextFillColor: 'transparent',
                       animation: 'text-shimmer 2.8s ease-in-out infinite',
                     }}
-                  >
-                    {value}
-                  </span>
-                  <span className="mt-1.5 text-xs md:text-base text-text-secondary font-[Manrope] leading-snug">
-                    {label}
-                  </span>
+                  />
+                  <EditableText
+                    id={`derivatives.hero.stat.${i}.label`}
+                    fallbackVi={label}
+                    className="mt-1.5 text-xs md:text-base text-text-secondary font-[Manrope] leading-snug"
+                  />
                 </motion.div>
               ))}
             </div>

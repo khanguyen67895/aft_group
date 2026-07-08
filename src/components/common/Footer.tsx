@@ -2,24 +2,13 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ROUTES } from '@/constants'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
+import { EditableText, EditableImage } from '@/components/cms'
 import icLogo         from '@/assets/image/ic_logo.png'
-import icLogo2x       from '@/assets/image/ic_logo@2x.png'
-import icLogo3x       from '@/assets/image/ic_logo@3x.png'
 import icLogoFooter   from '@/assets/image/ic_logo_footer.png'
-import icLogoFooter2x from '@/assets/image/ic_logo_footer@2x.png'
-import icLogoFooter3x from '@/assets/image/ic_logo_footer@3x.png'
 import icMes    from '@/assets/image/ic_mes.png'
-import icMes2x  from '@/assets/image/ic_mes@2x.png'
-import icMes3x  from '@/assets/image/ic_mes@3x.png'
 import icYou    from '@/assets/image/ic_you.png'
-import icYou2x  from '@/assets/image/ic_you@2x.png'
-import icYou3x  from '@/assets/image/ic_you@3x.png'
 import icTik    from '@/assets/image/ic_tik.png'
-import icTik2x  from '@/assets/image/ic_tik@2x.png'
-import icTik3x  from '@/assets/image/ic_tik@3x.png'
 import icFace   from '@/assets/image/ic_face.png'
-import icFace2x from '@/assets/image/ic_face@2x.png'
-import icFace3x from '@/assets/image/ic_face@3x.png'
 
 const MENU_LINKS = [
   { label: 'Hệ sinh thái', to: ROUTES.ABOUT },
@@ -36,10 +25,10 @@ const SECTOR_LINKS = [
 ]
 
 const SOCIALS = [
-  { label: 'Messenger', src: icMes,  src2x: icMes2x,  src3x: icMes3x,  href: '#' },
-  { label: 'YouTube',   src: icYou,  src2x: icYou2x,  src3x: icYou3x,  href: '#' },
-  { label: 'TikTok',    src: icTik,  src2x: icTik2x,  src3x: icTik3x,  href: '#' },
-  { label: 'Facebook',  src: icFace, src2x: icFace2x, src3x: icFace3x, href: '#' },
+  { label: 'Messenger', src: icMes,  href: '#' },
+  { label: 'YouTube',   src: icYou,  href: '#' },
+  { label: 'TikTok',    src: icTik,  href: '#' },
+  { label: 'Facebook',  src: icFace, href: '#' },
 ]
 
 const colVariants = {
@@ -58,18 +47,22 @@ export function Footer() {
         {/* Brand col */}
         <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1] }} className="flex flex-col gap-5">
           <div className="flex items-center gap-2.5">
-            <img
-              src={icLogo}
-              srcSet={`${icLogo} 1x, ${icLogo2x} 2x, ${icLogo3x} 3x`}
+            <EditableImage
+              id="footer.logo"
+              fallbackSrc={icLogo}
               alt="AFT Group logo"
               className="h-12 w-auto shrink-0"
             />
           </div>
-          <p className="leading-relaxed max-w-80" style={{ color: '#DBDBDB', fontSize: '16px' }}>
-            Khai thác giá trị thật, kết nối cơ hội vàng, lan tỏa thịnh vượng bền vững.
-          </p>
+          <EditableText
+            id="footer.tagline"
+            fallbackVi="Khai thác giá trị thật, kết nối cơ hội vàng, lan tỏa thịnh vượng bền vững."
+            as="p"
+            className="leading-relaxed max-w-80"
+            style={{ color: '#DBDBDB', fontSize: '16px' }}
+          />
           <div className="flex items-center gap-2.5 mt-1">
-            {SOCIALS.map(({ label, src, src2x, src3x, href }, i) => (
+            {SOCIALS.map(({ label, src, href }, i) => (
               <motion.a
                 key={label} href={href} aria-label={label}
                 className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity"
@@ -80,8 +73,12 @@ export function Footer() {
                 transition={{ delay: 0.3 + i * 0.07, duration: 0.35 }}
                 viewport={{ once: true }}
               >
-                <img src={src} srcSet={`${src} 1x, ${src2x} 2x, ${src3x} 3x`}
-                  alt={label} className="size-full object-cover" />
+                <EditableImage
+                  id={`footer.socials.${i}.icon`}
+                  fallbackSrc={src}
+                  alt={label}
+                  className="size-full object-cover"
+                />
               </motion.a>
             ))}
           </div>
@@ -89,15 +86,21 @@ export function Footer() {
 
         {/* Menu col */}
         <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.05 }}>
-          <h4 className="font-bold tracking-wider font-[Manrope] mb-5" style={{ color: '#FFF', fontSize: '20px' }}>Menu</h4>
+          <EditableText
+            id="footer.menu.heading"
+            fallbackVi="Menu"
+            as="h4"
+            className="font-bold tracking-wider font-[Manrope] mb-5"
+            style={{ color: '#FFF', fontSize: '20px' }}
+          />
           <motion.ul
             className="flex flex-col gap-3"
             variants={staggerContainer(0.06)} initial="hidden" whileInView="show" viewport={viewport}
           >
-            {MENU_LINKS.map(({ label, to }) => (
+            {MENU_LINKS.map(({ label, to }, i) => (
               <motion.li key={label} variants={staggerItem}>
                 <Link to={to} className="hover:text-primary transition-colors" style={{ color: '#DBDBDB', fontSize: '16px' }}>
-                  {label}
+                  <EditableText id={`footer.menulinks.${i}.label`} fallbackVi={label} />
                 </Link>
               </motion.li>
             ))}
@@ -106,15 +109,21 @@ export function Footer() {
 
         {/* Sectors col */}
         <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.1 }}>
-          <h4 className="font-bold tracking-wider font-[Manrope] mb-5" style={{ color: '#FFF', fontSize: '20px' }}>Lĩnh vực</h4>
+          <EditableText
+            id="footer.sectors.heading"
+            fallbackVi="Lĩnh vực"
+            as="h4"
+            className="font-bold tracking-wider font-[Manrope] mb-5"
+            style={{ color: '#FFF', fontSize: '20px' }}
+          />
           <motion.ul
             className="flex flex-col gap-3"
             variants={staggerContainer(0.06)} initial="hidden" whileInView="show" viewport={viewport}
           >
-            {SECTOR_LINKS.map(({ label, to }) => (
+            {SECTOR_LINKS.map(({ label, to }, i) => (
               <motion.li key={label} variants={staggerItem}>
                 <Link to={to} className="hover:text-primary transition-colors" style={{ color: '#DBDBDB', fontSize: '16px' }}>
-                  {label}
+                  <EditableText id={`footer.sectorlinks.${i}.label`} fallbackVi={label} />
                 </Link>
               </motion.li>
             ))}
@@ -123,20 +132,34 @@ export function Footer() {
 
         {/* Contact col */}
         <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.15 }}>
-          <h4 className="font-bold tracking-wider font-[Manrope] mb-5" style={{ color: '#FFF', fontSize: '20px' }}>Liên hệ</h4>
+          <EditableText
+            id="footer.contact.heading"
+            fallbackVi="Liên hệ"
+            as="h4"
+            className="font-bold tracking-wider font-[Manrope] mb-5"
+            style={{ color: '#FFF', fontSize: '20px' }}
+          />
           <ul className="flex flex-col gap-3">
             <li className="flex items-start gap-2.5">
               <PhoneIcon />
-              <span style={{ color: '#DBDBDB', fontSize: '16px' }}>42 Nguyễn Phước Lan, Hòa Xuân, TP Đà Nẵng</span>
+              <EditableText
+                id="footer.contact.address"
+                fallbackVi="42 Nguyễn Phước Lan, Hòa Xuân, TP Đà Nẵng"
+                style={{ color: '#DBDBDB', fontSize: '16px' }}
+              />
             </li>
             <li className="flex items-center gap-2.5">
               <MapIcon />
-              <span style={{ color: '#DBDBDB', fontSize: '16px' }}>+84 123456789</span>
+              <EditableText
+                id="footer.contact.phone"
+                fallbackVi="+84 123456789"
+                style={{ color: '#DBDBDB', fontSize: '16px' }}
+              />
             </li>
             <li className="flex items-center gap-2.5">
               <MailIcon />
               <a href="mailto:contactaft@gmail.com" className="hover:text-primary transition-colors" style={{ color: '#DBDBDB', fontSize: '16px' }}>
-                contactaft@gmail.com
+                <EditableText id="footer.contact.email" fallbackVi="contactaft@gmail.com" />
               </a>
             </li>
           </ul>
@@ -149,15 +172,19 @@ export function Footer() {
           <path d="M0 26H360H540H630H649.543C651.749 26 653.857 25.0892 655.369 23.4829L674.631 3.01708C676.143 1.41079 678.251 0.5 680.457 0.5H721H759.592C761.769 0.5 763.853 1.38738 765.361 2.95739L785.139 23.5426C786.647 25.1126 788.731 26 790.908 26H810H900H1080H1440" stroke="#F6F7F9" strokeOpacity="0.1"/>
         </svg>
         <div className="container mx-auto px-4 md:px-8 flex flex-col items-center gap-3 pb-6 -mt-4">
-          <img
-            src={icLogoFooter}
-            srcSet={`${icLogoFooter} 1x, ${icLogoFooter2x} 2x, ${icLogoFooter3x} 3x`}
+          <EditableImage
+            id="footer.logoFooter"
+            fallbackSrc={icLogoFooter}
             alt="AFT Group"
             className="h-auto w-auto"
           />
-          <p className="text-caption" style={{ color: '#DBDBDB' }}>
-            © 2026 AFT GROUP all rights reserved.
-          </p>
+          <EditableText
+            id="footer.legal.copyright"
+            fallbackVi="© 2026 AFT GROUP all rights reserved."
+            as="p"
+            className="text-caption"
+            style={{ color: '#DBDBDB' }}
+          />
         </div>
       </motion.div>
     </footer>

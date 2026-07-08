@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui'
+import { EditableText } from '@/components/cms'
 import { ROUTES } from '@/constants'
 import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
 
@@ -21,13 +22,15 @@ export function CTASection({ hideButton }: CTASectionProps = {}) {
       >
         {/* Tagline */}
         <motion.p variants={fadeUp} className="text-xl text-text-primary max-w-125 leading-relaxed">
-          Giải pháp Tài chính – Tài sản – Công nghệ cho doanh nghiệp và đối tác chiến lược.
+          <EditableText id="home.cta.tagline" fallbackVi="Giải pháp Tài chính – Tài sản – Công nghệ cho doanh nghiệp và đối tác chiến lược." />
         </motion.p>
 
         {/* CTA Button */}
         {!hideButton && (
           <motion.div variants={fadeUp}>
-            <Button variant="gold" size="lg" icon={true} onClick={() => navigate(ROUTES.CONTACT)}>Hợp tác ngay</Button>
+            <Button variant="gold" size="lg" icon={true} onClick={() => navigate(ROUTES.CONTACT)}>
+              <EditableText id="home.cta.button.collaborate" fallbackVi="Hợp tác ngay" />
+            </Button>
           </motion.div>
         )}
       </motion.div>

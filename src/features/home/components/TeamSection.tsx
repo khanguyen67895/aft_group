@@ -1,18 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import { EditableText, EditableImage } from '@/components/cms'
 import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
 import icTitle5      from '@/assets/image/ic_title5.png'
 import icDesTeam    from '@/assets/image/ic_des_team.png'
-import icDesTeam2x  from '@/assets/image/ic_des_team@2x.png'
-import icDesTeam3x  from '@/assets/image/ic_des_team@3x.png'
-import icTitle5x2  from '@/assets/image/ic_title5@2x.png'
-import icTitle5x3  from '@/assets/image/ic_title5@3x.png'
 import icLeft      from '@/assets/image/ic_left.png'
-import icLeft2x    from '@/assets/image/ic_left@2x.png'
-import icLeft3x    from '@/assets/image/ic_left@3x.png'
 import icRight     from '@/assets/image/ic_right.png'
-import icRight2x   from '@/assets/image/ic_right@2x.png'
-import icRight3x   from '@/assets/image/ic_right@3x.png'
 import icAvatar1   from '@/assets/image/ic_avatar1.png'
 import icAvatar1x2 from '@/assets/image/ic_avatar1@2x.png'
 import icAvatar1x3 from '@/assets/image/ic_avatar1@3x.png'
@@ -107,22 +100,20 @@ export function TeamSection() {
             variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
           >
             <motion.div variants={fadeUp}>
-              <img src={icTitle5} srcSet={`${icTitle5} 1x, ${icTitle5x2} 2x, ${icTitle5x3} 3x`}
-                alt="Về chúng tôi" className="h-auto w-auto" />
+              <EditableImage id="home.team.img.title" fallbackSrc={icTitle5} alt="Về chúng tôi" className="h-auto w-auto" />
             </motion.div>
 
             <motion.h2 variants={fadeUp}
               className="mt-5 font-[Playfair_Display] font-bold text-text-primary uppercase text-[30px] md:text-[40px] leading-tight">
-              Đội ngũ chuyên gia
+              <EditableText id="home.team.title" fallbackVi="Đội ngũ chuyên gia" />
             </motion.h2>
 
             <motion.p variants={fadeUp} className="mt-4 text-xl text-text-secondary leading-relaxed max-w-110">
-              Năm con người, một lời thề – đặt tổ chức lên trên cái tôi, đặt niềm tin trước lợi nhuận.
+              <EditableText id="home.team.subtitle" fallbackVi="Năm con người, một lời thề – đặt tổ chức lên trên cái tôi, đặt niềm tin trước lợi nhuận." />
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-8">
-              <img src={icDesTeam} srcSet={`${icDesTeam} 1x, ${icDesTeam2x} 2x, ${icDesTeam3x} 3x`}
-                alt="" className="w-full h-auto" />
+              <EditableImage id="home.team.img.description" fallbackSrc={icDesTeam} alt="" className="w-full h-auto" />
             </motion.div>
           </motion.div>
 
@@ -132,12 +123,10 @@ export function TeamSection() {
             {/* Nav arrows top-right */}
             <div className="absolute top-0 right-0 flex gap-2 z-20">
               <button onClick={prev} className="size-10 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
-                <img src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`}
-                  alt="Prev" className="size-full object-cover" />
+                <EditableImage id="home.team.img.navprev" fallbackSrc={icLeft} alt="Prev" className="size-full object-cover" />
               </button>
               <button onClick={next} className="size-10 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
-                <img src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`}
-                  alt="Next" className="size-full object-cover" />
+                <EditableImage id="home.team.img.navnext" fallbackSrc={icRight} alt="Next" className="size-full object-cover" />
               </button>
             </div>
 
@@ -169,7 +158,7 @@ export function TeamSection() {
                     }}
                     onClick={() => { setActiveIdx(i); setAutoKey(k2 => k2 + 1) }}
                   >
-                    <ExpertCard expert={expert} isActive={pos === 0} />
+                    <ExpertCard expert={expert} index={i} isActive={pos === 0} />
                   </div>
                 )
               })}
@@ -185,19 +174,19 @@ export function TeamSection() {
             >
               {EXPERTS.map((expert, i) => (
                 <div key={i} className="shrink-0 snap-center w-[70vw] max-w-70 h-95">
-                  <ExpertCard expert={expert} isActive={i === mobileActive} />
+                  <ExpertCard expert={expert} index={i} isActive={i === mobileActive} />
                 </div>
               ))}
             </div>
             <div className="flex justify-center items-center gap-4 mt-4">
               <button onClick={mobilePrev} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
-                <img src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`} alt="Prev" className="size-full object-cover" />
+                <EditableImage id="home.team.img.navprev" fallbackSrc={icLeft} alt="Prev" className="size-full object-cover" />
               </button>
               <span className="text-sm font-[Manrope] font-semibold text-text-secondary tabular-nums">
                 {mobileActive + 1}/{total}
               </span>
               <button onClick={mobileNext} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
-                <img src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`} alt="Next" className="size-full object-cover" />
+                <EditableImage id="home.team.img.navnext" fallbackSrc={icRight} alt="Next" className="size-full object-cover" />
               </button>
             </div>
           </div>
@@ -208,8 +197,9 @@ export function TeamSection() {
   )
 }
 
-function ExpertCard({ expert, isActive }: {
+function ExpertCard({ expert, index, isActive }: {
   expert: { name: string; role: string; dept:string; src: string; src2x: string; src3x: string }
+  index: number
   isActive: boolean
 }) {
   return (
@@ -223,9 +213,9 @@ function ExpertCard({ expert, isActive }: {
         style={{ background: 'linear-gradient(180deg, rgba(198,161,91,0.35) 0%, rgba(11,31,58,0.9) 100%)' }} />
 
       {/* Avatar photo */}
-      <img
-        src={expert.src}
-        srcSet={`${expert.src} 1x, ${expert.src2x} 2x, ${expert.src3x} 3x`}
+      <EditableImage
+        id={`home.team.member.${index}.avatar`}
+        fallbackSrc={expert.src}
         alt={expert.name}
         className="absolute inset-0 w-full h-full object-cover object-top"
       />
@@ -238,16 +228,25 @@ function ExpertCard({ expert, isActive }: {
 
       {/* Bottom name overlay */}
       <div className="absolute text-center bottom-0 inset-x-0 bg-linear-to-t from-black/90 via-black/40 to-transparent pt-14 pb-4 px-4">
-        <div className="font-bold text-white font-[Manrope] text-sm tracking-wide uppercase leading-tight">
-          {expert.name}
-        </div>
+        <EditableText
+          id={`home.team.member.${index}.name`}
+          fallbackVi={expert.name}
+          as="div"
+          className="font-bold text-white font-[Manrope] text-sm tracking-wide uppercase leading-tight"
+        />
 
-        <div className="text-[14px] md:text-[14px] text-text-secondary font-[Manrope] tracking-widest uppercase mt-1">
-          {expert.role}
-        </div>
-        <div className="text-[14px] md:text-[14px] text-text-secondary font-[Manrope] uppercase mt-0.5 leading-snug">
-          {expert.dept}
-        </div>
+        <EditableText
+          id={`home.team.member.${index}.role`}
+          fallbackVi={expert.role}
+          as="div"
+          className="text-[14px] md:text-[14px] text-text-secondary font-[Manrope] tracking-widest uppercase mt-1"
+        />
+        <EditableText
+          id={`home.team.member.${index}.dept`}
+          fallbackVi={expert.dept}
+          as="div"
+          className="text-[14px] md:text-[14px] text-text-secondary font-[Manrope] uppercase mt-0.5 leading-snug"
+        />
       </div>
     </div>
   )

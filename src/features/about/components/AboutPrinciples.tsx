@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
+import { EditableText } from '@/components/cms'
 
 function TeamFirstIcon() {
   return (
@@ -174,11 +175,10 @@ export function AboutPrinciples() {
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
-            Nguyên tắc dẫn dắt AFT
+            <EditableText id="about.principles.title" fallbackVi="Nguyên tắc dẫn dắt AFT" />
           </motion.h2>
           <motion.p variants={fadeUp} className="mt-3 text-base md:text-xl text-text-secondary max-w-220 mx-auto">
-            AFT GROUP tập trung vào giao dịch và chiến lược xoay quanh vàng, kim loại quý, năng
-            lượng và một số hàng hóa chọn lọc, hỗ trợ cơ hội đầu tư.
+            <EditableText id="about.principles.subtitle" fallbackVi="AFT GROUP tập trung vào giao dịch và chiến lược xoay quanh vàng, kim loại quý, năng lượng và một số hàng hóa chọn lọc, hỗ trợ cơ hội đầu tư." />
           </motion.p>
         </motion.div>
 
@@ -186,7 +186,7 @@ export function AboutPrinciples() {
           className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           variants={staggerContainer(0.06)} initial="hidden" whileInView="show" viewport={viewport}
         >
-          {PRINCIPLES.map(({ Icon, title, desc }) => (
+          {PRINCIPLES.map(({ Icon, title, desc }, i) => (
             <motion.div
               key={title}
               variants={staggerItem}
@@ -199,8 +199,8 @@ export function AboutPrinciples() {
             >
               <Icon />
               <div className='mx-4 md:mx-8 -mt-6'>
-                <div className="text-xl font-bold text-primary font-[Playfair Display]">{title}</div>
-                <div className="mt-0.5 text-base text-text-secondary font-[Manrope] leading-snug">{desc}</div>
+                <EditableText id={`about.principles.principle.${i}.title`} fallbackVi={title} as="div" className="text-xl font-bold text-primary font-[Playfair Display]" />
+                <EditableText id={`about.principles.principle.${i}.desc`} fallbackVi={desc} as="div" className="mt-0.5 text-base text-text-secondary font-[Manrope] leading-snug" />
               </div>
             </motion.div>
           ))}

@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { EditableText, EditableImage } from '@/components/cms'
 import { fadeUp, scaleIn, staggerContainer, viewport } from '@/lib/motion'
 import icTitle2    from '@/assets/image/ic_title2.png'
-import icTitle2x2  from '@/assets/image/ic_title2@2x.png'
-import icTitle2x3  from '@/assets/image/ic_title2@3x.png'
 import icItemCenter from '@/assets/image/ic_item_center.png'
 import icItemEco1 from '@/assets/image/ic_item_eco1.png'
 import icItemEco2 from '@/assets/image/ic_item_eco2.png'
@@ -76,6 +75,7 @@ export function EcosystemSection() {
   }, [startAutoRotate])
 
   const current = SECTORS.find(s => s.id === selected)!
+  const currentIndex = SECTORS.findIndex(s => s.id === selected)
 
   return (
     <section className="-mt-8 md:-mt-16 relative z-999 bg-[#0B1F3A] md:bg-transparent">
@@ -91,11 +91,12 @@ export function EcosystemSection() {
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.div variants={fadeUp}>
-            <img src={icTitle2} srcSet={`${icTitle2} 1x, ${icTitle2x2} 2x, ${icTitle2x3} 3x`}
+            <EditableImage id="home.ecosystem.img.title" fallbackSrc={icTitle2}
               alt="Hệ sinh thái AFT" className="h-auto w-auto mx-auto" />
           </motion.div>
           <motion.h2 variants={fadeUp} className="mt-5 text-3xl md:text-h3 uppercase font-[Playfair_Display] text-text-primary">
-            Hệ sinh thái <span className="text-primary">AFT Holdings</span>
+            <EditableText id="home.ecosystem.title1" fallbackVi="Hệ sinh thái " />
+            <EditableText id="home.ecosystem.title2" fallbackVi="AFT Holdings" className="text-primary" />
           </motion.h2>
         </motion.div>
 
@@ -112,17 +113,20 @@ export function EcosystemSection() {
           {/* Right: ecosystem image — hidden on mobile, shows wheel + tabs instead */}
           <div className="lg:flex items-center -mt-4 md:mt-0 justify-center">
             <AnimatePresence mode="wait">
-              <motion.img
+              <motion.div
                 key={selected}
-                src={current.ecosystemImg}
-                srcSet={`${current.ecosystemImg} 1x, ${current.ecosystemImg2x} 2x, ${current.ecosystemImg3x} 3x`}
-                alt={current.label}
-                className="w-full max-w-full md:max-w-180 h-auto md:w-180 md:h-160 object-contain"
                 initial={{ opacity: 0, scale: 0.96, x: 16 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.96, x: -16 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              />
+              >
+                <EditableImage
+                  id={`home.ecosystem.img.sector${currentIndex}`}
+                  fallbackSrc={current.ecosystemImg}
+                  alt={current.label}
+                  className="w-full max-w-full md:max-w-180 h-auto md:w-180 md:h-160 object-contain"
+                />
+              </motion.div>
             </AnimatePresence>
           </div>
         </div>

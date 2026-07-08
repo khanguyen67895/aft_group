@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, staggerItem } from '@/lib/motion'
+import { EditableText, EditableImage } from '@/components/cms'
 
 import icBgGold   from '@/assets/image/ic_gold_page.png'
-import icBgGold2x from '@/assets/image/ic_gold_page@2x.png'
-import icBgGold3x from '@/assets/image/ic_gold_page@3x.png'
 
 import icBgField      from '@/assets/image/ic_bg_field.png'
 import icBgField2x    from '@/assets/image/ic_bg_field@2x.png'
@@ -50,10 +49,10 @@ export function GoldHero() {
           variants={staggerContainer(0.1)} initial="hidden" animate="show"
         >
           <motion.h1 variants={fadeUp} className="font-[Playfair_Display] font-bold text-text-primary leading-tight uppercase text-3xl md:text-[48px]">
-            Vàng - Khai thác và giao dịch
+            <EditableText id="gold.hero.title" fallbackVi="Vàng - Khai thác và giao dịch" />
           </motion.h1>
           <motion.p variants={fadeUp} className="mt-4 text-base md:text-xl text-text-primary">
-            Khai thác bền vững - Giao dịch an toàn - Giá trị trường tồn
+            <EditableText id="gold.hero.subtitle" fallbackVi="Khai thác bền vững - Giao dịch an toàn - Giá trị trường tồn" />
           </motion.p>
         </motion.div>
 
@@ -64,21 +63,23 @@ export function GoldHero() {
             variants={staggerContainer(0.1)} initial="hidden" animate="show"
           >
             <motion.p variants={fadeUp} className="text-base md:mt-0 -mt-12 md:text-xl text-text-secondary leading-relaxed max-w-140">
-              Khai thác vàng, đầu tư vàng - bạc, copy trade vàng và truyền thông data quốc tế.
-              Vàng là sợi chỉ vàng trong suốt, biến giá trị hữu hình thành niềm tin và di sản.
+              <EditableText
+                id="gold.hero.description"
+                fallbackVi="Khai thác vàng, đầu tư vàng - bạc, copy trade vàng và truyền thông data quốc tế. Vàng là sợi chỉ vàng trong suốt, biến giá trị hữu hình thành niềm tin và di sản."
+              />
             </motion.p>
 
             {/* Stats grid */}
             <motion.div variants={staggerContainer(0.07)} className="mt-8 grid grid-cols-2 gap-4">
-              {STATS.map(({ value, label, src, src2x, src3x }) => (
+              {STATS.map(({ value, label, src }, i) => (
                 <motion.div key={value} variants={staggerItem}
                   className="flex md:flex-row flex-col md:items-center items-start gap-3 p-4 rounded-xl"
                   style={{ border: '1px solid rgba(246,247,249,0.10)', background: 'rgba(11,31,58,0.35)', backdropFilter: 'blur(12px)' }}
                 >
-                  <img src={src} srcSet={`${src} 1x, ${src2x} 2x, ${src3x} 3x`} alt={label} className="size-14 object-contain shrink-0" />
+                  <EditableImage id={`gold.hero.stats.${i}.icon`} fallbackSrc={src} alt={label} className="size-14 object-contain shrink-0" />
                   <div>
-                    <span className="text-2xl font-bold text-text-secondary font-[Manrope]">{value}</span>
-                    <p className="text-base text-text-secondary font-[Manrope] leading-snug mt-0.5">{label}</p>
+                    <EditableText id={`gold.hero.stats.${i}.value`} fallbackVi={value} as="span" className="text-2xl font-bold text-text-secondary font-[Manrope]" />
+                    <EditableText id={`gold.hero.stats.${i}.label`} fallbackVi={label} as="p" className="text-base text-text-secondary font-[Manrope] leading-snug mt-0.5" />
                   </div>
                 </motion.div>
               ))}
@@ -90,9 +91,9 @@ export function GoldHero() {
             variants={fadeUp} initial="hidden" animate="show"
             className="relative order-1 lg:order-2"
           >
-            <img
-              src={icBgGold}
-              srcSet={`${icBgGold} 1x, ${icBgGold2x} 2x, ${icBgGold3x} 3x`}
+            <EditableImage
+              id="gold.hero.image"
+              fallbackSrc={icBgGold}
               alt="Vàng AURUM"
               className="w-full h-86 md:mt-0 -mt-12 md:h-108 object-contain rounded-2xl"
             />

@@ -1,41 +1,22 @@
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui'
+import { EditableText, EditableImage } from '@/components/cms'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 
 import icTitle4   from '@/assets/image/ic_title4.png'
-import icTitle4x2 from '@/assets/image/ic_title4@2x.png'
-import icTitle4x3 from '@/assets/image/ic_title4@3x.png'
 
-import icFundHero   from '@/assets/image/ic_fund_hero.png'
-import icFundHero2x from '@/assets/image/ic_fund_hero@2x.png'
-import icFundHero3x from '@/assets/image/ic_fund_hero@3x.png'
+import icFundHero from '@/assets/image/ic_fund_hero.png'
 
-import icBgField   from '@/assets/image/ic_bg_field.png'
-import icBgField2x from '@/assets/image/ic_bg_field@2x.png'
-import icBgField3x from '@/assets/image/ic_bg_field@3x.png'
+import icBgField from '@/assets/image/ic_bg_field.png'
 
-import icHero1   from '@/assets/image/ic_item_hero1.png'
-import icHero1x2 from '@/assets/image/ic_item_hero1@2x.png'
-import icHero1x3 from '@/assets/image/ic_item_hero1@3x.png'
-import icHero2   from '@/assets/image/ic_item_hero2.png'
-import icHero2x2 from '@/assets/image/ic_item_hero2@2x.png'
-import icHero2x3 from '@/assets/image/ic_item_hero2@3x.png'
-import icHero3   from '@/assets/image/ic_item_hero3.png'
-import icHero3x3 from '@/assets/image/ic_item_hero3@3x.png'
+import icHero1 from '@/assets/image/ic_item_hero1.png'
+import icHero2 from '@/assets/image/ic_item_hero2.png'
+import icHero3 from '@/assets/image/ic_item_hero3.png'
 
 const FEATURES = [
-  {
-    icon: <img src={icHero1} srcSet={`${icHero1} 1x, ${icHero1x2} 2x, ${icHero1x3} 3x`} alt="" className="w-full h-full object-contain" />,
-    title: 'Kỷ luật đầu tư', desc: 'Quy trình chặt chẽ, minh bạch, kỷ luật.',
-  },
-  {
-    icon: <img src={icHero2} srcSet={`${icHero2} 1x, ${icHero2x2} 2x, ${icHero2x3} 3x`} alt="" className="w-full h-full object-contain" />,
-    title: 'Hỗ trợ toàn diện', desc: 'Đồng hành chiến lược, vận hành mở rộng.',
-  },
-  {
-    icon: <img src={icHero3} srcSet={`${icHero3} 1x, ${icHero3x3} 3x`} alt="" className="w-full h-full object-contain" />,
-    title: 'Mạng lưới mạnh mẽ', desc: 'Kết nối hệ sinh thái AFT, đối tác và nhà đầu tư.',
-  },
+  { icon: icHero1, title: 'Kỷ luật đầu tư', desc: 'Quy trình chặt chẽ, minh bạch, kỷ luật.' },
+  { icon: icHero2, title: 'Hỗ trợ toàn diện', desc: 'Đồng hành chiến lược, vận hành mở rộng.' },
+  { icon: icHero3, title: 'Mạng lưới mạnh mẽ', desc: 'Kết nối hệ sinh thái AFT, đối tác và nhà đầu tư.' },
 ]
 
 const STATS = [
@@ -50,19 +31,17 @@ export function FundHero() {
   return (
     <section className="relative overflow-hidden bg-secondary pt-28 pb-0">
       {/* Background illustration — desktop only, bleeds on the right */}
-      <img
-        src={icFundHero}
-        srcSet={`${icFundHero} 1x, ${icFundHero2x} 2x, ${icFundHero3x} 3x`}
+      <EditableImage
+        id="fund.hero.img.bg"
+        fallbackSrc={icFundHero}
         alt=""
-        aria-hidden
         className="hidden md:block absolute inset-0 w-full h-full object-cover object-right pointer-events-none"
       />
       {/* Mobile: ambient glow background instead */}
-      <img
-        src={icBgField}
-        srcSet={`${icBgField} 1x, ${icBgField2x} 2x, ${icBgField3x} 3x`}
+      <EditableImage
+        id="fund.hero.img.bgMobile"
+        fallbackSrc={icBgField}
         alt=""
-        aria-hidden
         className="md:hidden absolute top-1/2 -translate-y-3/4 w-full h-full object-cover opacity-35 pointer-events-none"
       />
 
@@ -79,9 +58,9 @@ export function FundHero() {
         >
           {/* Badge */}
           <motion.div variants={fadeUp} className="flex justify-center md:justify-start">
-            <img
-              src={icTitle4}
-              srcSet={`${icTitle4} 1x, ${icTitle4x2} 2x, ${icTitle4x3} 3x`}
+            <EditableImage
+              id="fund.hero.img.badge"
+              fallbackSrc={icTitle4}
               alt="Quỹ đầu tư mạo hiểm"
               className="h-auto w-auto"
             />
@@ -90,8 +69,16 @@ export function FundHero() {
           <motion.h1 variants={fadeUp}
             className="mt-6 font-[Playfair_Display] font-bold text-text-primary leading-tight uppercase text-center md:text-left"
           >
-            <span className="block text-3xl md:text-[48px]">Kiến tạo tương lai </span>
-            <span
+            <EditableText
+              id="fund.hero.title1"
+              fallbackVi="Kiến tạo tương lai "
+              as="span"
+              className="block text-3xl md:text-[48px]"
+            />
+            <EditableText
+              id="fund.hero.title2"
+              fallbackVi="cùng doanh nghiệp tiên phong"
+              as="span"
               className="block text-3xl md:text-[40px] mt-3"
               style={{
                 background: 'linear-gradient(90deg, #C6A15B 25%, #F8EBC0 45%, #fff8e8 50%, #F8EBC0 55%, #C6A15B 75%)',
@@ -102,18 +89,18 @@ export function FundHero() {
                 animation: 'text-shimmer 2.8s ease-in-out infinite',
                 willChange: 'background-position',
               }}
-            >
-              cùng doanh nghiệp tiên phong
-            </span>
+            />
           </motion.h1>
 
           <motion.p variants={fadeUp} className="mt-4 text-lg md:text-2xl font-semibold text-text-primary text-center md:text-left">
-            Đầu tư vào trí tuệ - Kiến tạo tương lai
+            <EditableText id="fund.hero.subtitle" fallbackVi="Đầu tư vào trí tuệ - Kiến tạo tương lai" />
           </motion.p>
 
           <motion.p variants={fadeUp} className="mt-4 text-base md:text-xl text-text-secondary leading-relaxed max-w-200 text-center md:text-left">
-            Chúng tôi đầu tư vào những doanh nghiệp tiên phong trong công nghệ và mô hình kinh
-            doanh mới, có khả năng tạo ra ảnh hưởng lớn và tăng trưởng bền vững.
+            <EditableText
+              id="fund.hero.description"
+              fallbackVi="Chúng tôi đầu tư vào những doanh nghiệp tiên phong trong công nghệ và mô hình kinh doanh mới, có khả năng tạo ra ảnh hưởng lớn và tăng trưởng bền vững."
+            />
           </motion.p>
 
           {/* Feature row */}
@@ -123,11 +110,26 @@ export function FundHero() {
                 <motion.div key={title} variants={staggerItem} className="flex-1 flex flex-col items-start gap-1 sm:gap-3">
                   <div className="flex items-center justify-start gap-2 sm:gap-3">
                     <div className="size-5 md:size-7 rounded-lg flex items-center justify-center shrink-0">
-                      {icon}
+                      <EditableImage
+                        id={`fund.hero.feature.${i}.icon`}
+                        fallbackSrc={icon}
+                        alt=""
+                        className="w-full h-full object-contain"
+                      />
                     </div>
-                    <div className="text-sm sm:text-xl font-bold font-[Playfair_Display] text-text-primary leading-tight">{title}</div>
+                    <EditableText
+                      id={`fund.hero.feature.${i}.title`}
+                      fallbackVi={title}
+                      as="div"
+                      className="text-sm sm:text-xl font-bold font-[Playfair_Display] text-text-primary leading-tight"
+                    />
                   </div>
-                  <div className="text-xs sm:text-base text-text-secondary leading-snug">{desc}</div>
+                  <EditableText
+                    id={`fund.hero.feature.${i}.desc`}
+                    fallbackVi={desc}
+                    as="div"
+                    className="text-xs sm:text-base text-text-secondary leading-snug"
+                  />
                 </motion.div>
                 {i < FEATURES.length - 1 && (
                   <div key={`sep-${i}`} className="w-px self-stretch" style={{ background: "radial-gradient(50% 50% at 50% 50%, #D9D9D9 0%, rgba(115, 115, 115, 0.00) 100%)" }} />
@@ -137,15 +139,19 @@ export function FundHero() {
           </motion.div>
 
           <motion.div variants={fadeUp} className="mt-8 flex justify-center md:justify-start">
-            <Button variant="gold" size="md" icon={true} className="md:hidden relative z-30">Gửi hồ sơ gọi vốn</Button>
-            <Button variant="gold" size="lg" icon={true} className="hidden md:inline-flex">Gửi hồ sơ gọi vốn</Button>
+            <Button variant="gold" size="md" icon={true} className="md:hidden relative z-30">
+              <EditableText id="fund.hero.cta" fallbackVi="Gửi hồ sơ gọi vốn" />
+            </Button>
+            <Button variant="gold" size="lg" icon={true} className="hidden md:inline-flex">
+              <EditableText id="fund.hero.cta" fallbackVi="Gửi hồ sơ gọi vốn" />
+            </Button>
           </motion.div>
 
           {/* Mobile: hero illustration below the CTA button */}
           <motion.div variants={fadeUp} className="md:hidden relative -mx-4 mt-8">
-            <img
-              src={icFundHero}
-              srcSet={`${icFundHero} 1x, ${icFundHero2x} 2x, ${icFundHero3x} 3x`}
+            <EditableImage
+              id="fund.hero.img.heroMobile"
+              fallbackSrc={icFundHero}
               alt=""
               className="w-full h-90 object-cover"
             />
@@ -179,7 +185,10 @@ export function FundHero() {
                 variants={fadeUp}
                 className={`flex flex-col max-w-50 items-center text-center ${i === STATS.length - 1 ? 'col-span-2 md:col-span-1 mx-auto' : ''}`}
               >
-                <span
+                <EditableText
+                  id={`fund.hero.stat.${i}.value`}
+                  fallbackVi={value}
+                  as="span"
                   className="font-[Manrope] font-bold text-3xl md:text-[52px]"
                   style={{
                     background: 'linear-gradient(90deg, #C6A15B 25%, #F8EBC0 50%, #C6A15B 75%)',
@@ -189,12 +198,13 @@ export function FundHero() {
                     WebkitTextFillColor: 'transparent',
                     animation: 'text-shimmer 2.8s ease-in-out infinite',
                   }}
-                >
-                  {value}
-                </span>
-                <span className="mt-1.5 text-xs md:text-base text-text-secondary font-[Manrope] leading-snug">
-                  {label}
-                </span>
+                />
+                <EditableText
+                  id={`fund.hero.stat.${i}.label`}
+                  fallbackVi={label}
+                  as="span"
+                  className="mt-1.5 text-xs md:text-base text-text-secondary font-[Manrope] leading-snug"
+                />
               </motion.div>
             ))}
           </div>

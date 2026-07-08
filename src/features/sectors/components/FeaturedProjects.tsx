@@ -1,12 +1,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
-import icLeft    from '@/assets/image/ic_left.png'
-import icLeft2x  from '@/assets/image/ic_left@2x.png'
-import icLeft3x  from '@/assets/image/ic_left@3x.png'
-import icRight   from '@/assets/image/ic_right.png'
-import icRight2x from '@/assets/image/ic_right@2x.png'
-import icRight3x from '@/assets/image/ic_right@3x.png'
+import { EditableText, EditableImage } from '@/components/cms'
+import icLeft  from '@/assets/image/ic_left.png'
+import icRight from '@/assets/image/ic_right.png'
 import icField1 from '@/assets/image/ic_item_field1.jfif'
 import icField2 from '@/assets/image/ic_item_field2.jfif'
 import icField3 from '@/assets/image/ic_item_field3.jfif'
@@ -133,20 +130,24 @@ function IconPin() {
   )
 }
 
-function ProjectCardContent({ project }: { project: Project }) {
+function ProjectCardContent({ project, index }: { project: Project; index: number }) {
   return (
     <>
       {/* Image — no overlay */}
       <div className="overflow-hidden h-56 md:h-69">
-        <img
-          src={project.img}
+        <EditableImage
+          id={`sectors.projects.item.${index}.img`}
+          fallbackSrc={project.img}
           alt={project.name}
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
         />
       </div>
 
       {/* Name — outside image, gold shimmer */}
-      <h3
+      <EditableText
+        id={`sectors.projects.item.${index}.name`}
+        fallbackVi={project.name}
+        as="h3"
         className="font-[Playfair_Display] font-bold text-xl leading-tight px-4 pt-4 pb-1"
         style={{
           background: 'var(--Main-Colors-Primary-Radius, radial-gradient(50% 50% at 50% 50%, #F8E8C0 0%, #C09857 100%))',
@@ -156,34 +157,40 @@ function ProjectCardContent({ project }: { project: Project }) {
           WebkitTextFillColor: 'transparent',
           animation: 'text-shimmer 2.8s ease-in-out infinite',
         }}
-      >
-        {project.name}
-      </h3>
+      />
 
       {/* Specs */}
       <div className="flex mt-4 flex-col gap-2.5 px-4 pb-4">
         <div className="flex gap-2">
           <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
-            <IconEye /><span className="truncate">{project.view}</span>
+            <IconEye />
+            <EditableText id={`sectors.projects.item.${index}.view`} fallbackVi={project.view} as="span" className="truncate" />
           </div>
           <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
-            <IconArea /><span className="truncate">{project.area}</span>
+            <IconArea />
+            <EditableText id={`sectors.projects.item.${index}.area`} fallbackVi={project.area} as="span" className="truncate" />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
           <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
-            <IconBed /><span className="truncate">{project.beds} phòng ngủ</span>
+            <IconBed />
+            <EditableText id={`sectors.projects.item.${index}.beds`} fallbackVi={`${project.beds} phòng ngủ`} as="span" className="truncate" />
           </div>
           <div className="flex items-center gap-1.5 text-text-secondary text-base font-[Manrope] min-w-0">
-            <IconWC /><span className="truncate">{project.wc} WC</span>
+            <IconWC />
+            <EditableText id={`sectors.projects.item.${index}.wc`} fallbackVi={`${project.wc} WC`} as="span" className="truncate" />
           </div>
         </div>
         <div className="flex items-start gap-1.5 text-text-secondary text-base font-[Manrope]">
           <IconBuilding />
-          <span>Chủ đầu tư: <span className="text-text-primary">{project.developer}</span></span>
+          <span>
+            <EditableText id="sectors.projects.label.developer" fallbackVi="Chủ đầu tư:" as="span" />{' '}
+            <EditableText id={`sectors.projects.item.${index}.developer`} fallbackVi={project.developer} as="span" className="text-text-primary" />
+          </span>
         </div>
         <div className="flex items-start gap-1.5 text-text-secondary text-base font-[Manrope]">
-          <IconPin /><span>{project.address}</span>
+          <IconPin />
+          <EditableText id={`sectors.projects.item.${index}.address`} fallbackVi={project.address} as="span" />
         </div>
       </div>
     </>
@@ -212,12 +219,14 @@ export function FeaturedProjects() {
           viewport={viewport}
           className="text-center mb-10 md:mb-14"
         >
-          <motion.h2
-            variants={fadeUp}
-            className="mt-5 font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase"
-          >
-            Các dự án tiêu biểu
-          </motion.h2>
+          <motion.div variants={fadeUp}>
+            <EditableText
+              id="sectors.projects.title"
+              fallbackVi="Các dự án tiêu biểu"
+              as="h2"
+              className="mt-5 font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase"
+            />
+          </motion.div>
         </motion.div>
 
         {/* Carousel — desktop/tablet: 3-card grid + arrows */}
@@ -230,7 +239,7 @@ export function FeaturedProjects() {
             aria-label="Previous"
             className="absolute -left-6 md:-left-6 top-1/2 -translate-y-1/2 z-10 size-10 flex items-center justify-center disabled:opacity-30 transition-opacity"
           >
-            <img src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`} alt="prev" className="w-full h-full object-contain" />
+            <EditableImage id="sectors.projects.img.arrowPrev" fallbackSrc={icLeft} alt="prev" className="w-full h-full object-contain" />
           </button>
 
           {/* 3 visible cards */}
@@ -244,7 +253,7 @@ export function FeaturedProjects() {
                 transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
                 className="grid grid-cols-3 gap-6"
               >
-                {visible.map((project) => (
+                {visible.map((project, idx) => (
                   <div
                     key={project.name}
                     className="overflow-hidden max-w-102.75 rounded-2xl flex flex-col"
@@ -254,7 +263,7 @@ export function FeaturedProjects() {
                       backdropFilter: 'blur(12px)',
                     }}
                   >
-                    <ProjectCardContent project={project} />
+                    <ProjectCardContent project={project} index={start + idx} />
                   </div>
                 ))}
               </motion.div>
@@ -268,14 +277,14 @@ export function FeaturedProjects() {
             aria-label="Next"
             className="absolute -right-6 md:-right-6 top-1/2 -translate-y-1/2 z-10 size-10 flex items-center justify-center disabled:opacity-30 transition-opacity"
           >
-            <img src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`} alt="next" className="w-full h-full object-contain" />
+            <EditableImage id="sectors.projects.img.arrowNext" fallbackSrc={icRight} alt="next" className="w-full h-full object-contain" />
           </button>
         </div>
 
         {/* Carousel — mobile: horizontal scroll-snap, 1 card at a time (peek of next) */}
         <div className="md:hidden -mx-4 px-4">
           <div className="overflow-x-auto snap-x snap-mandatory scrollbar-hide flex gap-4 pb-2">
-            {PROJECTS.map((project) => (
+            {PROJECTS.map((project, idx) => (
               <div
                 key={project.name}
                 className="overflow-hidden shrink-0 snap-center w-[85vw] rounded-2xl flex flex-col"
@@ -285,7 +294,7 @@ export function FeaturedProjects() {
                   backdropFilter: 'blur(12px)',
                 }}
               >
-                <ProjectCardContent project={project} />
+                <ProjectCardContent project={project} index={idx} />
               </div>
             ))}
           </div>

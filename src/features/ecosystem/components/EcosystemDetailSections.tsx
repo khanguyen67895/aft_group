@@ -1,37 +1,24 @@
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { fadeUp, scaleIn, staggerContainer, viewport } from '@/lib/motion'
+import { EditableText, EditableImage } from '@/components/cms'
 
-import icBgEco1   from '@/assets/image/ic_item_ecosystem1.png'
-import icBgEco1x2 from '@/assets/image/ic_item_ecosystem1@2x.png'
-import icBgEco1x3 from '@/assets/image/ic_item_ecosystem1@3x.png'
-import icBgEco2   from '@/assets/image/ic_item_ecosystem2.png'
-import icBgEco2x2 from '@/assets/image/ic_item_ecosystem2@2x.png'
-import icBgEco2x3 from '@/assets/image/ic_item_ecosystem2@3x.png'
-import icBgEco3   from '@/assets/image/ic_item_ecosystem3.png'
-import icBgEco3x2 from '@/assets/image/ic_item_ecosystem3@2x.png'
-import icBgEco3x3 from '@/assets/image/ic_item_ecosystem3@3x.png'
-import icBgEco4   from '@/assets/image/ic_item_ecosystem4.png'
-import icBgEco4x2 from '@/assets/image/ic_item_ecosystem4@2x.png'
-import icBgEco4x3 from '@/assets/image/ic_item_ecosystem4@3x.png'
-import icBgEco5   from '@/assets/image/ic_item_ecosystem5.png'
-import icBgEco5x2 from '@/assets/image/ic_item_ecosystem5@2x.png'
-import icBgEco5x3 from '@/assets/image/ic_item_ecosystem5@3x.png'
+import icBgEco1 from '@/assets/image/ic_item_ecosystem1.png'
+import icBgEco2 from '@/assets/image/ic_item_ecosystem2.png'
+import icBgEco3 from '@/assets/image/ic_item_ecosystem3.png'
+import icBgEco4 from '@/assets/image/ic_item_ecosystem4.png'
+import icBgEco5 from '@/assets/image/ic_item_ecosystem5.png'
 
-import icItemIdea   from '@/assets/image/ic_item_idea.png'
-import icItemIdea2x from '@/assets/image/ic_item_idea@2x.png'
-import icItemIdea3x from '@/assets/image/ic_item_idea@3x.png'
+import icItemIdea from '@/assets/image/ic_item_idea.png'
 
-import icCheckbox   from '@/assets/image/ic_checkbox.png'
-import icCheckbox2x from '@/assets/image/ic_checkbox@2x.png'
-import icCheckbox3x from '@/assets/image/ic_checkbox@3x.png'
+import icCheckbox from '@/assets/image/ic_checkbox.png'
 
 interface SectorDetail {
   number: number
   title: string
   description: string
   features: string[]
-  img: string; img2x: string; img3x: string
+  img: string
   reverse: boolean
   bgColor: string
 }
@@ -48,7 +35,7 @@ const SECTORS: SectorDetail[] = [
       'Quản trị rủi ro, gia tăng giá trị tài sản',
       'Đồng hành cùng khách hàng dài hạn',
     ],
-    img: icBgEco1, img2x: icBgEco1x2, img3x: icBgEco1x3,
+    img: icBgEco1,
     reverse: false, bgColor: '#0B1527',
   },
   {
@@ -62,7 +49,7 @@ const SECTORS: SectorDetail[] = [
       'Quản trị rủi ro chặt chẽ - minh bạch.',
       'Tối ưu chuỗi cung ứng và giá trị.',
     ],
-    img: icBgEco2, img2x: icBgEco2x2, img3x: icBgEco2x3,
+    img: icBgEco2,
     reverse: true, bgColor: '#0B1527',
   },
   {
@@ -76,7 +63,7 @@ const SECTORS: SectorDetail[] = [
       'Tư vấn giải pháp khai thác tối ưu',
       'Đồng hành cùng đối tác trên mọi dự án',
     ],
-    img: icBgEco3, img2x: icBgEco3x2, img3x: icBgEco3x3,
+    img: icBgEco3,
     reverse: false, bgColor: '#0B1527',
   },
   {
@@ -90,7 +77,7 @@ const SECTORS: SectorDetail[] = [
       'Kiểm soát rủi ro và bảo toàn vốn',
       'Đồng hành cùng khách hàng dài hạn',
     ],
-    img: icBgEco4, img2x: icBgEco4x2, img3x: icBgEco4x3,
+    img: icBgEco4,
     reverse: true, bgColor: '#0B1527',
   },
   {
@@ -104,7 +91,7 @@ const SECTORS: SectorDetail[] = [
       'Hợp tác học thuật trong và ngoài nước',
       'Đóng góp cho cộng đồng và xã hội',
     ],
-    img: icBgEco5, img2x: icBgEco5x2, img3x: icBgEco5x3,
+    img: icBgEco5,
     reverse: false, bgColor: '#0B1527',
   },
 ]
@@ -112,30 +99,34 @@ const SECTORS: SectorDetail[] = [
 export function EcosystemDetailSections() {
   return (
     <div className="-mt-12 sm:-mt-28 lg:-mt-39 relative z-10">
-      {SECTORS.map(sector => (
-        <SectorSection key={sector.number} sector={sector} />
+      {SECTORS.map((sector, i) => (
+        <SectorSection key={sector.number} sector={sector} index={i} />
       ))}
     </div>
   )
 }
 
-function SectorSection({ sector }: { sector: SectorDetail }) {
+function SectorSection({ sector, index }: { sector: SectorDetail; index: number }) {
   return (
     <section
       className="relative overflow-hidden lg:min-h-125"
       style={{ background: sector.bgColor }}
     >
       {/* Desktop: full-width background image */}
-      <motion.img
-        src={sector.img}
-        srcSet={`${sector.img} 1x, ${sector.img2x} 2x, ${sector.img3x} 3x`}
-        alt={sector.title}
-        className="hidden lg:block absolute inset-0 w-full h-full object-cover object-center"
+      <motion.div
+        className="hidden lg:block absolute inset-0"
         variants={scaleIn}
         initial="hidden"
         whileInView="show"
         viewport={viewport}
-      />
+      >
+        <EditableImage
+          id={`ecosystem.detail.item.${index}.image`}
+          fallbackSrc={sector.img}
+          alt={sector.title}
+          className="w-full h-full object-cover object-center"
+        />
+      </motion.div>
 
       {/* Desktop gradient overlay – dense on text side, transparent on image side */}
       <div
@@ -161,11 +152,10 @@ function SectorSection({ sector }: { sector: SectorDetail }) {
         {/* Number badge */}
         <motion.div variants={fadeUp} className="mb-6">
           <div className="relative w-21.5 h-21.5">
-            <img
-              src={icItemIdea}
-              srcSet={`${icItemIdea} 1x, ${icItemIdea2x} 2x, ${icItemIdea3x} 3x`}
+            <EditableImage
+              id={`ecosystem.detail.item.${index}.badgeIcon`}
+              fallbackSrc={icItemIdea}
               alt=""
-              aria-hidden
               className="absolute inset-0 w-full h-full object-contain"
             />
             <span className="absolute inset-0 flex items-center justify-center font-[Manrope] font-bold text-white text-[52px] leading-none">
@@ -188,7 +178,7 @@ function SectorSection({ sector }: { sector: SectorDetail }) {
             willChange: 'background-position',
           }}
         >
-          {sector.title}
+          <EditableText id={`ecosystem.detail.item.${index}.title`} fallbackVi={sector.title} />
         </motion.h2>
 
         {/* Divider */}
@@ -203,21 +193,20 @@ function SectorSection({ sector }: { sector: SectorDetail }) {
           variants={fadeUp}
           className="text-text-secondary text-base md:text-xl leading-relaxed mb-6 max-w-full lg:max-w-120"
         >
-          {sector.description}
+          <EditableText id={`ecosystem.detail.item.${index}.description`} fallbackVi={sector.description} />
         </motion.p>
 
         {/* Feature list */}
         <motion.ul variants={staggerContainer(0.07)} className="space-y-4">
-          {sector.features.map((feat, i) => (
-            <motion.li key={i} variants={fadeUp} className="flex items-center gap-3">
-              <img
-                src={icCheckbox}
-                srcSet={`${icCheckbox} 1x, ${icCheckbox2x} 2x, ${icCheckbox3x} 3x`}
+          {sector.features.map((feat, j) => (
+            <motion.li key={j} variants={fadeUp} className="flex items-center gap-3">
+              <EditableImage
+                id={`ecosystem.detail.item.${index}.feature.${j}.icon`}
+                fallbackSrc={icCheckbox}
                 alt=""
-                aria-hidden
                 className="w-5 h-5 shrink-0"
               />
-              <span className="text-text-secondary text-base md:text-xl">{feat}</span>
+              <EditableText id={`ecosystem.detail.item.${index}.feature.${j}.text`} fallbackVi={feat} as="span" className="text-text-secondary text-base md:text-xl" />
             </motion.li>
           ))}
         </motion.ul>
@@ -225,16 +214,20 @@ function SectorSection({ sector }: { sector: SectorDetail }) {
 
       {/* Mobile: image below the content */}
       <div className="lg:hidden relative z-10 w-full h-64 overflow-hidden">
-        <motion.img
-          src={sector.img}
-          srcSet={`${sector.img} 1x, ${sector.img2x} 2x, ${sector.img3x} 3x`}
-          alt={sector.title}
-          className="absolute inset-0 w-full h-full object-cover object-center"
+        <motion.div
+          className="absolute inset-0"
           variants={scaleIn}
           initial="hidden"
           whileInView="show"
           viewport={viewport}
-        />
+        >
+          <EditableImage
+            id={`ecosystem.detail.item.${index}.image`}
+            fallbackSrc={sector.img}
+            alt={sector.title}
+            className="w-full h-full object-cover object-center"
+          />
+        </motion.div>
         {/* Blend into section bg color at top and bottom */}
         <div
           className="absolute inset-x-0 top-0 h-10 pointer-events-none"

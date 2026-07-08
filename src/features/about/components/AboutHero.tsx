@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { fadeUp, fadeLeft, staggerContainer, viewport } from '@/lib/motion'
+import { EditableText, EditableImage } from '@/components/cms'
 
 import videoAbout from '@/assets/video/video_about.mp4'
 
@@ -8,8 +9,6 @@ import icBgField2x from '@/assets/image/ic_bg_field@2x.png'
 import icBgField3x from '@/assets/image/ic_bg_field@3x.png'
 
 import icCheckbox   from '@/assets/image/ic_checkbox.png'
-import icCheckbox2x from '@/assets/image/ic_checkbox@2x.png'
-import icCheckbox3x from '@/assets/image/ic_checkbox@3x.png'
 
 const FEATURES = [
   'Kết nối giá trị toàn cầu với cơ hội tài chính cho mọi người.',
@@ -38,10 +37,10 @@ export function AboutHero() {
           variants={staggerContainer(0.1)} initial="hidden" animate="show"
         >
           <motion.h1 variants={fadeUp} className="font-[Playfair_Display] font-bold text-text-primary leading-tight uppercase text-3xl md:text-[48px]">
-            Về chúng tôi
+            <EditableText id="about.hero.title" fallbackVi="Về chúng tôi" />
           </motion.h1>
           <motion.p variants={fadeUp} className="mt-4 text-base md:text-xl text-text-secondary">
-            AFT Group hệ sinh thái Tài chính – Tài sản – Công nghệ. Tầm nhìn 2035.
+            <EditableText id="about.hero.subtitle" fallbackVi="AFT Group hệ sinh thái Tài chính – Tài sản – Công nghệ. Tầm nhìn 2035." />
           </motion.p>
         </motion.div>
 
@@ -60,22 +59,19 @@ export function AboutHero() {
             variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
           >
             <motion.p variants={fadeUp} className="text-base md:text-xl text-text-secondary leading-relaxed">
-              AFT là tập đoàn công nghệ tài chính toàn cầu, tiên phong trong việc số hóa tài sản
-              thực và ứng dụng công nghệ blockchain, AI, Data để tạo ra các giải pháp tài chính
-              minh bạch - an toàn - hiệu quả.
+              <EditableText id="about.hero.description" fallbackVi="AFT là tập đoàn công nghệ tài chính toàn cầu, tiên phong trong việc số hóa tài sản thực và ứng dụng công nghệ blockchain, AI, Data để tạo ra các giải pháp tài chính minh bạch - an toàn - hiệu quả." />
             </motion.p>
 
             <motion.ul variants={staggerContainer(0.07)} className="mt-6 space-y-4">
-              {FEATURES.map((feat) => (
+              {FEATURES.map((feat, i) => (
                 <motion.li key={feat} variants={fadeUp} className="flex items-center gap-3">
-                  <img
-                    src={icCheckbox}
-                    srcSet={`${icCheckbox} 1x, ${icCheckbox2x} 2x, ${icCheckbox3x} 3x`}
+                  <EditableImage
+                    id={`about.hero.feature.${i}.icon`}
+                    fallbackSrc={icCheckbox}
                     alt=""
-                    aria-hidden
                     className="w-5 h-5 shrink-0"
                   />
-                  <span className="text-text-secondary text-base md:text-xl">{feat}</span>
+                  <EditableText id={`about.hero.feature.${i}.text`} fallbackVi={feat} className="text-text-secondary text-base md:text-xl" />
                 </motion.li>
               ))}
             </motion.ul>

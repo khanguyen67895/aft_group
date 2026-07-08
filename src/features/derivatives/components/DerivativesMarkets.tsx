@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { EditableText, EditableImage } from '@/components/cms'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 import icBgMarkets    from '@/assets/image/ic_bg_markets.png'
 import icBgMarkets_2x from '@/assets/image/ic_bg_markets@2x.png'
@@ -56,14 +57,14 @@ export function DerivativesMarkets() {
 
           <div className="relative z-10">
             <motion.h2 variants={fadeUp} className="text-center md:text-left font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase mb-10">
-              Danh mục thị trường trọng tâm
+              <EditableText id="derivatives.markets.title" fallbackVi="Danh mục thị trường trọng tâm" />
             </motion.h2>
 
             <motion.div
               className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"
               variants={staggerContainer(0.06)}
             >
-              {MARKETS.map(({ icon, srcSet, name, desc }) => (
+              {MARKETS.map(({ icon, name, desc }, i) => (
                 <motion.div
                   key={name}
                   variants={staggerItem}
@@ -75,10 +76,10 @@ export function DerivativesMarkets() {
                     backdropFilter: 'blur(7px)',
                   }}
                 >
-                  <img src={icon} srcSet={srcSet} alt={name} className="size-12 object-contain" />
+                  <EditableImage id={`derivatives.markets.item.${i}.icon`} fallbackSrc={icon} alt={name} className="size-12 object-contain" />
                   <div>
-                    <div className="text-base md:text-xl text-left md:text-center font-bold text-text-primary font-[Playfair_Display] uppercase tracking-wide">{name}</div>
-                    <div className="text-sm md:text-base text-left md:text-center text-text-secondary font-[Manrope] mt-1 leading-relaxed">{desc}</div>
+                    <EditableText id={`derivatives.markets.item.${i}.name`} fallbackVi={name} as="div" className="text-base md:text-xl text-left md:text-center font-bold text-text-primary font-[Playfair_Display] uppercase tracking-wide" />
+                    <EditableText id={`derivatives.markets.item.${i}.desc`} fallbackVi={desc} as="div" className="text-sm md:text-base text-left md:text-center text-text-secondary font-[Manrope] mt-1 leading-relaxed" />
                   </div>
                 </motion.div>
               ))}
@@ -90,9 +91,9 @@ export function DerivativesMarkets() {
                 className="absolute inset-x-0 top-0 h-8 pointer-events-none"
                 style={{ background: 'linear-gradient(to bottom, var(--color-secondary) 0%, transparent 100%)' }}
               />
-              <img
-                src={icBgMarkets}
-                srcSet={`${icBgMarkets} 1x, ${icBgMarkets_2x} 2x, ${icBgMarkets_3x} 3x`}
+              <EditableImage
+                id="derivatives.markets.mobileImage"
+                fallbackSrc={icBgMarkets}
                 alt=""
                 className="w-full h-70 object-cover"
               />

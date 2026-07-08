@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
+import { EditableText, EditableImage } from '@/components/cms'
 
 import icVision   from '@/assets/image/ic_vision_about1.png'
 import icVision2x from '@/assets/image/ic_vision_about1@2x.png'
@@ -26,10 +27,10 @@ export function AboutValues() {
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
-            Tầm nhìn - Sứ mệnh - Giá trị cốt lõi
+            <EditableText id="about.values.title" fallbackVi="Tầm nhìn - Sứ mệnh - Giá trị cốt lõi" />
           </motion.h2>
           <motion.p variants={fadeUp} className="mt-3 text-base md:text-xl text-text-secondary">
-            Khám phá tầm nhìn, sứ mệnh và chiến lược của chúng tôi
+            <EditableText id="about.values.subtitle" fallbackVi="Khám phá tầm nhìn, sứ mệnh và chiến lược của chúng tôi" />
           </motion.p>
         </motion.div>
 
@@ -37,7 +38,7 @@ export function AboutValues() {
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
-          {VALUES.map(({ img, img2x, img3x, title, desc }) => (
+          {VALUES.map(({ img, title, desc }, i) => (
             <motion.div
               key={title}
               variants={staggerItem}
@@ -49,9 +50,9 @@ export function AboutValues() {
               }}
             >
               <div className="overflow-hidden h-52 md:h-90">
-                <img
-                  src={img}
-                  srcSet={`${img} 1x, ${img2x} 2x, ${img3x} 3x`}
+                <EditableImage
+                  id={`about.values.value.${i}.image`}
+                  fallbackSrc={img}
                   alt={title}
                   className="w-full h-full object-cover"
                 />
@@ -61,12 +62,8 @@ export function AboutValues() {
                   className="w-18 h-0.5"
                   style={{ background: 'linear-gradient(270deg, rgba(203,150,76,0) 3%, #DBAB59 96%)' }}
                 />
-                <h3 className="mt-3 font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
-                  {title}
-                </h3>
-                <p className="mt-4 text-base text-text-secondary font-[Manrope] leading-relaxed">
-                  {desc}
-                </p>
+                <EditableText id={`about.values.value.${i}.title`} fallbackVi={title} as="h3" className="mt-3 font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase" />
+                <EditableText id={`about.values.value.${i}.desc`} fallbackVi={desc} as="p" className="mt-4 text-base text-text-secondary font-[Manrope] leading-relaxed" />
               </div>
             </motion.div>
           ))}

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { EditableText } from '@/components/cms'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 
 export function SurveyIcon() {
@@ -82,7 +83,7 @@ export function DerivativesProcess() {
             variants={staggerContainer(0.1)}
           >
             <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
-              Quy trình triển khai tại AFT
+              <EditableText id="derivatives.process.title" fallbackVi="Quy trình triển khai tại AFT" />
             </motion.h2>
           </motion.div>
 
@@ -90,7 +91,7 @@ export function DerivativesProcess() {
           <motion.div className="lg:hidden relative" variants={staggerContainer(0.08)}>
             <div className="absolute left-1.25 top-3 bottom-3 w-0.5 bg-linear-to-b from-transparent via-primary to-transparent" />
             <div className="flex flex-col gap-4">
-              {STEPS.map(({ Icon, title, desc }) => (
+              {STEPS.map(({ Icon, title, desc }, i) => (
                 <motion.div key={title} variants={staggerItem} className="flex items-center gap-5">
                   {/* Dot */}
                   <div className="relative z-10 size-3 rounded-full shrink-0 bg-primary shadow-[0_0_10px_3px_rgba(212,175,55,0.45)]" />
@@ -101,8 +102,8 @@ export function DerivativesProcess() {
                       <Icon />
                     </div>
                     <div className='flex flex-col'>
-                      <div className="font-[Playfair_Display] font-bold text-text-primary text-lg leading-snug">{title}</div>
-                      <div className="mt-1.5 text-sm text-text-secondary font-[Manrope] leading-relaxed">{desc}</div>
+                      <EditableText id={`derivatives.process.step.${i}.label`} fallbackVi={title} as="div" className="font-[Playfair_Display] font-bold text-text-primary text-lg leading-snug" />
+                      <EditableText id={`derivatives.process.step.${i}.desc`} fallbackVi={desc} as="div" className="mt-1.5 text-sm text-text-secondary font-[Manrope] leading-relaxed" />
                     </div>
                   </div>
                 </motion.div>
@@ -129,7 +130,7 @@ export function DerivativesProcess() {
             className="hidden lg:grid lg:grid-cols-6 gap-4"
             variants={staggerContainer(0.08)}
           >
-            {STEPS.map(({ Icon, title, desc }) => (
+            {STEPS.map(({ Icon, title, desc }, i) => (
               <motion.div
                 key={title}
                 variants={staggerItem}
@@ -144,8 +145,8 @@ export function DerivativesProcess() {
                   <Icon />
                 </div>
                 <div>
-                  <div className="text-xl font-bold text-text-primary font-[Manrope] leading-snug">{title}</div>
-                  <div className="mt-1 text-base text-text-secondary font-[Manrope] leading-relaxed">{desc}</div>
+                  <EditableText id={`derivatives.process.step.${i}.label`} fallbackVi={title} as="div" className="text-xl font-bold text-text-primary font-[Manrope] leading-snug" />
+                  <EditableText id={`derivatives.process.step.${i}.desc`} fallbackVi={desc} as="div" className="mt-1 text-base text-text-secondary font-[Manrope] leading-relaxed" />
                 </div>
               </motion.div>
             ))}

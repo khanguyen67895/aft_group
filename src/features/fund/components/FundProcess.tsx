@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion'
+import { EditableText, EditableImage } from '@/components/cms'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 
-import icItemIdea   from '@/assets/image/ic_item_idea.png'
-import icItemIdea2x from '@/assets/image/ic_item_idea@2x.png'
-import icItemIdea3x from '@/assets/image/ic_item_idea@3x.png'
+import icItemIdea from '@/assets/image/ic_item_idea.png'
 
 const STEPS = [
   { title: 'Tiếp nhận hồ sơ',        desc: 'Tiếp nhận Pitch Deck và hồ sơ dự án. Sàng lọc theo các tiêu chí đầu tư ban đầu.' },
@@ -22,7 +21,7 @@ export function FundProcess() {
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
-            Quy trình đầu tư
+            <EditableText id="fund.process.title" fallbackVi="Quy trình đầu tư" />
           </motion.h2>
         </motion.div>
 
@@ -33,11 +32,10 @@ export function FundProcess() {
             {STEPS.map(({ title, desc }, i) => (
               <motion.div key={title} variants={staggerItem} className="relative flex gap-4">
                 <div className="relative z-10 size-12.5 shrink-0 flex items-center justify-center">
-                  <img
-                    src={icItemIdea}
-                    srcSet={`${icItemIdea} 1x, ${icItemIdea2x} 2x, ${icItemIdea3x} 3x`}
+                  <EditableImage
+                    id="fund.process.img.stepIcon"
+                    fallbackSrc={icItemIdea}
                     alt=""
-                    aria-hidden
                     className="absolute inset-0 size-full object-contain"
                   />
                   <span className="relative text-[30px] font-extrabold font-[Manrope] text-text-primary">
@@ -45,8 +43,18 @@ export function FundProcess() {
                   </span>
                 </div>
                 <div className="pt-1">
-                  <div className="text-xl font-bold text-text-primary font-[Playfair_Display] uppercase leading-snug">{title}</div>
-                  <div className="mt-1 text-base text-text-secondary font-[Manrope] leading-relaxed">{desc}</div>
+                  <EditableText
+                    id={`fund.process.step.${i}.title`}
+                    fallbackVi={title}
+                    as="div"
+                    className="text-xl font-bold text-text-primary font-[Playfair_Display] uppercase leading-snug"
+                  />
+                  <EditableText
+                    id={`fund.process.step.${i}.desc`}
+                    fallbackVi={desc}
+                    as="div"
+                    className="mt-1 text-base text-text-secondary font-[Manrope] leading-relaxed"
+                  />
                 </div>
               </motion.div>
             ))}
@@ -67,11 +75,10 @@ export function FundProcess() {
           {STEPS.map(({ title, desc }, i) => (
             <motion.div key={title} variants={staggerItem} className="relative flex flex-col items-center text-center gap-3 px-1">
               <div className="relative z-10 size-12.5 shrink-0 flex items-center justify-center">
-                <img
-                  src={icItemIdea}
-                  srcSet={`${icItemIdea} 1x, ${icItemIdea2x} 2x, ${icItemIdea3x} 3x`}
+                <EditableImage
+                  id="fund.process.img.stepIcon"
+                  fallbackSrc={icItemIdea}
                   alt=""
-                  aria-hidden
                   className="absolute inset-0 size-full object-contain"
                 />
                 <span className="relative text-[30px] font-extrabold font-[Manrope] text-text-primary">
@@ -79,8 +86,18 @@ export function FundProcess() {
                 </span>
               </div>
               <div>
-                <div className="text-xl font-bold text-text-primary font-[Playfair_Display] uppercase leading-snug">{title}</div>
-                <div className="mt-1 text-base text-text-secondary font-[Manrope] leading-relaxed">{desc}</div>
+                <EditableText
+                  id={`fund.process.step.${i}.title`}
+                  fallbackVi={title}
+                  as="div"
+                  className="text-xl font-bold text-text-primary font-[Playfair_Display] uppercase leading-snug"
+                />
+                <EditableText
+                  id={`fund.process.step.${i}.desc`}
+                  fallbackVi={desc}
+                  as="div"
+                  className="mt-1 text-base text-text-secondary font-[Manrope] leading-relaxed"
+                />
               </div>
             </motion.div>
           ))}

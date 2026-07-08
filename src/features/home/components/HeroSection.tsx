@@ -1,21 +1,15 @@
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui'
+import { EditableText, EditableImage } from '@/components/cms'
 import { ROUTES } from '@/constants'
 import { fadeUp, fadeIn, staggerContainer, staggerItem } from '@/lib/motion'
 import heroVideo   from '@/assets/video/video_herobanner.mp4'
 import heroVideoMb from '@/assets/video/video_herobanner_mb.mp4'
 import icTitle1    from '@/assets/image/ic_title1.png'
-import icTitle1x2  from '@/assets/image/ic_title1@2x.png'
-import icTitle1x3  from '@/assets/image/ic_title1@3x.png'
 import icHero1    from '@/assets/image/ic_item_hero1.png'
-import icHero1x2  from '@/assets/image/ic_item_hero1@2x.png'
-import icHero1x3  from '@/assets/image/ic_item_hero1@3x.png'
 import icHero2    from '@/assets/image/ic_item_hero2.png'
-import icHero2x2  from '@/assets/image/ic_item_hero2@2x.png'
-import icHero2x3  from '@/assets/image/ic_item_hero2@3x.png'
 import icHero3    from '@/assets/image/ic_item_hero3.png'
-import icHero3x3  from '@/assets/image/ic_item_hero3@3x.png'
 import icBgStats    from '@/assets/image/ic_bg_stats.png'
 import icBgStats2x  from '@/assets/image/ic_bg_stats@2x.png'
 import icBgStats3x  from '@/assets/image/ic_bg_stats@3x.png'
@@ -55,18 +49,9 @@ const STATS = [
 ]
 
 const FEATURES = [
-  {
-    icon: <img src={icHero1} srcSet={`${icHero1} 1x, ${icHero1x2} 2x, ${icHero1x3} 3x`} alt="" className="w-full h-full object-contain" />,
-    title: 'Tầm nhìn', desc: 'Chiến lược bền vững, tạo giá trị vượt thời gian.',
-  },
-  {
-    icon: <img src={icHero2} srcSet={`${icHero2} 1x, ${icHero2x2} 2x, ${icHero2x3} 3x`} alt="" className="w-full h-full object-contain" />,
-    title: 'Hợp tác', desc: 'Đồng hành cùng đối tác trên hành trình phát triển.',
-  },
-  {
-    icon: <img src={icHero3} srcSet={`${icHero3} 1x, ${icHero3x3} 3x`} alt="" className="w-full h-full object-contain" />,
-    title: 'Giá trị', desc: 'Tối ưu hiệu quả, kiến tạo lợi thế cạnh tranh.',
-  },
+  { icon: icHero1, title: 'Tầm nhìn', desc: 'Chiến lược bền vững, tạo giá trị vượt thời gian.' },
+  { icon: icHero2, title: 'Hợp tác', desc: 'Đồng hành cùng đối tác trên hành trình phát triển.' },
+  { icon: icHero3, title: 'Giá trị', desc: 'Tối ưu hiệu quả, kiến tạo lợi thế cạnh tranh.' },
 ]
 
 
@@ -102,9 +87,9 @@ export function HeroSection() {
         >
           {/* Badge */}
           <motion.div variants={fadeIn}>
-            <img
-              src={icTitle1}
-              srcSet={`${icTitle1} 1x, ${icTitle1x2} 2x, ${icTitle1x3} 3x`}
+            <EditableImage
+              id="home.hero.img.badge"
+              fallbackSrc={icTitle1}
               alt="Kiến tạo giá trị - Dẫn lối tương lai"
               className="h-auto w-auto"
             />
@@ -116,7 +101,7 @@ export function HeroSection() {
             variants={staggerContainer(0.08)}
           >
             <motion.span variants={fadeUp} className="block text-3xl md:text-5xl lg:text-6xl">
-              KẾT NỐI GIÁ TRỊ
+              <EditableText id="home.hero.title1" fallbackVi="KẾT NỐI GIÁ TRỊ" />
             </motion.span>
             <motion.span
               variants={fadeUp}
@@ -132,13 +117,13 @@ export function HeroSection() {
                 lineHeight: '1.35',
               }}
             >
-              KIẾN TẠO TƯƠNG LAI
+              <EditableText id="home.hero.title2" fallbackVi="KIẾN TẠO TƯƠNG LAI" />
             </motion.span>
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p variants={fadeUp} className="mt-5 text-xl text-text-primary max-w-full leading-relaxed">
-            Hệ sinh thái Tài chính – Tài sản – Công nghệ. Tầm nhìn 2035.
+            <EditableText id="home.hero.subtitle" fallbackVi="Hệ sinh thái Tài chính – Tài sản – Công nghệ. Tầm nhìn 2035." />
           </motion.p>
 
           {/* Features */}
@@ -148,11 +133,11 @@ export function HeroSection() {
                 <motion.div key={title} variants={staggerItem} className="flex-1 flex flex-col items-start gap-1 sm:gap-3">
                   <div className="flex items-center justify-start gap-2 sm:gap-3">
                     <div className="size-5 sm:size-6 rounded-lg flex items-center justify-center shrink-0">
-                      {icon}
+                      <EditableImage id={`home.hero.img.feature${i}`} fallbackSrc={icon} alt="" className="w-full h-full object-contain" />
                     </div>
-                    <div className="text-sm sm:text-xl font-bold font-[Playfair_Display] text-text-primary leading-tight">{title}</div>
+                    <EditableText id={`home.hero.feature.${i}.title`} fallbackVi={title} as="div" className="text-sm sm:text-xl font-bold font-[Playfair_Display] text-text-primary leading-tight" />
                   </div>
-                  <div className="text-xs sm:text-base text-text-secondary leading-snug">{desc}</div>
+                  <EditableText id={`home.hero.feature.${i}.desc`} fallbackVi={desc} as="div" className="text-xs sm:text-base text-text-secondary leading-snug" />
                 </motion.div>
                 {i < FEATURES.length - 1 && (
                   <div key={`sep-${i}`} className="w-px self-stretch" style={{ background: "radial-gradient(50% 50% at 50% 50%, #D9D9D9 0%, rgba(115, 115, 115, 0.00) 100%)" }} />
@@ -166,7 +151,7 @@ export function HeroSection() {
             <Button variant="gold" size="lg" icon={true}
               className="h-11 px-5 text-sm gap-2 md:h-16 md:px-8 md:text-2xl md:gap-3"
               onClick={() => navigate(ROUTES.CONTACT)}>
-              Kết nối hợp tác
+              <EditableText id="home.hero.cta" fallbackVi="Kết nối hợp tác" />
             </Button>
           </motion.div>
         </motion.div>
@@ -192,8 +177,8 @@ export function HeroSection() {
               <div key={`sep-${i}`} className="w-px h-10 self-center" style={{ background: 'linear-gradient(to bottom, transparent, rgba(217,217,217,0.4) 30%, rgba(217,217,217,0.4) 70%, transparent)' }} />
             ),
             <div key={label} className="flex flex-col items-center justify-center gap-1 text-center px-8 py-5">
-              <span className="text-[40px] font-bold text-primary font-[Playfair_Display]">{value}</span>
-              <span className="text-base text-text-secondary whitespace-nowrap">{label}</span>
+              <EditableText id={`home.hero.stat.${i}.value`} fallbackVi={value} className="text-[40px] font-bold text-primary font-[Playfair_Display]" />
+              <EditableText id={`home.hero.stat.${i}.label`} fallbackVi={label} className="text-base text-text-secondary whitespace-nowrap" />
             </div>,
           ]).filter(Boolean)}
         </div>
@@ -209,7 +194,13 @@ export function HeroSection() {
       >
         <div className="flex items-center gap-12 marquee-track w-max">
           {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((src, i) => (
-            <img key={i} src={src} alt="" className="h-14 w-auto object-contain opacity-70" />
+            <EditableImage
+              key={i}
+              id={`home.hero.img.partnerLogo${i % PARTNER_LOGOS.length}`}
+              fallbackSrc={src}
+              alt=""
+              className="h-14 w-auto object-contain opacity-70"
+            />
           ))}
         </div>
       </motion.div>

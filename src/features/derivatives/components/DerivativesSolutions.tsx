@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { EditableText, EditableImage } from '@/components/cms'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 import icSolution1    from '@/assets/image/ic_solution1.png'
 import icSolution1_2x from '@/assets/image/ic_solution1@2x.png'
@@ -38,7 +39,7 @@ export function DerivativesSolutions() {
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
-            Giải pháp hàng hóa phái sinh toàn diện
+            <EditableText id="derivatives.solutions.title" fallbackVi="Giải pháp hàng hóa phái sinh toàn diện" />
           </motion.h2>
         </motion.div>
 
@@ -46,7 +47,7 @@ export function DerivativesSolutions() {
           className="grid grid-cols-2 lg:grid-cols-3 gap-5"
           variants={staggerContainer(0.08)} initial="hidden" whileInView="show" viewport={viewport}
         >
-          {SOLUTIONS.map(({ icon, srcSet, title, desc }) => (
+          {SOLUTIONS.map(({ icon, title, desc }, i) => (
             <motion.div
               key={title}
               variants={staggerItem}
@@ -58,14 +59,10 @@ export function DerivativesSolutions() {
                 backdropFilter: 'blur(7px)',
               }}
             >
-              <img src={icon} srcSet={srcSet} alt={title} className="h-20 w-27 object-contain" />
+              <EditableImage id={`derivatives.solutions.item.${i}.icon`} fallbackSrc={icon} alt={title} className="h-20 w-27 object-contain" />
               <div>
-                <h3 className="font-[Playfair_Display] text-center font-bold text-xl text-text-primary uppercase tracking-wide">
-                  {title}
-                </h3>
-                <p className="mt-2 text-base text-center text-text-secondary font-[Manrope] leading-relaxed">
-                  {desc}
-                </p>
+                <EditableText id={`derivatives.solutions.item.${i}.title`} fallbackVi={title} as="h3" className="font-[Playfair_Display] text-center font-bold text-xl text-text-primary uppercase tracking-wide" />
+                <EditableText id={`derivatives.solutions.item.${i}.desc`} fallbackVi={desc} as="p" className="mt-2 text-base text-center text-text-secondary font-[Manrope] leading-relaxed" />
               </div>
             </motion.div>
           ))}

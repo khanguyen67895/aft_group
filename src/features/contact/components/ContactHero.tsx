@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui'
+import { EditableText, EditableImage } from '@/components/cms'
 import { fadeUp, fadeLeft, fadeRight, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 
 import icBgField   from '@/assets/image/ic_bg_field.png'
-import icBgField2x from '@/assets/image/ic_bg_field@2x.png'
-import icBgField3x from '@/assets/image/ic_bg_field@3x.png'
 
 function PhoneIcon() {
   return (
@@ -53,14 +52,13 @@ export function ContactHero() {
   return (
     <section className="relative overflow-hidden bg-transparent pt-28 pb-16 md:pb-24">
       {/* Mobile: ambient glow background */}
-      <img
-        src={icBgField}
-        srcSet={`${icBgField} 1x, ${icBgField2x} 2x, ${icBgField3x} 3x`}
+      <EditableImage
+        id="contact.hero.img.bg"
+        fallbackSrc={icBgField}
         alt=""
-        aria-hidden
         className="absolute bottom-80 w-full h-full object-cover object-top opacity-35 pointer-events-none"
       />
-      
+
       <div className="relative z-10 container mx-auto px-4 md:px-8">
         {/* Title */}
         <motion.div
@@ -68,22 +66,25 @@ export function ContactHero() {
           variants={staggerContainer(0.1)} initial="hidden" animate="show"
         >
           <motion.h1 variants={fadeUp} className="relative z-999 font-[Playfair_Display] font-bold text-text-primary leading-tight uppercase text-3xl md:text-[48px]">
-            Kết nối hợp tác
+            <EditableText id="contact.hero.title" fallbackVi="Kết nối hợp tác" />
           </motion.h1>
           <motion.p variants={fadeUp} className="relative z-999 mt-4 text-base md:text-xl text-text-primary">
-            Giải pháp Tài chính - Tài sản - Công nghệ cho doanh nghiệp và đối tác chiến lược.
+            <EditableText id="contact.hero.subtitle" fallbackVi="Giải pháp Tài chính - Tài sản - Công nghệ cho doanh nghiệp và đối tác chiến lược." />
           </motion.p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
           {/* Left: intro + contact info */}
           <motion.div variants={fadeLeft} initial="hidden" whileInView="show" viewport={viewport}>
-            <p className="text-base md:text-xl max-w-160 text-text-secondary leading-relaxed">
-              Chúng tôi sẵn sàng lắng nghe và cùng bạn trao đổi những cơ hội hợp tác hiệu quả.
-            </p>
+            <EditableText
+              id="contact.hero.intro"
+              fallbackVi="Chúng tôi sẵn sàng lắng nghe và cùng bạn trao đổi những cơ hội hợp tác hiệu quả."
+              as="p"
+              className="text-base md:text-xl max-w-160 text-text-secondary leading-relaxed"
+            />
 
             <motion.div variants={staggerContainer(0.08)} className="mt-6 flex flex-col gap-4">
-              {CONTACT_INFO.map(({ Icon, label, value }) => (
+              {CONTACT_INFO.map(({ Icon, label, value }, i) => (
                 <motion.div
                   key={label}
                   variants={staggerItem}
@@ -102,8 +103,12 @@ export function ContactHero() {
                     <Icon />
                   </div>
                   <div>
-                    <div className="text-[12px] text-text-secondary font-[Manrope] uppercase tracking-widest">{label}</div>
-                    <div className="text-base md:text-xl font-bold text-text-primary font-[Manrope]">{value}</div>
+                    <div className="text-[12px] text-text-secondary font-[Manrope] uppercase tracking-widest">
+                      <EditableText id={`contact.hero.contactinfo.${i}.label`} fallbackVi={label} />
+                    </div>
+                    <div className="text-base md:text-xl font-bold text-text-primary font-[Manrope]">
+                      <EditableText id={`contact.hero.contactinfo.${i}.value`} fallbackVi={value} />
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -114,13 +119,18 @@ export function ContactHero() {
           <motion.div variants={fadeRight} initial="hidden" whileInView="show" viewport={viewport}>
             <div className="relative z-999 rounded-2xl border border-divider p-7 h-full"
               style={{ background: 'rgba(11,31,58,0.30)', boxShadow: '0 1px 20px 0 rgba(39,148,219,0.16)' }}>
-              <h3 className="text-2xl font-[Playfair_Display] text-text-primary mb-6 tracking-wide uppercase">
-                Gửi yêu cầu hợp tác
-              </h3>
+              <EditableText
+                id="contact.hero.form.heading"
+                fallbackVi="Gửi yêu cầu hợp tác"
+                as="h3"
+                className="text-2xl font-[Playfair_Display] text-text-primary mb-6 tracking-wide uppercase"
+              />
 
               <form className="flex flex-col gap-4" onSubmit={e => e.preventDefault()}>
                 <div>
-                  <label className="block text-base text-text-secondary mb-1.5 font-[Manrope]">Họ và tên</label>
+                  <label className="block text-base text-text-secondary mb-1.5 font-[Manrope]">
+                    <EditableText id="contact.hero.form.nameLabel" fallbackVi="Họ và tên" />
+                  </label>
                   <input
                     type="text"
                     placeholder="Nhập họ và tên"
@@ -132,7 +142,9 @@ export function ContactHero() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-base text-text-secondary mb-1.5 font-[Manrope]">Số điện thoại</label>
+                    <label className="block text-base text-text-secondary mb-1.5 font-[Manrope]">
+                      <EditableText id="contact.hero.form.phoneLabel" fallbackVi="Số điện thoại" />
+                    </label>
                     <input
                       type="tel"
                       placeholder="09xx xxx xxx"
@@ -142,7 +154,9 @@ export function ContactHero() {
                     />
                   </div>
                   <div>
-                    <label className="block text-base text-text-secondary mb-1.5 font-[Manrope]">Email</label>
+                    <label className="block text-base text-text-secondary mb-1.5 font-[Manrope]">
+                      <EditableText id="contact.hero.form.emailLabel" fallbackVi="Email" />
+                    </label>
                     <input
                       type="email"
                       placeholder="Nhập email"
@@ -154,7 +168,9 @@ export function ContactHero() {
                 </div>
 
                 <div>
-                  <label className="block text-body-base text-text-secondary mb-1.5 font-[Manrope]">Mô tả dự án</label>
+                  <label className="block text-body-base text-text-secondary mb-1.5 font-[Manrope]">
+                    <EditableText id="contact.hero.form.descLabel" fallbackVi="Mô tả dự án" />
+                  </label>
                   <textarea
                     rows={4}
                     placeholder="Mô tả ngắn về mô hình và mong muốn hợp tác"
@@ -166,7 +182,7 @@ export function ContactHero() {
 
                 <div className="pt-1">
                   <Button variant="gold" size="md" icon={true} fullWidth>
-                    Gửi yêu cầu ngay
+                    <EditableText id="contact.hero.form.submit" fallbackVi="Gửi yêu cầu ngay" />
                   </Button>
                 </div>
               </form>

@@ -1,13 +1,10 @@
-﻿import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui'
+import { EditableText, EditableImage } from '@/components/cms'
 import { fadeUp, fadeRight, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 import icTitle3    from '@/assets/image/ic_title3.png'
-import icTitle3x2  from '@/assets/image/ic_title3@2x.png'
-import icTitle3x3  from '@/assets/image/ic_title3@3x.png'
 import icBgLand      from '@/assets/image/ic_bg_land.png'
-import icBgLand2x    from '@/assets/image/ic_bg_land@2x.png'
-import icBgLand3x    from '@/assets/image/ic_bg_land@3x.png'
 import icField1      from '@/assets/image/ic_item_field1.png'
 import icField1x2    from '@/assets/image/ic_item_field1@2x.png'
 import icField1x3    from '@/assets/image/ic_item_field1@3x.png'
@@ -73,9 +70,9 @@ export function RealEstateSection() {
   return (
     <section ref={sectionRef} className="relative bg-bg overflow-hidden">
       {/* Full-section background — anchored left so buildings aren't cropped */}
-      <img
-        src={icBgLand}
-        srcSet={`${icBgLand} 1x, ${icBgLand2x} 2x, ${icBgLand3x} 3x`}
+      <EditableImage
+        id="home.realestate.img.bg"
+        fallbackSrc={icBgLand}
         alt=""
         className="absolute inset-0 w-full h-full object-cover object-left"
       />
@@ -106,28 +103,39 @@ export function RealEstateSection() {
                   backdropFilter: 'blur(12px)',
                 }}
               >
-                <span className="inline-block text-[10px] font-bold tracking-[0.2em] uppercase text-text-secondary bg-text-primary/10 rounded-full px-3 py-1">
-                  Dự án tiêu biểu
-                </span>
+                <EditableText
+                  id="home.realestate.badge.featured"
+                  fallbackVi="Dự án tiêu biểu"
+                  className="inline-block text-[10px] font-bold tracking-[0.2em] uppercase text-text-secondary bg-text-primary/10 rounded-full px-3 py-1"
+                />
 
                 <div className="flex items-center gap-3 mt-3">
-                  <img
-                    src={current.img}
+                  <EditableImage
+                    id={`home.realestate.projectslides.${active}.img`}
+                    fallbackSrc={current.img}
                     alt={current.name}
                     className="size-16 rounded-xl object-cover shrink-0"
                   />
                   <div className="min-w-0">
-                    <div className="font-[Playfair_Display] font-bold text-lg text-text-primary uppercase truncate">
-                      {current.name}
-                    </div>
+                    <EditableText
+                      id={`home.realestate.projectslides.${active}.name`}
+                      fallbackVi={current.name}
+                      as="div"
+                      className="font-[Playfair_Display] font-bold text-lg text-text-primary uppercase truncate"
+                    />
                     <div className="flex items-center gap-1 mt-1 text-text-secondary text-sm font-[Manrope]">
-                      <IconPin /><span className="truncate uppercase tracking-wide">{current.location}</span>
+                      <IconPin />
+                      <EditableText
+                        id={`home.realestate.projectslides.${active}.location`}
+                        fallbackVi={current.location}
+                        className="truncate uppercase tracking-wide"
+                      />
                     </div>
                   </div>
                 </div>
 
                 <Button variant="gold" size="sm" icon={true} className="mt-4 w-full">
-                  Xem chi tiết
+                  <EditableText id="home.realestate.button.viewdetail" fallbackVi="Xem chi tiết" />
                 </Button>
               </motion.div>
             </AnimatePresence>
@@ -152,23 +160,24 @@ export function RealEstateSection() {
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.div variants={fadeUp}>
-            <img src={icTitle3} srcSet={`${icTitle3} 1x, ${icTitle3x2} 2x, ${icTitle3x3} 3x`}
-                  alt="Lĩnh vực" className="h-auto w-auto" />
+            <EditableImage id="home.realestate.img.title" fallbackSrc={icTitle3} alt="Lĩnh vực" className="h-auto w-auto" />
           </motion.div>
 
           <motion.h2 variants={fadeUp}
             className="mt-6 font-[Playfair_Display] font-bold text-text-primary leading-tight"
           >
-            <span className="block text-3xl md:text-[40px] uppercase">Bất động sản và dự án</span>
+            <EditableText id="home.realestate.title" fallbackVi="Bất động sản và dự án" className="block text-3xl md:text-[40px] uppercase" />
           </motion.h2>
 
           <motion.p variants={fadeUp} className="mt-5 text-xl text-text-secondary leading-relaxed max-w-lg">
-            Môi giới, phát triển dự án và bất động sản du lịch – nghỉ dưỡng tại các địa bàn trọng điểm.
-            Tài sản thực làm nền tảng vay vốn và tạo dòng tiền ổn định cho hệ sinh thái.
+            <EditableText
+              id="home.realestate.subtitle"
+              fallbackVi="Môi giới, phát triển dự án và bất động sản du lịch – nghỉ dưỡng tại các địa bàn trọng điểm. Tài sản thực làm nền tảng vay vốn và tạo dòng tiền ổn định cho hệ sinh thái."
+            />
           </motion.p>
 
           <motion.div variants={staggerContainer(0.1)} className="flex flex-row gap-3 mt-8">
-            {STATS.map(({ value, label, src, src2x, src3x }) => (
+            {STATS.map(({ value, label, src }, i) => (
               <motion.div key={label} variants={staggerItem}
                 className="flex items-center gap-3 px-4 py-3.5 flex-1 sm:flex-none sm:w-72"
                 style={{
@@ -178,18 +187,24 @@ export function RealEstateSection() {
                   backdropFilter: 'blur(12px)',
                 }}
               >
-                <img src={src} srcSet={`${src} 1x, ${src2x} 2x, ${src3x} 3x`}
-                  alt={label} className="size-11 object-contain shrink-0" />
+                <EditableImage
+                  id={`home.realestate.stats.${i}.icon`}
+                  fallbackSrc={src}
+                  alt={label}
+                  className="size-11 object-contain shrink-0"
+                />
                 <div>
-                  <div className="text-2xl font-bold text-text-primary font-[Manrope]">{value}</div>
-                  <div className="text-base text-text-secondary font-[Manrope] leading-snug mt-0.5">{label}</div>
+                  <EditableText id={`home.realestate.stats.${i}.value`} fallbackVi={value} as="div" className="text-2xl font-bold text-text-primary font-[Manrope]" />
+                  <EditableText id={`home.realestate.stats.${i}.label`} fallbackVi={label} as="div" className="text-base text-text-secondary font-[Manrope] leading-snug mt-0.5" />
                 </div>
               </motion.div>
             ))}
           </motion.div>
 
           <motion.div variants={fadeRight} className="mt-10">
-            <Button variant="gold" size="md" icon={true}>Khám phá dự án</Button>
+            <Button variant="gold" size="md" icon={true}>
+              <EditableText id="home.realestate.button.explore" fallbackVi="Khám phá dự án" />
+            </Button>
           </motion.div>
         </motion.div>
 

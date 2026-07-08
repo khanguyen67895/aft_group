@@ -48,4 +48,8 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: ROUTES.ADMIN_LOGIN,
+    lazy: () => import('@/features/admin/pages/AdminLoginPage').then(m => ({ Component: m.AdminLoginPage })),
+  },
 ])

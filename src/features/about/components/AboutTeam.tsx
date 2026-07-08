@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
+import { EditableText, EditableImage } from '@/components/cms'
 import icLeft    from '@/assets/image/ic_left.png'
-import icLeft2x  from '@/assets/image/ic_left@2x.png'
-import icLeft3x  from '@/assets/image/ic_left@3x.png'
 import icRight   from '@/assets/image/ic_right.png'
-import icRight2x from '@/assets/image/ic_right@2x.png'
-import icRight3x from '@/assets/image/ic_right@3x.png'
 
 import icAvatar1   from '@/assets/image/ic_avatar1.png'
 import icAvatar1x2 from '@/assets/image/ic_avatar1@2x.png'
@@ -28,8 +25,6 @@ import icAvatar6x2 from '@/assets/image/ic_avatar6@2x.png'
 import icAvatar6x3 from '@/assets/image/ic_avatar6@3x.png'
 
 import icDesTeam   from '@/assets/image/ic_des_team.png'
-import icDesTeam2x from '@/assets/image/ic_des_team@2x.png'
-import icDesTeam3x from '@/assets/image/ic_des_team@3x.png'
 
 const TEAM = [
   { name: 'Nguyễn Đình Cương', role: 'Chairman/CEO', dept: '(Chủ tịch kiêm điều hành)', src: icAvatar6, src2x: icAvatar6x2, src3x: icAvatar6x3 },
@@ -86,23 +81,27 @@ export function AboutTeam() {
   return (
     <section className="bg-secondary">
       <div className="container mx-auto px-4 md:px-8 flex flex-col md:block">
-        <motion.img
-          src={icDesTeam}
-          srcSet={`${icDesTeam} 1x, ${icDesTeam2x} 2x, ${icDesTeam3x} 3x`}
-          alt="Lời thề sáu nhà sáng lập AFT"
-          className="order-1 mt-0 mb-10 md:order-3 md:mt-14 md:mb-0 max-w-220 mx-auto w-full h-auto"
+        <motion.div
+          className="md:hidden order-1 mt-0 mb-10 md:order-3 md:mt-14 md:mb-0 max-w-220 mx-auto w-full h-auto"
           variants={fadeUp} initial="hidden" whileInView="show" viewport={viewport}
-        />
+        >
+          <EditableImage
+            id="about.team.image.oath"
+            fallbackSrc={icDesTeam}
+            alt="Lời thề sáu nhà sáng lập AFT"
+            className="w-full h-auto"
+          />
+        </motion.div>
 
         <motion.div
           className="order-2 text-center mb-12"
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
-            Đội ngũ chuyên gia
+            <EditableText id="about.team.title" fallbackVi="Đội ngũ chuyên gia" />
           </motion.h2>
           <motion.p variants={fadeUp} className="mt-3 text-base md:text-xl text-text-secondary max-w-180 mx-auto">
-            Sáu con người, một lời thề - đặt tổ chức lên trên cái tôi, đặt niềm tin trước lợi nhuận.
+            <EditableText id="about.team.subtitle" fallbackVi="Sáu con người, một lời thề - đặt tổ chức lên trên cái tôi, đặt niềm tin trước lợi nhuận." />
           </motion.p>
         </motion.div>
 
@@ -113,28 +112,22 @@ export function AboutTeam() {
             onScroll={handleScroll}
             className="overflow-x-auto snap-x snap-mandatory scrollbar-hide flex gap-4 px-[7.5vw]"
           >
-            {TEAM.map(({ name, role, dept, src, src2x, src3x }) => (
+            {TEAM.map(({ name, role, dept, src }, i) => (
               <div
                 key={name}
                 className="shrink-0 snap-center w-[85vw] max-w-sm relative rounded-2xl overflow-hidden aspect-3/4"
                 style={{ background: 'linear-gradient(180deg, rgba(198,161,91,0.10) 0%, rgba(198,161,91,0.55) 100%)' }}
               >
-                <img
-                  src={src}
-                  srcSet={`${src} 1x, ${src2x} 2x, ${src3x} 3x`}
+                <EditableImage
+                  id={`about.team.member.${i}.image`}
+                  fallbackSrc={src}
                   alt={name}
                   className="absolute inset-0 w-full h-full object-cover object-top"
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/50 to-transparent pt-14 pb-4 px-3 text-center">
-                  <div className="font-bold text-text-primary font-[Manrope] text-xl tracking-wide uppercase leading-tight">
-                    {name}
-                  </div>
-                  <div className="text-sm text-text-secondary font-[Manrope] tracking-widest uppercase mt-1">
-                    {role}
-                  </div>
-                  <div className="text-sm text-text-secondary font-[Manrope] uppercase mt-0.5 leading-snug">
-                    {dept}
-                  </div>
+                  <EditableText id={`about.team.member.${i}.name`} fallbackVi={name} as="div" className="font-bold text-text-primary font-[Manrope] text-xl tracking-wide uppercase leading-tight" />
+                  <EditableText id={`about.team.member.${i}.role`} fallbackVi={role} as="div" className="text-sm text-text-secondary font-[Manrope] tracking-widest uppercase mt-1" />
+                  <EditableText id={`about.team.member.${i}.dept`} fallbackVi={dept} as="div" className="text-sm text-text-secondary font-[Manrope] uppercase mt-0.5 leading-snug" />
                 </div>
               </div>
             ))}
@@ -143,13 +136,13 @@ export function AboutTeam() {
           {/* Pagination */}
           <div className="flex justify-center items-center gap-4 mt-4">
             <button onClick={prev} aria-label="Previous" className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
-              <img src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`} alt="Prev" className="size-full object-cover" />
+              <EditableImage id="about.team.image.prev" fallbackSrc={icLeft} alt="Prev" className="size-full object-cover" />
             </button>
             <span className="text-sm font-[Manrope] font-semibold text-text-secondary tabular-nums">
               {active + 1}/{total}
             </span>
             <button onClick={next} aria-label="Next" className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
-              <img src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`} alt="Next" className="size-full object-cover" />
+              <EditableImage id="about.team.image.next" fallbackSrc={icRight} alt="Next" className="size-full object-cover" />
             </button>
           </div>
         </div>
@@ -159,29 +152,34 @@ export function AboutTeam() {
           className="order-3 hidden md:grid md:grid-cols-3 gap-4 md:gap-6"
           variants={staggerContainer(0.08)} initial="hidden" whileInView="show" viewport={viewport}
         >
-          {TEAM.map(({ name, role, dept, src, src2x, src3x }) => (
+          {TEAM.map(({ name, role, dept, src }, i) => (
             <motion.div key={name} variants={staggerItem} className="relative rounded-2xl overflow-hidden aspect-3/4"
               style={{ background: 'linear-gradient(180deg, rgba(198,161,91,0.10) 0%, rgba(198,161,91,0.55) 100%)' }}
             >
-              <img
-                src={src}
-                srcSet={`${src} 1x, ${src2x} 2x, ${src3x} 3x`}
+              <EditableImage
+                id={`about.team.member.${i}.image`}
+                fallbackSrc={src}
                 alt={name}
                 className="absolute inset-0 w-full h-full object-cover object-top"
               />
               <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/50 to-transparent pt-14 pb-4 px-3 text-center">
-                <div className="font-bold text-text-primary font-[Manrope] text-xs md:text-xl tracking-wide uppercase leading-tight">
-                  {name}
-                </div>
-                <div className="text-[14px] md:text-[14px] text-text-secondary font-[Manrope] tracking-widest uppercase mt-1">
-                  {role}
-                </div>
-                <div className="text-[14px] md:text-[14px] text-text-secondary font-[Manrope] uppercase mt-0.5 leading-snug">
-                  {dept}
-                </div>
+                <EditableText id={`about.team.member.${i}.name`} fallbackVi={name} as="div" className="font-bold text-text-primary font-[Manrope] text-xs md:text-xl tracking-wide uppercase leading-tight" />
+                <EditableText id={`about.team.member.${i}.role`} fallbackVi={role} as="div" className="text-[14px] md:text-[14px] text-text-secondary font-[Manrope] tracking-widest uppercase mt-1" />
+                <EditableText id={`about.team.member.${i}.dept`} fallbackVi={dept} as="div" className="text-[14px] md:text-[14px] text-text-secondary font-[Manrope] uppercase mt-0.5 leading-snug" />
               </div>
             </motion.div>
           ))}
+          <motion.div
+            className="hidden md:block order-1 mt-0 mb-10 md:mt-8 md:mb-0 mx-auto w-full h-auto"
+            variants={fadeUp} initial="hidden" whileInView="show" viewport={viewport}
+          >
+            <EditableImage
+              id="about.team.image.oath"
+              fallbackSrc={icDesTeam}
+              alt="Lời thề sáu nhà sáng lập AFT"
+              className="w-full h-auto"
+            />
+        </motion.div>
         </motion.div>
       </div>
     </section>

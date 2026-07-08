@@ -1,14 +1,11 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui'
+import { EditableText, EditableImage } from '@/components/cms'
 import { fadeUp, fadeLeft, fadeRight, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 import icTitle4       from '@/assets/image/ic_title4.png'
-import icTitle4x2     from '@/assets/image/ic_title4@2x.png'
-import icTitle4x3     from '@/assets/image/ic_title4@3x.png'
 import icAnimationIdea from '@/assets/image/ic_animation_idea.gif'
 import icItemIdea     from '@/assets/image/ic_item_idea.png'
-import icItemIdea2x   from '@/assets/image/ic_item_idea@2x.png'
-import icItemIdea3x   from '@/assets/image/ic_item_idea@3x.png'
 
 const CRITERIA = [
   { key: 'O',  title: 'Opportunity', desc: 'Cơ hội thị trường thực, đủ lớn.' },
@@ -38,7 +35,7 @@ export function FundSection() {
 
       {/* Gif lớn làm nền toàn section */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-105 md:w-180 pointer-events-none select-none z-0">
-        <img src={icAnimationIdea} alt="" className="w-full h-auto" />
+        <EditableImage id="home.fund.img.animation" fallbackSrc={icAnimationIdea} alt="" className="w-full h-auto" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 md:px-8">
@@ -49,16 +46,15 @@ export function FundSection() {
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.div variants={fadeUp}>
-            <img src={icTitle4} srcSet={`${icTitle4} 1x, ${icTitle4x2} 2x, ${icTitle4x3} 3x`}
-              alt="Quỹ đầu tư mạo hiểm" className="h-auto w-auto mx-auto" />
+            <EditableImage id="home.fund.img.title" fallbackSrc={icTitle4} alt="Quỹ đầu tư mạo hiểm" className="h-auto w-auto mx-auto" />
           </motion.div>
 
           <motion.h2 variants={fadeUp} className="mt-4 font-[Playfair_Display] font-bold text-text-primary text-3xl md:text-[40px] lg:text-4xl uppercase">
-            Rót vốn cho những <span className="text-primary">ý tưởng tiềm năng</span>
+            <EditableText id="home.fund.title.prefix" fallbackVi="Rót vốn cho những" /> <EditableText id="home.fund.title.highlight" fallbackVi="ý tưởng tiềm năng" className="text-primary" />
           </motion.h2>
 
           <motion.p variants={fadeUp} className="mt-3 text-base text-text-secondary max-w-140 mx-auto">
-            Đồng hành cùng founder trong AI, chuyển đổi số và các mô hình mới — chọn deal theo nguyên tắc O.R.E.B.R minh bạch, kỷ luật.
+            <EditableText id="home.fund.subtitle" fallbackVi="Đồng hành cùng founder trong AI, chuyển đổi số và các mô hình mới — chọn deal theo nguyên tắc O.R.E.B.R minh bạch, kỷ luật." />
           </motion.p>
         </motion.div>
 
@@ -78,7 +74,7 @@ export function FundSection() {
                 className="flex flex-col gap-3"
                 variants={staggerContainer(0.08)} initial="hidden" whileInView="show" viewport={viewport}
               >
-                {CRITERIA.map(({ key, title, desc }) => (
+                {CRITERIA.map(({ key, title, desc }, i) => (
                   <motion.div key={key} variants={staggerItem}
                     className="flex items-center gap-5 cursor-pointer"
                     onClick={() => setActive(key)}>
@@ -93,15 +89,19 @@ export function FundSection() {
                       style={{ borderRadius: '16px 56px 56px 16px', border: '1px solid rgba(246, 247, 249, 0.10)' }}>
                       <div className="flex items-center gap-3">
                         <div className="relative size-14 shrink-0 flex items-center justify-center">
-                          <img src={icItemIdea} srcSet={`${icItemIdea} 1x, ${icItemIdea2x} 2x, ${icItemIdea3x} 3x`}
-                            alt="" className="absolute inset-0 size-full object-contain" />
+                          <EditableImage
+                            id={`home.fund.criteria.${i}.icon`}
+                            fallbackSrc={icItemIdea}
+                            alt=""
+                            className="absolute inset-0 size-full object-contain"
+                          />
                           <span className="relative text-[32px] font-extrabold font-[Manrope] text-text-primary">
                             {key === 'R2' ? 'R' : key}
                           </span>
                         </div>
                         <div>
-                          <div className="font-bold text-text-primary font-[Manrope] text-sm">{title}</div>
-                          <div className="text-body-sm text-text-secondary">{desc}</div>
+                          <EditableText id={`home.fund.criteria.${i}.title`} fallbackVi={title} as="div" className="font-bold text-text-primary font-[Manrope] text-sm" />
+                          <EditableText id={`home.fund.criteria.${i}.desc`} fallbackVi={desc} as="div" className="text-body-sm text-text-secondary" />
                         </div>
                       </div>
                     </div>
@@ -115,13 +115,18 @@ export function FundSection() {
           <motion.div variants={fadeRight} initial="hidden" whileInView="show" viewport={viewport} className="h-full">
             <div className="rounded-2xl border border-divider p-7 h-full"
               style={{ background: 'rgba(11, 31, 58, 0.30)', boxShadow: '0 1px 20px 0 rgba(39, 148, 219, 0.16)' }}>
-              <h3 className="text-h6 font-[Playfair_Display] text-text-primary mb-6 tracking-wide">
-                Gửi pitch của bạn
-              </h3>
+              <EditableText
+                id="home.fund.pitchform.heading"
+                fallbackVi="Gửi pitch của bạn"
+                as="h3"
+                className="text-h6 font-[Playfair_Display] text-text-primary mb-6 tracking-wide"
+              />
 
               <form className="flex flex-col gap-4" onSubmit={e => e.preventDefault()}>
                 <div>
-                  <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">Tên dự án</label>
+                  <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">
+                    <EditableText id="home.fund.form.label.name" fallbackVi="Tên dự án" />
+                  </label>
                   <input
                     type="text"
                     placeholder="Nhập tên dự án"
@@ -133,7 +138,9 @@ export function FundSection() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">Số điện thoại</label>
+                    <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">
+                      <EditableText id="home.fund.form.label.phone" fallbackVi="Số điện thoại" />
+                    </label>
                     <input
                       type="tel"
                       placeholder="09xx xxx xxx"
@@ -143,7 +150,9 @@ export function FundSection() {
                     />
                   </div>
                   <div>
-                    <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">Email</label>
+                    <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">
+                      <EditableText id="home.fund.form.label.email" fallbackVi="Email" />
+                    </label>
                     <input
                       type="email"
                       placeholder="Nhập email"
@@ -155,7 +164,9 @@ export function FundSection() {
                 </div>
 
                 <div>
-                  <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">Mô tả dự án</label>
+                  <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">
+                    <EditableText id="home.fund.form.label.desc" fallbackVi="Mô tả dự án" />
+                  </label>
                   <textarea
                     rows={4}
                     placeholder="Mô tả ngắn về hình và vòng gọi vốn"
@@ -167,7 +178,7 @@ export function FundSection() {
 
                 <div className="pt-1">
                   <Button variant="gold" size="md" icon={true} fullWidth>
-                    Gửi pitch ngay
+                    <EditableText id="home.fund.button.submit" fallbackVi="Gửi pitch ngay" />
                   </Button>
                 </div>
               </form>

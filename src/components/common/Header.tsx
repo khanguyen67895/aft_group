@@ -3,8 +3,10 @@ import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui'
+import { EditableText, EditableImage } from '@/components/cms'
 import { ROUTES } from '@/constants'
 import { staggerContainer, staggerItem } from '@/lib/motion'
+import { useLanguageStore } from '@/stores/language.store'
 import icLogo from '@/assets/image/ic_logo.png'
 import icSidebarMenu   from '@/assets/image/ic_sidebar_menu.png'
 import icSidebarMenu2x from '@/assets/image/ic_sidebar_menu@2x.png'
@@ -34,6 +36,21 @@ const NAV: NavItem[] = [
   { to: ROUTES.FUND,  label: 'Quỹ đầu tư' },
   { to: ROUTES.ABOUT, label: 'Về chúng tôi' },
 ]
+
+/* Maps a nav item's Vietnamese label to its shared CMS content key, so the
+   same logical nav item uses the same EditableText id in every render site
+   (desktop nav, mobile drawer, and — for dropdown children — both the
+   active NavLink branch and the disabled "coming soon" branch). */
+const NAV_KEY: Record<string, string> = {
+  'Trang chủ':      'header.nav.home',
+  'Hệ sinh thái':    'header.nav.ecosystem',
+  'Lĩnh vực':        'header.nav.sectors',
+  'Quỹ đầu tư':      'header.nav.fund',
+  'Về chúng tôi':    'header.nav.about',
+  'Bất động sản':              'header.nav.sectors.realestate',
+  'Hàng hóa phái sinh':        'header.nav.sectors.derivatives',
+  'Vàng - Khai thác và giao dịch': 'header.nav.sectors.gold',
+}
 
 const linkClass = 'relative pb-1 text-base font-bold tracking-[0.12em] font-[Manrope] uppercase whitespace-nowrap transition-colors'
 
@@ -104,7 +121,7 @@ export function Header() {
           transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
         >
           <Link to={ROUTES.HOME} className="flex items-center gap-2.5 shrink-0">
-            <img src={icLogo} srcSet={icLogo} alt="AFT Group logo" className="h-8 md:h-12 w-auto shrink-0" />
+            <EditableImage id="header.logo" fallbackSrc={icLogo} alt="AFT Group logo" className="h-8 md:h-12 w-auto shrink-0" />
           </Link>
         </motion.div>
 
@@ -123,7 +140,7 @@ export function Header() {
                   <button
                     className={cn(linkClass, sectorsActive ? 'text-primary' : 'text-text-secondary hover:text-text-primary')}
                   >
-                    {item.label}
+                    <EditableText id={NAV_KEY[item.label] ?? item.label} fallbackVi={item.label} />
                     {sectorsActive && <ActiveIndicator />}
                   </button>
 
@@ -149,15 +166,20 @@ export function Header() {
                                 : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
                             )}
                           >
-                            {child.label}
+                            <EditableText id={NAV_KEY[child.label] ?? child.label} fallbackVi={child.label} />
                           </NavLink>
                         ) : (
                           <span
                             key={child.label}
                             className="flex items-center justify-between px-4 py-3 text-sm font-[Manrope] font-semibold tracking-wide text-text-secondary/40 cursor-not-allowed"
                           >
-                            {child.label}
-                            <span className="text-[10px] font-normal text-primary/60 ml-3 shrink-0">Sắp ra mắt</span>
+                            <EditableText id={NAV_KEY[child.label] ?? child.label} fallbackVi={child.label} />
+                            <EditableText
+                              id="header.nav.comingSoon"
+                              fallbackVi="Sắp ra mắt"
+                              as="span"
+                              className="text-[10px] font-normal text-primary/60 ml-3 shrink-0"
+                            />
                           </span>
                         )
                       )}
@@ -169,7 +191,7 @@ export function Header() {
                 <NavLink to={item.to!} end={item.to === ROUTES.HOME}>
                   {({ isActive }) => (
                     <span className={cn(linkClass, isActive ? 'text-primary' : 'text-text-secondary hover:text-text-primary')}>
-                      {item.label}
+                      <EditableText id={NAV_KEY[item.label] ?? item.label} fallbackVi={item.label} />
                       {isActive && <ActiveIndicator />}
                     </span>
                   )}
@@ -187,12 +209,16 @@ export function Header() {
           transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1], delay: 0.55 }}
         >
           <LangToggle />
-          <Button variant="gold" size="sm" onClick={() => navigate(ROUTES.CONTACT)}>Kết nối hợp tác</Button>
+          <Button variant="gold" size="sm" onClick={() => navigate(ROUTES.CONTACT)}>
+            <EditableText id="header.cta.desktop" fallbackVi="Kết nối hợp tác" />
+          </Button>
         </motion.div>
 
         {/* Mobile: CTA + menu toggle */}
         <div className="flex lg:hidden items-center gap-3 shrink-0">
-          <Button variant="gold" size="sm" onClick={() => navigate(ROUTES.CONTACT)}>Hợp tác</Button>
+          <Button variant="gold" size="sm" onClick={() => navigate(ROUTES.CONTACT)}>
+            <EditableText id="header.cta.mobileTop" fallbackVi="Hợp tác" />
+          </Button>
 
           <button
             className="size-11 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center transition-opacity hover:opacity-80"
@@ -235,7 +261,7 @@ export function Header() {
                           sectorsActive ? 'text-primary bg-primary/8' : 'text-text-secondary hover:text-text-primary'
                         )}
                       >
-                        {item.label}
+                        <EditableText id={NAV_KEY[item.label] ?? item.label} fallbackVi={item.label} />
                         <ChevronDown open={mobileDropOpen} />
                       </button>
 
@@ -259,15 +285,20 @@ export function Header() {
                                     isActive ? 'text-primary bg-primary/8' : 'text-text-secondary hover:text-text-primary'
                                   )}
                                 >
-                                  {child.label}
+                                  <EditableText id={NAV_KEY[child.label] ?? child.label} fallbackVi={child.label} />
                                 </NavLink>
                               ) : (
                                 <span
                                   key={child.label}
                                   className="flex items-center justify-between px-3 py-2 text-sm font-[Manrope] font-semibold text-text-secondary/40"
                                 >
-                                  {child.label}
-                                  <span className="text-[10px] text-primary/60 ml-2">Sắp ra mắt</span>
+                                  <EditableText id={NAV_KEY[child.label] ?? child.label} fallbackVi={child.label} />
+                                  <EditableText
+                                    id="header.nav.comingSoon"
+                                    fallbackVi="Sắp ra mắt"
+                                    as="span"
+                                    className="text-[10px] text-primary/60 ml-2"
+                                  />
                                 </span>
                               )
                             )}
@@ -282,12 +313,14 @@ export function Header() {
                         'px-3 py-2.5 rounded-lg text-sm font-bold tracking-wider font-[Manrope] uppercase transition-colors',
                         isActive ? 'text-primary bg-primary/8' : 'text-text-secondary hover:text-text-primary'
                       )}>
-                      {item.label}
+                      <EditableText id={NAV_KEY[item.label] ?? item.label} fallbackVi={item.label} />
                     </NavLink>
                   )
                 )}
                 <div className="pt-3 border-t border-divider mt-2">
-                  <Button variant="gold" size="sm" fullWidth onClick={() => { setOpen(false); navigate(ROUTES.CONTACT) }}>Kết nối hợp tác</Button>
+                  <Button variant="gold" size="sm" fullWidth onClick={() => { setOpen(false); navigate(ROUTES.CONTACT) }}>
+                    <EditableText id="header.cta.mobileDrawer" fallbackVi="Kết nối hợp tác" />
+                  </Button>
                 </div>
               </nav>
             </div>
@@ -299,9 +332,16 @@ export function Header() {
 }
 
 function LangToggle() {
+  const lang = useLanguageStore(state => state.lang)
+  const toggleLang = useLanguageStore(state => state.toggleLang)
+
   return (
-    <button className="flex items-center gap-1 text-base font-bold tracking-widest font-[Manrope] text-text-secondary hover:text-text-primary transition-colors">
-      VN
+    <button
+      onClick={toggleLang}
+      aria-label="Đổi ngôn ngữ"
+      className="flex items-center gap-1 text-base font-bold tracking-widest font-[Manrope] text-text-secondary hover:text-text-primary transition-colors"
+    >
+      {lang === 'vi' ? 'VN' : 'EN'}
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
         <path d="M2.5 4L5 6.5L7.5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>

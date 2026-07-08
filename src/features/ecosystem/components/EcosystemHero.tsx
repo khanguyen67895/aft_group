@@ -1,15 +1,14 @@
+import { EditableImage } from '@/components/cms'
 import videoEcosystem from '@/assets/video/video_ecosystem.mp4'
-import icHeroEcosystemMb   from '@/assets/image/ic_hero_ecosystem_mb.png'
-import icHeroEcosystemMb2x from '@/assets/image/ic_hero_ecosystem_mb@2x.png'
-import icHeroEcosystemMb3x from '@/assets/image/ic_hero_ecosystem_mb@3x.png'
+import icHeroEcosystemMb from '@/assets/image/ic_hero_ecosystem_mb.png'
 
 export function EcosystemHero() {
   return (
     <section className="relative w-full h-dvh md:h-screen overflow-hidden">
       {/* Mobile: static image instead of video */}
-      <img
-        src={icHeroEcosystemMb}
-        srcSet={`${icHeroEcosystemMb} 1x, ${icHeroEcosystemMb2x} 2x, ${icHeroEcosystemMb3x} 3x`}
+      <EditableImage
+        id="ecosystem.hero.img.mobileBg"
+        fallbackSrc={icHeroEcosystemMb}
         alt=""
         className="md:hidden absolute inset-0 w-full h-full object-cover"
       />

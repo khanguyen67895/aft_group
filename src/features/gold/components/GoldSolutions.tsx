@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
+import { EditableText, EditableImage } from '@/components/cms'
 
 import icSolution1   from '@/assets/image/ic_solution_gold1.png'
 import icSolution1x2 from '@/assets/image/ic_solution_gold1@2x.png'
@@ -38,7 +39,7 @@ export function GoldSolutions() {
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
-            Giải pháp nổi bật
+            <EditableText id="gold.solutions.title" fallbackVi="Giải pháp nổi bật" />
           </motion.h2>
         </motion.div>
 
@@ -46,7 +47,7 @@ export function GoldSolutions() {
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
-          {SOLUTIONS.map(({ img, img2x, img3x, title, desc }) => (
+          {SOLUTIONS.map(({ img, title, desc }, i) => (
             <motion.div
               key={title}
               variants={staggerItem}
@@ -59,15 +60,18 @@ export function GoldSolutions() {
               }}
             >
               <div className="overflow-hidden h-45 md:h-62.5">
-                <img
-                  src={img}
-                  srcSet={`${img} 1x, ${img2x} 2x, ${img3x} 3x`}
+                <EditableImage
+                  id={`gold.solutions.item.${i}.image`}
+                  fallbackSrc={img}
                   alt={title}
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-6">
-                <h3 
+                <EditableText
+                  id={`gold.solutions.item.${i}.title`}
+                  fallbackVi={title}
+                  as="h3"
                   className="font-[Playfair_Display] font-bold text-2xl text-primary uppercase leading-snug"
                   style={{
                         background: 'var(--Main-Colors-Primary-Radius, radial-gradient(50% 50% at 50% 50%, #F8E8C0 0%, #C09857 100%))',
@@ -76,12 +80,14 @@ export function GoldSolutions() {
                         backgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         animation: 'text-shimmer 2.8s ease-in-out infinite',
-                  }}>
-                  {title}
-                </h3>
-                <p className="mt-2 text-base text-text-secondary font-[Manrope] leading-relaxed">
-                  {desc}
-                </p>
+                  }}
+                />
+                <EditableText
+                  id={`gold.solutions.item.${i}.desc`}
+                  fallbackVi={desc}
+                  as="p"
+                  className="mt-2 text-base text-text-secondary font-[Manrope] leading-relaxed"
+                />
               </div>
             </motion.div>
           ))}

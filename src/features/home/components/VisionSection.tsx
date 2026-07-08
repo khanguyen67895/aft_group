@@ -1,33 +1,19 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import { EditableText, EditableImage } from '@/components/cms'
 import { fadeLeft, fadeRight, scaleIn, viewport } from '@/lib/motion'
 import icBgVision    from '@/assets/image/ic_bg_vision.png'
-import icBgVision2x  from '@/assets/image/ic_bg_vision@2x.png'
-import icBgVision3x  from '@/assets/image/ic_bg_vision@3x.png'
 import icBgVisionMb    from '@/assets/image/ic_bg_vision_mb.png'
-import icBgVisionMb2x  from '@/assets/image/ic_bg_vision_mb@2x.png'
-import icBgVisionMb3x  from '@/assets/image/ic_bg_vision_mb@3x.png'
 import icItem1       from '@/assets/image/ic_item_vision1.png'
-import icItem1x2     from '@/assets/image/ic_item_vision1@2x.png'
-import icItem1x3     from '@/assets/image/ic_item_vision1@3x.png'
 import icItem2       from '@/assets/image/ic_item_vision2.png'
-import icItem2x2     from '@/assets/image/ic_item_vision2@2x.png'
 import icSub1        from '@/assets/image/ic_subitem1.png'
-import icSub1x2      from '@/assets/image/ic_subitem1@2x.png'
-import icSub1x3      from '@/assets/image/ic_subitem1@3x.png'
 import icSub2        from '@/assets/image/ic_subitem2.png'
-import icSub2x2      from '@/assets/image/ic_subitem2@2x.png'
-import icSub2x3      from '@/assets/image/ic_subitem2@3x.png'
 import icSub3        from '@/assets/image/ic_subitem3.png'
-import icSub3x2      from '@/assets/image/ic_subitem3@2x.png'
-import icSub3x3      from '@/assets/image/ic_subitem3@3x.png'
-
-type IconAsset = { src: string; x2: string; x3: string }
 
 const CARDS = [
-  { key: 'asset',  title: 'Tài sản',   icon: { src: icSub1, x2: icSub1x2, x3: icSub1x3 }, desc: 'Quản trị và phát triển tài sản, gia tăng giá trị dài hạn.' },
-  { key: 'vision', title: 'Tầm nhìn',  icon: { src: icSub2, x2: icSub2x2, x3: icSub2x3 }, desc: 'Chiến lược bền vững, tạo giá trị vượt thời gian.' },
-  { key: 'tech',   title: 'Công nghệ', icon: { src: icSub3, x2: icSub3x2, x3: icSub3x3 }, desc: 'Công nghệ tiên tiến, đổi mới không ngừng.' },
+  { key: 'asset',  title: 'Tài sản',   icon: icSub1, desc: 'Quản trị và phát triển tài sản, gia tăng giá trị dài hạn.' },
+  { key: 'vision', title: 'Tầm nhìn',  icon: icSub2, desc: 'Chiến lược bền vững, tạo giá trị vượt thời gian.' },
+  { key: 'tech',   title: 'Công nghệ', icon: icSub3, desc: 'Công nghệ tiên tiến, đổi mới không ngừng.' },
 ]
 
 export function VisionSection() {
@@ -84,10 +70,10 @@ export function VisionSection() {
   return (
     <section className="relative overflow-hidden">
       {/* Desktop BG */}
-      <img src={icBgVision} srcSet={`${icBgVision} 1x, ${icBgVision2x} 2x, ${icBgVision3x} 3x`}
+      <EditableImage id="home.vision.img.bgDesktop" fallbackSrc={icBgVision}
         alt="" className="hidden md:block w-full h-auto" />
       {/* Mobile BG */}
-      <img src={icBgVisionMb} srcSet={`${icBgVisionMb} 1x, ${icBgVisionMb2x} 2x, ${icBgVisionMb3x} 3x`}
+      <EditableImage id="home.vision.img.bgMobile" fallbackSrc={icBgVisionMb}
         alt="" className="md:hidden w-full h-auto" />
 
       {/* Content overlay */}
@@ -99,19 +85,19 @@ export function VisionSection() {
           <motion.div variants={fadeLeft} initial="hidden" whileInView="show" viewport={viewport}
             className="flex justify-center cursor-pointer" onClick={() => setActive('asset')}
           >
-            <VisionCard {...CARDS[0]} isActive={active === 'asset'} floatDelay={0} />
+            <VisionCard {...CARDS[0]} index={0} isActive={active === 'asset'} floatDelay={0} />
           </motion.div>
 
           <motion.div variants={scaleIn} initial="hidden" whileInView="show" viewport={viewport}
             className="flex justify-center cursor-pointer" onClick={() => setActive('vision')}
           >
-            <VisionCard {...CARDS[1]} isActive={active === 'vision'} center floatDelay={0.9} />
+            <VisionCard {...CARDS[1]} index={1} isActive={active === 'vision'} center floatDelay={0.9} />
           </motion.div>
 
           <motion.div variants={fadeRight} initial="hidden" whileInView="show" viewport={viewport}
             className="flex justify-center cursor-pointer" onClick={() => setActive('tech')}
           >
-            <VisionCard {...CARDS[2]} isActive={active === 'tech'} floatDelay={1.8} />
+            <VisionCard {...CARDS[2]} index={2} isActive={active === 'tech'} floatDelay={1.8} />
           </motion.div>
         </div>
 
@@ -123,14 +109,14 @@ export function VisionSection() {
             className="flex items-center overflow-x-auto snap-x snap-mandatory scrollbar-hide py-4"
             style={{ paddingLeft: '22vw', paddingRight: '22vw', gap: '6vw' }}
           >
-            {CARDS.map(card => (
+            {CARDS.map((card, i) => (
               <div
                 key={card.key}
                 className="shrink-0 snap-center flex justify-center cursor-pointer"
                 style={{ width: '55vw' }}
                 onClick={() => setActive(card.key)}
               >
-                <VisionCard {...card} isActive={active === card.key} center floatDelay={0} />
+                <VisionCard {...card} index={i} isActive={active === card.key} center floatDelay={0} />
               </div>
             ))}
           </div>
@@ -151,8 +137,8 @@ const CSS_EASE = 'cubic-bezier(0.22,1,0.36,1)'
 const TRANS_FULL = `opacity 0.65s ${CSS_EASE}, transform 0.65s ${CSS_EASE}`
 const TRANS_OPACITY = `opacity 0.65s ${CSS_EASE}`
 
-function VisionCard({ title, icon, desc, isActive, center, floatDelay = 0 }: {
-  title: string; icon: IconAsset; desc: string; isActive: boolean; center?: boolean; floatDelay?: number
+function VisionCard({ title, icon, desc, isActive, center, floatDelay = 0, index }: {
+  title: string; icon: string; desc: string; isActive: boolean; center?: boolean; floatDelay?: number; index: number
 }) {
   const iconStyle: React.CSSProperties = {
     opacity:    isActive ? 1 : 0.55,
@@ -183,11 +169,9 @@ function VisionCard({ title, icon, desc, isActive, center, floatDelay = 0 }: {
         transition={{ duration: 0.65, ease: EASE }}
         className="relative"
       >
-        <img
-          src={center ? icItem2 : icItem1}
-          srcSet={center
-            ? `${icItem2} 1x, ${icItem2x2} 2x`
-            : `${icItem1} 1x, ${icItem1x2} 2x, ${icItem1x3} 3x`}
+        <EditableImage
+          id={center ? 'home.vision.img.cardFrameCenter' : 'home.vision.img.cardFrameSide'}
+          fallbackSrc={center ? icItem2 : icItem1}
           alt=""
           className={`block max-w-full ${center ? 'w-84' : 'w-95'}`}
         />
@@ -195,26 +179,40 @@ function VisionCard({ title, icon, desc, isActive, center, floatDelay = 0 }: {
         <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
           {center ? (
             <div className="flex flex-col items-center text-center gap-1.5 md:gap-3 px-4 md:px-8">
-              <img
-                style={iconStyle}
-                src={icon.src} srcSet={`${icon.src} 1x, ${icon.x2} 2x, ${icon.x3} 3x`}
-                alt="" className="size-10 md:size-18.5 object-contain"
-              />
-              <span style={titleStyle} className="font-[Playfair_Display] font-bold text-text-primary text-sm md:text-2xl uppercase tracking-widest">
-                {title}
+              <span style={iconStyle}>
+                <EditableImage
+                  id={`home.vision.img.cards.${index}.icon`}
+                  fallbackSrc={icon}
+                  alt="" className="size-10 md:size-18.5 object-contain"
+                />
               </span>
-              <p style={descStyle} className="text-xs md:text-xl text-text-secondary leading-snug max-w-[90%] md:max-w-60">{desc}</p>
+              <EditableText
+                id={`home.vision.cards.${index}.title`} fallbackVi={title}
+                style={titleStyle} className="font-[Playfair_Display] font-bold text-text-primary text-sm md:text-2xl uppercase tracking-widest"
+              />
+              <EditableText
+                id={`home.vision.cards.${index}.desc`} fallbackVi={desc} as="p"
+                style={descStyle} className="text-xs md:text-xl text-text-secondary leading-snug max-w-[90%] md:max-w-60"
+              />
             </div>
           ) : (
             <div className="flex gap-4 items-center justify-center px-6 w-full">
-              <img
-                style={iconStyle}
-                src={icon.src} srcSet={`${icon.src} 1x, ${icon.x2} 2x, ${icon.x3} 3x`}
-                alt="" className="size-15 object-contain shrink-0"
-              />
+              <span style={iconStyle}>
+                <EditableImage
+                  id={`home.vision.img.cards.${index}.icon`}
+                  fallbackSrc={icon}
+                  alt="" className="size-15 object-contain shrink-0"
+                />
+              </span>
               <div className="flex flex-col items-start gap-2">
-                <span style={titleStyle} className="font-[Playfair_Display] font-bold text-text-primary text-2xl">{title}</span>
-                <p style={descStyle} className="text-base text-text-secondary leading-relaxed max-w-50">{desc}</p>
+                <EditableText
+                  id={`home.vision.cards.${index}.title`} fallbackVi={title}
+                  style={titleStyle} className="font-[Playfair_Display] font-bold text-text-primary text-2xl"
+                />
+                <EditableText
+                  id={`home.vision.cards.${index}.desc`} fallbackVi={desc} as="p"
+                  style={descStyle} className="text-base text-text-secondary leading-relaxed max-w-50"
+                />
               </div>
             </div>
           )}

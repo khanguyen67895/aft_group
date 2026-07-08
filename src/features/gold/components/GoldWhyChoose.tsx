@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
 import { SurveyIcon, TargetIcon, BlueprintIcon, ReportIcon, HandshakeIcon } from '@/features/derivatives/components/DerivativesProcess'
+import { EditableText } from '@/components/cms'
 
 const REASONS = [
   { Icon: SurveyIcon,    title: 'Kỷ luật và minh bạch',                 desc: 'Quy trình chuẩn quốc tế, báo cáo minh bạch, cam kết đạo đức.' },
@@ -25,7 +26,7 @@ export function GoldWhyChoose() {
         >
           <motion.div className="text-center mb-14" variants={staggerContainer(0.1)}>
             <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
-              Vì sao chọn AFT trong lĩnh vực vàng
+              <EditableText id="gold.whychoose.title" fallbackVi="Vì sao chọn AFT trong lĩnh vực vàng" />
             </motion.h2>
           </motion.div>
 
@@ -33,7 +34,7 @@ export function GoldWhyChoose() {
             className="grid grid-cols-1 md:grid-cols-5 gap-4"
             variants={staggerContainer(0.08)}
           >
-            {REASONS.map(({ Icon, title, desc }) => (
+            {REASONS.map(({ Icon, title, desc }, i) => (
               <motion.div
                 key={title}
                 variants={staggerItem}
@@ -48,8 +49,8 @@ export function GoldWhyChoose() {
                   <Icon />
                 </div>
                 <div className='flex flex-col md:flex-row'>
-                  <div className="text-xl text-left md:text-center font-bold text-text-primary font-[Playfair Display] leading-snug">{title}</div>
-                  <div className="text-base text-left md:text-center text-text-secondary font-[Manrope] leading-relaxed">{desc}</div>
+                  <EditableText id={`gold.whychoose.item.${i}.title`} fallbackVi={title} as="div" className="text-xl text-left md:text-center font-bold text-text-primary font-[Playfair Display] leading-snug" />
+                  <EditableText id={`gold.whychoose.item.${i}.desc`} fallbackVi={desc} as="div" className="text-base text-left md:text-center text-text-secondary font-[Manrope] leading-relaxed" />
                 </div>
               </motion.div>
             ))}

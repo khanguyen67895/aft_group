@@ -1,14 +1,13 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
+import { EditableText, EditableImage } from '@/components/cms'
 
 import icPhase1   from '@/assets/image/ic_about_phase1.png'
 import icPhase1x2 from '@/assets/image/ic_about_phase1@2x.png'
 import icPhase1x3 from '@/assets/image/ic_about_phase1@3x.png'
 
 import icCheckbox   from '@/assets/image/ic_checkbox.png'
-import icCheckbox2x from '@/assets/image/ic_checkbox@2x.png'
-import icCheckbox3x from '@/assets/image/ic_checkbox@3x.png'
 
 const PHASES = [
   {
@@ -67,7 +66,7 @@ export function AboutRoadmap() {
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
           <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
-            Ba giai đoạn, một di sản
+            <EditableText id="about.roadmap.title" fallbackVi="Ba giai đoạn, một di sản" />
           </motion.h2>
         </motion.div>
 
@@ -83,10 +82,8 @@ export function AboutRoadmap() {
                 borderLeft: i > 0 ? '1px solid rgba(246,247,249,0.10)' : 'none',
               }}
             >
-              <div className="text-sm text-text-secondary font-[Manrope]">{p.range}</div>
-              <div className={`text-xl mt-3 font-bold font-[Playfair_Display] uppercase text-primary`}>
-                {p.label}
-              </div>
+              <EditableText id={`about.roadmap.step.${i}.range`} fallbackVi={p.range} as="div" className="text-sm text-text-secondary font-[Manrope]" />
+              <EditableText id={`about.roadmap.step.${i}.label`} fallbackVi={p.label} as="div" className="text-xl mt-3 font-bold font-[Playfair_Display] uppercase text-primary" />
             </button>
           ))}
         </div>
@@ -106,11 +103,10 @@ export function AboutRoadmap() {
               borderTop: 'none',
             }}
           >
-            <img
-              src={phase.img}
-              srcSet={`${phase.img} 1x, ${phase.img2x} 2x, ${phase.img3x} 3x`}
+            <EditableImage
+              id={`about.roadmap.step.${active}.image`}
+              fallbackSrc={phase.img}
               alt=""
-              aria-hidden
               className="absolute inset-0 w-full h-full object-cover pointer-events-none"
             />
             <div
@@ -124,24 +120,19 @@ export function AboutRoadmap() {
             />
 
             <div className="relative z-10 max-w-160">
-              <h3 className="text-primary font-[Playfair_Display] font-bold text-xl md:text-2xl uppercase">
-                {phase.heading}
-              </h3>
-              <p className="mt-3 text-base text-text-secondary font-[Manrope] leading-relaxed">
-                {phase.desc}
-              </p>
+              <EditableText id={`about.roadmap.step.${active}.heading`} fallbackVi={phase.heading} as="h3" className="text-primary font-[Playfair_Display] font-bold text-xl md:text-2xl uppercase" />
+              <EditableText id={`about.roadmap.step.${active}.desc`} fallbackVi={phase.desc} as="p" className="mt-3 text-base text-text-secondary font-[Manrope] leading-relaxed" />
               <ul className="mt-5 space-y-3">
-                {phase.items.map((item) => (
+                {phase.items.map((item, j) => (
                   <li key={item.title} className="flex items-start gap-3">
-                    <img
-                      src={icCheckbox}
-                      srcSet={`${icCheckbox} 1x, ${icCheckbox2x} 2x, ${icCheckbox3x} 3x`}
+                    <EditableImage
+                      id={`about.roadmap.step.${active}.item.${j}.icon`}
+                      fallbackSrc={icCheckbox}
                       alt=""
-                      aria-hidden
                       className="w-7 h-7 shrink-0 mt-0.5"
                     />
                     <span className="text-sm md:text-base text-text-secondary font-[Manrope]">
-                      <span className="font-bold text-text-primary">{item.title}</span> - {item.desc}
+                      <EditableText id={`about.roadmap.step.${active}.item.${j}.title`} fallbackVi={item.title} as="span" className="font-bold text-text-primary" /> - <EditableText id={`about.roadmap.step.${active}.item.${j}.desc`} fallbackVi={item.desc} as="span" />
                     </span>
                   </li>
                 ))}

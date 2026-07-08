@@ -1,24 +1,17 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { staggerContainer, fadeUp, viewport } from '@/lib/motion'
+import { EditableText, EditableImage } from '@/components/cms'
 
-import icBgField      from '@/assets/image/ic_bg_field.png'
-import icBgField2x    from '@/assets/image/ic_bg_field@2x.png'
-import icBgField3x    from '@/assets/image/ic_bg_field@3x.png'
-import icSubBgField   from '@/assets/image/ic_sub_bg_field.png'
-import icSubBgField2x from '@/assets/image/ic_sub_bg_field@2x.png'
-import icSubBgField3x from '@/assets/image/ic_sub_bg_field@3x.png'
+import icBgField    from '@/assets/image/ic_bg_field.png'
+import icSubBgField from '@/assets/image/ic_sub_bg_field.png'
 import icField1    from '@/assets/image/ic_item_field1.jfif'
 import icField2    from '@/assets/image/ic_item_field2.jfif'
 import icField3    from '@/assets/image/ic_item_field3.jfif'
 import icField4    from '@/assets/image/ic_item_field4.jfif'
 import icField5    from '@/assets/image/ic_item_field5.jfif'
-import icLeft    from '@/assets/image/ic_left.png'
-import icLeft2x  from '@/assets/image/ic_left@2x.png'
-import icLeft3x  from '@/assets/image/ic_left@3x.png'
-import icRight   from '@/assets/image/ic_right.png'
-import icRight2x from '@/assets/image/ic_right@2x.png'
-import icRight3x from '@/assets/image/ic_right@3x.png'
+import icLeft  from '@/assets/image/ic_left.png'
+import icRight from '@/assets/image/ic_right.png'
 
 const SLIDES = [
   { img: icField1, name: 'Aurum Complex',     location: 'TP. Hồ Chí Minh' },
@@ -115,22 +108,33 @@ export function SectorsHero() {
       <div className="relative overflow-hidden">
 
         {/* Landscape background */}
-        <img
-          src={icBgField}
-          srcSet={`${icBgField} 1x, ${icBgField2x} 2x, ${icBgField3x} 3x`}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover object-top pointer-events-none"
-          style={{ zIndex: 0, filter: 'brightness(0.4) blur(1px)' }}
-        />
+        <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0, filter: 'brightness(0.4) blur(1px)' }}>
+          <EditableImage
+            id="sectors.hero.img.bg"
+            fallbackSrc={icBgField}
+            alt=""
+            className="w-full h-full object-cover object-top"
+          />
+        </div>
         {/* Blue-wave overlay — screen blend: black→transparent, blue beams visible */}
-        <img
-          src={icSubBgField}
-          srcSet={`${icSubBgField} 1x, ${icSubBgField2x} 2x, ${icSubBgField3x} 3x`}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none opacity-10"
-          style={{ zIndex: 1, mixBlendMode: 'screen' }}
+        <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 1, mixBlendMode: 'screen' }}>
+          <EditableImage
+            id="sectors.hero.img.bgOverlay"
+            fallbackSrc={icSubBgField}
+            alt=""
+            className="w-full h-full object-cover object-center opacity-10"
+          />
+        </div>
+
+        {/* Top fade: bg-secondary (#0B1F3A) → transparent */}
+        <div
+          className="absolute inset-x-0 top-0 h-40 pointer-events-none"
+          style={{ zIndex: 2, background: 'linear-gradient(to bottom, #0B1F3A 0%, transparent 100%)' }}
+        />
+        {/* Bottom fade: transparent → bg-secondary (#0B1F3A) */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-100 pointer-events-none"
+          style={{ zIndex: 2, background: 'linear-gradient(to top, #0B1F3A 0%, transparent 100%)' }}
         />
 
       {/* ── Title ─────────────────────────────────────── */}
@@ -140,15 +144,22 @@ export function SectorsHero() {
         animate="show"
         className="relative z-10 text-center px-4 mb-10"
       >
-        <motion.h1
-          variants={fadeUp}
-          className="font-[Playfair_Display] font-bold text-[28px] md:text-5xl text-text-primary uppercase tracking-wide"
-        >
-          Bất động sản – Dự án
-        </motion.h1>
-        <motion.p variants={fadeUp} className="mt-3 text-sm md:text-xl text-text-secondary font-[Manrope]">
-          Kiến tạo không gian sống · Gia tăng giá trị bền vững
-        </motion.p>
+        <motion.div variants={fadeUp}>
+          <EditableText
+            id="sectors.hero.title"
+            fallbackVi="Bất động sản – Dự án"
+            as="h1"
+            className="font-[Playfair_Display] font-bold text-[28px] md:text-5xl text-text-primary uppercase tracking-wide"
+          />
+        </motion.div>
+        <motion.div variants={fadeUp}>
+          <EditableText
+            id="sectors.hero.subtitle"
+            fallbackVi="Kiến tạo không gian sống · Gia tăng giá trị bền vững"
+            as="p"
+            className="mt-3 text-sm md:text-xl text-text-secondary font-[Manrope]"
+          />
+        </motion.div>
       </motion.div>
 
       {/* ── Carousel — desktop/tablet: fan-style coverflow ─ */}
@@ -162,10 +173,7 @@ export function SectorsHero() {
           className="absolute z-20 top-1/2 -translate-y-1/2 size-10 flex items-center justify-center"
           style={{ left: ARROW_LEFT_LEFT }}
         >
-          <img
-            src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`}
-            alt="prev" className="w-full h-full object-contain"
-          />
+          <EditableImage id="sectors.hero.img.arrowPrev" fallbackSrc={icLeft} alt="prev" className="w-full h-full object-contain" />
         </button>
 
         {/* Slides */}
@@ -190,9 +198,9 @@ export function SectorsHero() {
               transition={{ type: 'spring', stiffness: 240, damping: 30 }}
               onClick={() => { setActive(i); startAuto() }}
             >
-              <img
-                src={slide.img}
-                srcSet={`${slide.img}`}
+              <EditableImage
+                id={`sectors.hero.item.${i}.img`}
+                fallbackSrc={slide.img}
                 alt={slide.name}
                 className="w-full h-full object-cover"
               />
@@ -204,12 +212,18 @@ export function SectorsHero() {
                   style={{ background: 'linear-gradient(to top, rgba(11,31,58,0.88) 0%, rgba(11,31,58,0.18) 55%, transparent 100%)' }}
                 >
                   <div className="w-full text-center pb-8 px-4">
-                    <div className="font-[Playfair_Display] font-bold text-white text-[40px] uppercase tracking-wide">
-                      {slide.name}
-                    </div>
-                    <div className="text-white text-2xl font-[Manrope] font-semibold mt-1.5 tracking-[0.2em] uppercase">
-                      {slide.location}
-                    </div>
+                    <EditableText
+                      id={`sectors.hero.item.${i}.name`}
+                      fallbackVi={slide.name}
+                      as="div"
+                      className="font-[Playfair_Display] font-bold text-white text-[40px] uppercase tracking-wide"
+                    />
+                    <EditableText
+                      id={`sectors.hero.item.${i}.location`}
+                      fallbackVi={slide.location}
+                      as="div"
+                      className="text-white text-2xl font-[Manrope] font-semibold mt-1.5 tracking-[0.2em] uppercase"
+                    />
                   </div>
                 </div>
               )}
@@ -224,10 +238,7 @@ export function SectorsHero() {
           className="absolute z-20 top-1/2 -translate-y-1/2 size-10 flex items-center justify-center"
           style={{ left: ARROW_RIGHT_LEFT }}
         >
-          <img
-            src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`}
-            alt="next" className="w-full h-full object-contain"
-          />
+          <EditableImage id="sectors.hero.img.arrowNext" fallbackSrc={icRight} alt="next" className="w-full h-full object-contain" />
         </button>
       </div>
       )}
@@ -242,10 +253,7 @@ export function SectorsHero() {
           aria-label="Previous"
           className="absolute z-20 top-1/2 -translate-y-1/2 left-2 size-9 flex items-center justify-center"
         >
-          <img
-            src={icLeft} srcSet={`${icLeft} 1x, ${icLeft2x} 2x, ${icLeft3x} 3x`}
-            alt="prev" className="w-full h-full object-contain"
-          />
+          <EditableImage id="sectors.hero.img.arrowPrev" fallbackSrc={icLeft} alt="prev" className="w-full h-full object-contain" />
         </button>
 
         {/* Slides */}
@@ -270,8 +278,9 @@ export function SectorsHero() {
               transition={{ type: 'spring', stiffness: 240, damping: 30 }}
               onClick={() => { setActive(i); startAuto() }}
             >
-              <img
-                src={slide.img}
+              <EditableImage
+                id={`sectors.hero.item.${i}.img`}
+                fallbackSrc={slide.img}
                 alt={slide.name}
                 className="w-full h-full object-cover"
               />
@@ -283,12 +292,18 @@ export function SectorsHero() {
                   style={{ background: 'linear-gradient(to top, rgba(11,31,58,0.88) 0%, rgba(11,31,58,0.18) 55%, transparent 100%)' }}
                 >
                   <div className="w-full text-center pb-6 px-3">
-                    <div className="font-[Playfair_Display] font-bold text-white text-xl uppercase tracking-wide">
-                      {slide.name}
-                    </div>
-                    <div className="text-white text-sm font-[Manrope] font-semibold mt-1 tracking-[0.15em] uppercase">
-                      {slide.location}
-                    </div>
+                    <EditableText
+                      id={`sectors.hero.item.${i}.name`}
+                      fallbackVi={slide.name}
+                      as="div"
+                      className="font-[Playfair_Display] font-bold text-white text-xl uppercase tracking-wide"
+                    />
+                    <EditableText
+                      id={`sectors.hero.item.${i}.location`}
+                      fallbackVi={slide.location}
+                      as="div"
+                      className="text-white text-sm font-[Manrope] font-semibold mt-1 tracking-[0.15em] uppercase"
+                    />
                   </div>
                 </div>
               )}
@@ -302,10 +317,7 @@ export function SectorsHero() {
           aria-label="Next"
           className="absolute z-20 top-1/2 -translate-y-1/2 right-2 size-9 flex items-center justify-center"
         >
-          <img
-            src={icRight} srcSet={`${icRight} 1x, ${icRight2x} 2x, ${icRight3x} 3x`}
-            alt="next" className="w-full h-full object-contain"
-          />
+          <EditableImage id="sectors.hero.img.arrowNext" fallbackSrc={icRight} alt="next" className="w-full h-full object-contain" />
         </button>
       </div>
       )}
@@ -318,9 +330,12 @@ export function SectorsHero() {
         viewport={viewport}
         className="relative z-10 text-center mx-auto max-w-2xl px-6 mt-10 text-text-secondary text-base md:text-xl leading-relaxed font-[Manrope]"
       >
-        <span className="text-text-primary font-semibold">AFT GROUP</span> phát triển và quản lý dự án bất động
-        sản cao cấp, khu đô thị hiện đại và bất động sản công nghiệp. Chúng tôi kiến tạo không gian sống đẳng
-        cấp, góp phần thúc đẩy phát triển kinh tế – xã hội bền vững.
+        <EditableText id="sectors.hero.description.brand" fallbackVi="AFT GROUP" as="span" className="text-text-primary font-semibold" />{' '}
+        <EditableText
+          id="sectors.hero.description.body"
+          fallbackVi="phát triển và quản lý dự án bất động sản cao cấp, khu đô thị hiện đại và bất động sản công nghiệp. Chúng tôi kiến tạo không gian sống đẳng cấp, góp phần thúc đẩy phát triển kinh tế – xã hội bền vững."
+          as="span"
+        />
       </motion.p>
 
       </div>{/* ── end upper zone ── */}
@@ -338,10 +353,13 @@ export function SectorsHero() {
 
         <div className="container mx-auto px-4 md:px-8 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
-            {STATS.map(({ value, unit, label }) => (
+            {STATS.map(({ value, unit, label }, i) => (
               <motion.div key={label} variants={fadeUp} className="flex flex-col items-center text-center">
                 <div className="flex items-baseline">
-                  <span
+                  <EditableText
+                    id={`sectors.hero.stats.item.${i}.value`}
+                    fallbackVi={value}
+                    as="span"
                     className="font-[Manrope] font-bold text-3xl md:text-4xl"
                     style={{
                       background: 'linear-gradient(90deg, #C6A15B 25%, #F8EBC0 50%, #C6A15B 75%)',
@@ -351,11 +369,12 @@ export function SectorsHero() {
                       WebkitTextFillColor: 'transparent',
                       animation: 'text-shimmer 2.8s ease-in-out infinite',
                     }}
-                  >
-                    {value}
-                  </span>
+                  />
                   {unit && (
-                    <span
+                    <EditableText
+                      id={`sectors.hero.stats.item.${i}.unit`}
+                      fallbackVi={unit}
+                      as="span"
                       className="font-[Manrope] font-bold text-xl md:text-2xl ml-0.5"
                       style={{
                         background: 'linear-gradient(90deg, #C6A15B 25%, #F8EBC0 50%, #C6A15B 75%)',
@@ -365,14 +384,15 @@ export function SectorsHero() {
                         WebkitTextFillColor: 'transparent',
                         animation: 'text-shimmer 2.8s ease-in-out infinite',
                       }}
-                    >
-                      {unit}
-                    </span>
+                    />
                   )}
                 </div>
-                <span className="mt-1.5 text-xs md:text-base text-text-secondary font-[Manrope] leading-snug">
-                  {label}
-                </span>
+                <EditableText
+                  id={`sectors.hero.stats.item.${i}.label`}
+                  fallbackVi={label}
+                  as="span"
+                  className="mt-1.5 text-xs md:text-base text-text-secondary font-[Manrope] leading-snug"
+                />
               </motion.div>
             ))}
           </div>

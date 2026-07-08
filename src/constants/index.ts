@@ -9,6 +9,7 @@ export const ROUTES = {
   CONTACT: '/lien-he',
   COURSES: '/courses',
   COURSE_DETAIL: '/courses/:id',
+  ADMIN_LOGIN: '/admin/login',
 } as const
 
 export const QUERY_KEYS = {

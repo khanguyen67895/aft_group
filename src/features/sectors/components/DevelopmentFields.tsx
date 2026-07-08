@@ -1,13 +1,10 @@
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, staggerItem, viewport } from '@/lib/motion'
+import { EditableText, EditableImage } from '@/components/cms'
 
-import icBgLand         from '@/assets/image/ic_bg_land.png'
-import icBgLand2x       from '@/assets/image/ic_bg_land@2x.png'
-import icBgLand3x       from '@/assets/image/ic_bg_land@3x.png'
-import icFieldDevelop   from '@/assets/image/ic_feild_develop.png'
-import icFieldDevelop2x from '@/assets/image/ic_feild_develop@2x.png'
-import icFieldDevelop3x from '@/assets/image/ic_feild_develop@3x.png'
-import icItemEco1       from '@/assets/image/ic_item_eco1.png'
+import icBgLand       from '@/assets/image/ic_bg_land.png'
+import icFieldDevelop from '@/assets/image/ic_feild_develop.png'
+import icItemEco1     from '@/assets/image/ic_item_eco1.png'
 
 const nameStyle: React.CSSProperties = {
   background: 'var(--Main-Colors-Primary-Radius, radial-gradient(50% 50% at 50% 50%, #F8E8C0 0%, #C09857 100%))',
@@ -48,17 +45,17 @@ export function DevelopmentFields() {
         }}
       >
         {/* Building background — anchored right */}
-        <img
-          src={icBgLand}
-          srcSet={`${icBgLand} 1x, ${icBgLand2x} 2x, ${icBgLand3x} 3x`}
+        <EditableImage
+          id="sectors.fields.img.bg"
+          fallbackSrc={icBgLand}
           alt=""
           className="absolute inset-0 w-full h-full object-cover object-right pointer-events-none"
         />
 
         {/* ic_feild_develop overlay — left panel, natural width */}
-        <img
-          src={icFieldDevelop}
-          srcSet={`${icFieldDevelop} 1x, ${icFieldDevelop2x} 2x, ${icFieldDevelop3x} 3x`}
+        <EditableImage
+          id="sectors.fields.img.overlay"
+          fallbackSrc={icFieldDevelop}
           alt=""
           className="absolute inset-y-0 left-0 h-full w-auto pointer-events-none"
         />
@@ -81,28 +78,30 @@ export function DevelopmentFields() {
             viewport={viewport}
           >
 
-            <motion.h2
-              variants={fadeUp}
-              className="mt-4 font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase leading-tight"
-            >
-              Lĩnh vực phát triển
-            </motion.h2>
+            <motion.div variants={fadeUp}>
+              <EditableText
+                id="sectors.fields.title"
+                fallbackVi="Lĩnh vực phát triển"
+                as="h2"
+                className="mt-4 font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase leading-tight"
+              />
+            </motion.div>
 
-            <motion.p
-              variants={fadeUp}
-              className="mt-4 text-xl text-text-secondary leading-relaxed"
-            >
-              Môi giới, phát triển dự án và bất động sản du lịch – nghỉ dưỡng tại
-              các địa bàn trọng điểm. Tài sản thực làm nền tảng vay vốn và tạo
-              dòng tiền ổn định cho hệ sinh thái.
-            </motion.p>
+            <motion.div variants={fadeUp}>
+              <EditableText
+                id="sectors.fields.description"
+                fallbackVi="Môi giới, phát triển dự án và bất động sản du lịch – nghỉ dưỡng tại các địa bàn trọng điểm. Tài sản thực làm nền tảng vay vốn và tạo dòng tiền ổn định cho hệ sinh thái."
+                as="p"
+                className="mt-4 text-xl text-text-secondary leading-relaxed"
+              />
+            </motion.div>
 
             {/* Sub-field items */}
             <motion.div
               variants={staggerContainer(0.1)}
               className="mt-8 flex flex-col"
             >
-              {SUB_FIELDS.map((field) => (
+              {SUB_FIELDS.map((field, i) => (
                 <motion.div
                   key={field.name}
                   variants={staggerItem}
@@ -115,18 +114,27 @@ export function DevelopmentFields() {
                     backdropFilter: 'blur(7px)',
                   }}
                 >
-                  <img src={field.icon} alt={field.name} className="size-15 object-contain shrink-0" />
+                  <EditableImage
+                    id={`sectors.fields.item.${i}.icon`}
+                    fallbackSrc={field.icon}
+                    alt={field.name}
+                    className="size-15 object-contain shrink-0"
+                  />
 
                   <div>
-                    <div
+                    <EditableText
+                      id={`sectors.fields.item.${i}.name`}
+                      fallbackVi={field.name}
+                      as="div"
                       className="text-xl font-bold font-[Playfair_Display] tracking-widest uppercase"
                       style={nameStyle}
-                    >
-                      {field.name}
-                    </div>
-                    <div className="mt-1 text-base text-text-secondary font-[Manrope] leading-relaxed">
-                      {field.description}
-                    </div>
+                    />
+                    <EditableText
+                      id={`sectors.fields.item.${i}.description`}
+                      fallbackVi={field.description}
+                      as="div"
+                      className="mt-1 text-base text-text-secondary font-[Manrope] leading-relaxed"
+                    />
                   </div>
                 </motion.div>
               ))}
