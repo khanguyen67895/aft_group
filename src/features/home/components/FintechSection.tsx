@@ -22,7 +22,7 @@ export function FintechSection() {
   return (
     <section className="md:pt-20 pb-12 md:pb-20 bg-secondary">
       <div className="container mx-auto px-3 md:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[45fr_55fr] gap-10 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
 
           {/* Left column */}
           <motion.div
@@ -35,12 +35,12 @@ export function FintechSection() {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }} />
-            {/* Desktop overlay */}
+            {/* Desktop overlay: fade the gold image into the card's navy at the edges */}
             <div className="absolute inset-0 hidden md:block" style={{
-              background: 'radial-gradient(ellipse 55% 60% at 50% 45%, transparent 10%, rgba(11,31,58,0.55) 55%, rgba(11,31,58,0.92) 80%, #0B1F3A 100%)',
+              background: 'radial-gradient(ellipse 55% 60% at 50% 45%, transparent 10%, rgba(11,31,58,0.55) 55%, rgba(11,31,58,0.92) 80%, var(--color-secondary) 100%)',
             }} />
-            {/* Mobile: solid dark background */}
-            <div className="absolute inset-0 md:hidden" style={{ background: '#0B1527' }} />
+            {/* Mobile: solid navy background, matches the section behind it */}
+            <div className="absolute inset-0 md:hidden" style={{ background: 'var(--color-secondary)' }} />
             <div className="relative z-10 flex flex-col md:h-full px-3 py-5 md:p-7">
               <motion.div variants={fadeUp} className="self-start">
                 <EditableImage id="home.fintech.img.title" fallbackSrc={icTitle3}
@@ -63,10 +63,9 @@ export function FintechSection() {
                   <motion.div
                     key={label}
                     variants={staggerItem}
-                    className="flex flex-col items-center gap-2.5 px-3 py-4"
+                    className="flex flex-col items-center gap-2.5 px-3 py-4 border border-[rgba(39,148,219,0.20)] md:border-[rgba(246,247,249,0.10)]"
                     style={{
                       borderRadius: '16px',
-                      border: '1px solid rgba(246, 247, 249, 0.10)',
                       background: 'rgba(11, 31, 58, 0.30)',
                       backdropFilter: 'blur(7px)',
                     }}
@@ -81,12 +80,17 @@ export function FintechSection() {
                 ))}
               </motion.div>
 
-              {/* Mobile: gold image below features */}
-              <EditableImage
-                id="home.fintech.img.bgGoldMobile" fallbackSrc={icBgGold}
-                alt=""
-                className="md:hidden -mx-3 -mb-5 mt-4 w-[calc(100%+24px)] h-70 object-cover object-bottom"
-              />
+              {/* Mobile: gold image block below the features, blended into navy at the edges like desktop */}
+              <div className="md:hidden relative h-56 overflow-hidden">
+                <div className="absolute inset-0" style={{
+                  backgroundImage: `image-set(url(${icBgGold}) 1x, url(${icBgGold2x}) 2x, url(${icBgGold3x}) 3x)`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }} />
+                <div className="absolute inset-0" style={{
+                  background: 'radial-gradient(ellipse 60% 70% at 50% 50%, transparent 30%, rgba(11,31,58,0.55) 65%, var(--color-secondary) 100%)',
+                }} />
+              </div>
             </div>
           </motion.div>
 

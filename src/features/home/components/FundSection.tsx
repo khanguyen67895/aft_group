@@ -85,10 +85,10 @@ export function FundSection() {
                       ${active === key ? 'scale-125 shadow-[0_0_16px_5px_rgba(212,175,55,0.65)]' : ''}`} />
 
                     {/* Card */}
-                    <div className="flex-1 border p-4 transition-all duration-300"
+                    <div className="group flex-1 border p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-primary/5 hover:shadow-[0_8px_24px_-4px_rgba(212,175,55,0.25)]"
                       style={{ borderRadius: '16px 56px 56px 16px', border: '1px solid rgba(246, 247, 249, 0.10)' }}>
                       <div className="flex items-center gap-3">
-                        <div className="relative size-14 shrink-0 flex items-center justify-center">
+                        <div className="relative size-14 shrink-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                           <EditableImage
                             id={`home.fund.criteria.${i}.icon`}
                             fallbackSrc={icItemIdea}
@@ -100,8 +100,8 @@ export function FundSection() {
                           </span>
                         </div>
                         <div>
-                          <EditableText id={`home.fund.criteria.${i}.title`} fallbackVi={title} as="div" className="font-bold text-text-primary font-[Manrope] text-sm" />
-                          <EditableText id={`home.fund.criteria.${i}.desc`} fallbackVi={desc} as="div" className="text-body-sm text-text-secondary" />
+                          <EditableText id={`home.fund.criteria.${i}.title`} fallbackVi={title} as="div" className="font-bold text-text-primary font-[Manrope] text-xl transition-colors duration-300 group-hover:text-primary" />
+                          <EditableText id={`home.fund.criteria.${i}.desc`} fallbackVi={desc} as="div" className="text-base text-text-secondary" />
                         </div>
                       </div>
                     </div>
@@ -119,12 +119,12 @@ export function FundSection() {
                 id="home.fund.pitchform.heading"
                 fallbackVi="Gửi pitch của bạn"
                 as="h3"
-                className="text-h6 font-[Playfair_Display] text-text-primary mb-6 tracking-wide"
+                className="text-2xl font-[Playfair_Display] text-text-primary mb-6 tracking-wide"
               />
 
               <form className="flex flex-col gap-4" onSubmit={e => e.preventDefault()}>
                 <div>
-                  <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">
+                  <label className="block text-base text-text-secondary mb-1.5 font-[Manrope]">
                     <EditableText id="home.fund.form.label.name" fallbackVi="Tên dự án" />
                   </label>
                   <input
@@ -132,13 +132,13 @@ export function FundSection() {
                     placeholder="Nhập tên dự án"
                     value={form.name}
                     onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                    className="w-full h-11 px-4 rounded-xl border border-divider text-text-primary text-sm font-[Manrope] placeholder:text-text-disable focus:outline-none focus:border-primary/50 transition-colors"
+                    className="w-full h-11 px-4 rounded-xl border border-divider text-text-primary text-base font-[Manrope] placeholder:text-text-disable focus:outline-none focus:border-primary/50 transition-colors"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">
+                    <label className="block text-base text-text-secondary mb-1.5 font-[Manrope]">
                       <EditableText id="home.fund.form.label.phone" fallbackVi="Số điện thoại" />
                     </label>
                     <input
@@ -146,11 +146,11 @@ export function FundSection() {
                       placeholder="09xx xxx xxx"
                       value={form.phone}
                       onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
-                      className="w-full h-11 px-4 rounded-xl border border-divider text-text-primary text-sm font-[Manrope] placeholder:text-text-disable focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full h-11 px-4 rounded-xl border border-divider text-text-primary text-base font-[Manrope] placeholder:text-text-disable focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">
+                    <label className="block text-base text-text-secondary mb-1.5 font-[Manrope]">
                       <EditableText id="home.fund.form.label.email" fallbackVi="Email" />
                     </label>
                     <input
@@ -158,13 +158,13 @@ export function FundSection() {
                       placeholder="Nhập email"
                       value={form.email}
                       onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                      className="w-full h-11 px-4 rounded-xl border border-divider text-text-primary text-sm font-[Manrope] placeholder:text-text-disable focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full h-11 px-4 rounded-xl border border-divider text-text-primary text-base font-[Manrope] placeholder:text-text-disable focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-body-sm text-text-secondary mb-1.5 font-[Manrope]">
+                  <label className="block text-base text-text-secondary mb-1.5 font-[Manrope]">
                     <EditableText id="home.fund.form.label.desc" fallbackVi="Mô tả dự án" />
                   </label>
                   <textarea
@@ -172,7 +172,7 @@ export function FundSection() {
                     placeholder="Mô tả ngắn về hình và vòng gọi vốn"
                     value={form.desc}
                     onChange={e => setForm(p => ({ ...p, desc: e.target.value }))}
-                    className="w-full px-4 py-3 rounded-xl border border-divider text-text-primary text-sm font-[Manrope] placeholder:text-text-disable focus:outline-none focus:border-primary/50 transition-colors resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-divider text-text-primary text-base font-[Manrope] placeholder:text-text-disable focus:outline-none focus:border-primary/50 transition-colors resize-none"
                   />
                 </div>
 

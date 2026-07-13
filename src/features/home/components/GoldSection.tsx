@@ -45,9 +45,8 @@ export function GoldSection() {
               <EditableImage id="home.gold.img.title" fallbackSrc={icTitle3} alt="Lĩnh vực" className="h-auto w-auto" />
             </motion.div>
 
-            <motion.h2 variants={fadeUp} className="relative gap-1 flex mt-6 font-[Playfair_Display] font-bold text-text-primary leading-tight uppercase">
-              <EditableText id="home.gold.title.highlight" fallbackVi="Vàng" className="text-primary text-3xl md:text-[40px] block" />
-              <EditableText id="home.gold.title.rest" fallbackVi="– Khai thác và giao dịch" className="text-3xl md:text-[40px] block" />
+            <motion.h2 variants={fadeUp} className="relative mt-6 font-[Playfair_Display] font-bold text-text-primary text-3xl md:text-[40px] leading-tight uppercase">
+              <EditableText id="home.gold.title.highlight" fallbackVi="Vàng" className="text-primary" /> <EditableText id="home.gold.title.rest" fallbackVi="– Khai thác và giao dịch" />
             </motion.h2>
 
             <motion.p variants={fadeUp} className="relative mt-5 text-body-md text-text-secondary leading-relaxed max-w-120">

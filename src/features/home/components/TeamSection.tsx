@@ -109,7 +109,7 @@ export function TeamSection() {
             </motion.h2>
 
             <motion.p variants={fadeUp} className="mt-4 text-xl text-text-secondary leading-relaxed max-w-110">
-              <EditableText id="home.team.subtitle" fallbackVi="Năm con người, một lời thề – đặt tổ chức lên trên cái tôi, đặt niềm tin trước lợi nhuận." />
+              <EditableText id="home.team.subtitle" fallbackVi="Sáu con người, một lời thề – đặt tổ chức lên trên cái tôi, đặt niềm tin trước lợi nhuận." />
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-8">
@@ -232,7 +232,7 @@ function ExpertCard({ expert, index, isActive }: {
           id={`home.team.member.${index}.name`}
           fallbackVi={expert.name}
           as="div"
-          className="font-bold text-white font-[Manrope] text-sm tracking-wide uppercase leading-tight"
+          className="font-bold text-white font-[Manrope] text-xl tracking-wide uppercase leading-tight"
         />
 
         <EditableText

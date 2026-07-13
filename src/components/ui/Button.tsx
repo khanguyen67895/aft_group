@@ -39,7 +39,7 @@ const SHIMMER_GRADIENT: Partial<Record<Variant, string>> = {
   light: 'linear-gradient(105deg,transparent 15%,rgba(255,255,255,0.30) 50%,transparent 85%)',
 }
 const SHIMMER_DURATION: Partial<Record<Variant, string>> = {
-  gold: '2.8s', light: '3.4s',
+  gold: '7.5s', light: '7.2s',
 }
 
 /* ─── Clip-path helpers ──────────────────────────────────────────── */

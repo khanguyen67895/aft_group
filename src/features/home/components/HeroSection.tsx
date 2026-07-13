@@ -68,25 +68,29 @@ export function HeroSection() {
           className="hidden md:block absolute inset-0 w-full h-full object-cover object-center">
           <source src={heroVideo} type="video/mp4" />
         </video>
-        {/* Mobile video */}
+        {/* Mobile video — full-bleed background behind the whole hero */}
         <video autoPlay muted loop playsInline
           className="md:hidden absolute inset-0 w-full h-full object-cover object-center">
           <source src={heroVideoMb} type="video/mp4" />
         </video>
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/35 md:bg-black/20" />
+        {/* Mobile: navy fade top + bottom so overlaid text stays legible, video peeks through the middle */}
+        <div className="md:hidden absolute inset-0" style={{
+          background: 'linear-gradient(to bottom, var(--color-bg-card) 0%, var(--color-bg-card) 16%, transparent 42%, transparent 8%, var(--color-bg-card) 84%, var(--color-bg-card) 100%)',
+        }} />
+        {/* Dark overlay (desktop only) */}
+        <div className="hidden md:block absolute inset-0 bg-black/20" />
       </div>
 
       {/* ── Content ──────────────────────────────────────── */}
       <div className="relative z-10 container mx-auto px-4 md:px-8 pb-6 md:pb-10 md:flex-1 flex flex-col mt-24 md:mt-40">
         <motion.div
-          className="max-w-170"
+          className="max-w-170 mx-auto md:mx-0 text-center md:text-left"
           variants={staggerContainer(0.12, 0.2)}
           initial="hidden"
           animate="show"
         >
           {/* Badge */}
-          <motion.div variants={fadeIn}>
+          <motion.div variants={fadeIn} className="flex justify-center md:justify-start">
             <EditableImage
               id="home.hero.img.badge"
               fallbackSrc={icTitle1}
@@ -126,18 +130,21 @@ export function HeroSection() {
             <EditableText id="home.hero.subtitle" fallbackVi="Hệ sinh thái Tài chính – Tài sản – Công nghệ. Tầm nhìn 2035." />
           </motion.p>
 
+          {/* Mobile: spacer so the video peeks through between subtitle and features */}
+          <div className="md:hidden h-44" aria-hidden="true" />
+
           {/* Features */}
           <motion.div variants={staggerContainer(0.1)} className="mt-6 flex flex-row gap-3 sm:gap-6">
             {FEATURES.map(({ icon, title, desc }, i) => (
               <>
-                <motion.div key={title} variants={staggerItem} className="flex-1 flex flex-col items-start gap-1 sm:gap-3">
-                  <div className="flex items-center justify-start gap-2 sm:gap-3">
-                    <div className="size-5 sm:size-6 rounded-lg flex items-center justify-center shrink-0">
+                <motion.div key={title} variants={staggerItem} className="flex-1 flex flex-col items-center md:items-start text-center md:text-left gap-1 sm:gap-3">
+                  <div className="flex flex-col md:flex-row items-center gap-1.5 sm:gap-3">
+                    <div className="size-7 sm:size-6 rounded-lg flex items-center justify-center shrink-0">
                       <EditableImage id={`home.hero.img.feature${i}`} fallbackSrc={icon} alt="" className="w-full h-full object-contain" />
                     </div>
-                    <EditableText id={`home.hero.feature.${i}.title`} fallbackVi={title} as="div" className="text-sm sm:text-xl font-bold font-[Playfair_Display] text-text-primary leading-tight" />
+                    <EditableText id={`home.hero.feature.${i}.title`} fallbackVi={title} as="div" className="text-xl font-bold font-[Playfair_Display] text-text-primary leading-tight" />
                   </div>
-                  <EditableText id={`home.hero.feature.${i}.desc`} fallbackVi={desc} as="div" className="text-xs sm:text-base text-text-secondary leading-snug" />
+                  <EditableText id={`home.hero.feature.${i}.desc`} fallbackVi={desc} as="div" className="text-base text-text-secondary leading-snug" />
                 </motion.div>
                 {i < FEATURES.length - 1 && (
                   <div key={`sep-${i}`} className="w-px self-stretch" style={{ background: "radial-gradient(50% 50% at 50% 50%, #D9D9D9 0%, rgba(115, 115, 115, 0.00) 100%)" }} />
@@ -147,7 +154,7 @@ export function HeroSection() {
           </motion.div>
 
           {/* CTA */}
-          <motion.div variants={fadeUp} className="mt-6 md:mt-10">
+          <motion.div variants={fadeUp} className="mt-6 md:mt-10 flex justify-center md:justify-start">
             <Button variant="gold" size="lg" icon={true}
               className="h-11 px-5 text-sm gap-2 md:h-16 md:px-8 md:text-2xl md:gap-3"
               onClick={() => navigate(ROUTES.CONTACT)}>
@@ -165,7 +172,7 @@ export function HeroSection() {
         transition={{ delay: 0.9, duration: 0.5 }}
       >
         <div
-          className="flex w-1/2 mr-18 mb-8 justify-evenly"
+          className="flex w-[55%] xl:w-1/2 mr-8 xl:mr-18 mb-8 justify-evenly"
           style={{
             backgroundImage: `image-set(url(${icBgStats}) 1x, url(${icBgStats2x}) 2x, url(${icBgStats3x}) 3x)`,
             backgroundSize: '100% 100%',
@@ -174,11 +181,11 @@ export function HeroSection() {
         >
           {STATS.flatMap(({ value, label }, i) => [
             i > 0 && (
-              <div key={`sep-${i}`} className="w-px h-10 self-center" style={{ background: 'linear-gradient(to bottom, transparent, rgba(217,217,217,0.4) 30%, rgba(217,217,217,0.4) 70%, transparent)' }} />
+              <div key={`sep-${i}`} className="w-px h-10 self-center shrink-0" style={{ background: 'linear-gradient(to bottom, transparent, rgba(217,217,217,0.4) 30%, rgba(217,217,217,0.4) 70%, transparent)' }} />
             ),
-            <div key={label} className="flex flex-col items-center justify-center gap-1 text-center px-8 py-5">
-              <EditableText id={`home.hero.stat.${i}.value`} fallbackVi={value} className="text-[40px] font-bold text-primary font-[Playfair_Display]" />
-              <EditableText id={`home.hero.stat.${i}.label`} fallbackVi={label} className="text-base text-text-secondary whitespace-nowrap" />
+            <div key={label} className="flex flex-1 min-w-0 flex-col items-center justify-center gap-1 text-center px-2 lg:px-4 xl:px-8 py-4 xl:py-5">
+              <EditableText id={`home.hero.stat.${i}.value`} fallbackVi={value} className="text-2xl lg:text-3xl xl:text-[40px] font-bold text-primary font-[Playfair_Display]" />
+              <EditableText id={`home.hero.stat.${i}.label`} fallbackVi={label} className="text-xs lg:text-sm xl:text-base text-text-secondary leading-snug" />
             </div>,
           ]).filter(Boolean)}
         </div>
@@ -192,7 +199,7 @@ export function HeroSection() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.1, duration: 0.5 }}
       >
-        <div className="flex items-center gap-12 marquee-track w-max">
+        <div className="flex items-center gap-1 md:gap-12 marquee-track w-max">
           {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((src, i) => (
             <EditableImage
               key={i}
