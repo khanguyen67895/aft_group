@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
 import { EditableText, EditableImage } from '@/components/cms'
 import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
 import icTitle5      from '@/assets/image/ic_title5.png'
 import icDesTeam    from '@/assets/image/ic_des_team.png'
+import icDesTeamMb  from '@/assets/image/ic_des_team_mb.png'
 import icLeft      from '@/assets/image/ic_left.png'
 import icRight     from '@/assets/image/ic_right.png'
 import icAvatar1   from '@/assets/image/ic_avatar1.png'
@@ -34,7 +36,11 @@ const EXPERTS = [
   { name: 'Trần Đại Nghĩa',     role: 'CSO',          dept: '(Chiến lược)',               src: icAvatar5, src2x: icAvatar5x2, src3x: icAvatar5x3 },
 ]
 
-export function TeamSection() {
+interface TeamSectionProps {
+  tone?: 'default' | 'blue'
+}
+
+export function TeamSection({ tone = 'default' }: TeamSectionProps) {
   const [activeIdx, setActiveIdx] = useState(0)
   const [autoKey, setAutoKey] = useState(0)
   const total = EXPERTS.length
@@ -47,49 +53,8 @@ export function TeamSection() {
     return () => clearInterval(t)
   }, [total, autoKey])
 
-  // Mobile carousel: real horizontal scroll-snap track, tracked independently
-  // from the desktop fan carousel's activeIdx so swiping doesn't fight the
-  // desktop autoplay/fan positioning logic above.
-  const mobileTrackRef = useRef<HTMLDivElement>(null)
-  const [mobileActive, setMobileActive] = useState(0)
-  const programmaticUntil = useRef(0)
-
-  // Scrolls the track's own scrollLeft directly instead of card.scrollIntoView() —
-  // scrollIntoView walks every scrollable ancestor including the page itself, which
-  // can yank the whole page's vertical scroll position if this section isn't
-  // currently in view when it fires.
-  // Uses getBoundingClientRect() (not card.offsetLeft) because the track itself
-  // isn't a positioned element — offsetLeft would resolve against whatever
-  // positioned ancestor is above it instead of the track, always computing ~0.
-  const scrollMobileTo = (i: number) => {
-    const track = mobileTrackRef.current
-    if (!track) return
-    const card = track.children[i] as HTMLElement | undefined
-    if (!card) return
-    const delta = card.getBoundingClientRect().left - track.getBoundingClientRect().left
-    const target = track.scrollLeft + delta - (track.clientWidth - card.clientWidth) / 2
-    // Mute the onScroll → setMobileActive sync below while this programmatic scroll
-    // is in flight — otherwise every 'scroll' event fired mid-animation reads the
-    // not-yet-arrived scrollLeft and snaps mobileActive right back, cancelling the
-    // scroll before it can go anywhere.
-    programmaticUntil.current = Date.now() + 700
-    setMobileActive(i)
-    track.scrollTo({ left: target, behavior: 'smooth' })
-  }
-  const mobilePrev = () => scrollMobileTo((mobileActive - 1 + total) % total)
-  const mobileNext = () => scrollMobileTo((mobileActive + 1) % total)
-
-  const handleMobileScroll = () => {
-    if (Date.now() < programmaticUntil.current) return
-    const track = mobileTrackRef.current
-    if (!track) return
-    const step = track.scrollWidth / total
-    const idx = Math.min(total - 1, Math.max(0, Math.round(track.scrollLeft / step)))
-    setMobileActive(idx)
-  }
-
   return (
-    <section className="pb-6 md:pb-20 pt-8 relative overflow-hidden">
+    <section className={cn('pb-6 md:pb-20 pt-8 relative overflow-hidden', tone === 'blue' && 'bg-secondary')}>
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-100 h-100 rounded-full bg-primary/5 blur-[120px] pointer-events-none"/>
 
       <div className="container mx-auto px-4 md:px-8">
@@ -113,7 +78,8 @@ export function TeamSection() {
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-8">
-              <EditableImage id="home.team.img.description" fallbackSrc={icDesTeam} alt="" className="w-full h-auto" />
+              <EditableImage id="home.team.img.description" fallbackSrc={icDesTeam} alt="" className="w-full h-auto hidden md:block" />
+              <EditableImage id="home.team.img.description.mobile" fallbackSrc={icDesTeamMb} alt="" className="w-full h-auto md:hidden" />
             </motion.div>
           </motion.div>
 
@@ -165,27 +131,48 @@ export function TeamSection() {
             </div>
           </div>
 
-          {/* ── Mobile: real horizontal touch-scroll carousel ─── */}
+          {/* ── Mobile: stacked fan carousel (mirrors desktop) ─── */}
           <div className="lg:hidden">
-            <div
-              ref={mobileTrackRef}
-              onScroll={handleMobileScroll}
-              className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 px-[15vw] py-2"
-            >
-              {EXPERTS.map((expert, i) => (
-                <div key={i} className="shrink-0 snap-center w-[70vw] max-w-70 h-95">
-                  <ExpertCard expert={expert} index={i} isActive={i === mobileActive} />
-                </div>
-              ))}
+            <div className="relative" style={{ width: '82vw', maxWidth: '340px', height: '380px' }}>
+              {EXPERTS.map((expert, i) => {
+                const raw = (i - activeIdx + total) % total
+                // raw 0=active, 1-2=stacked behind to the right
+                const pos = raw > 2 ? -1 : raw
+                if (pos < 0) return null
+
+                //          active  +1    +2
+                const TX    = { 0: 0,  1: 50,  2: 95 }
+                const SCALE = { 0: 1.0, 1: 0.9, 2: 0.82 }
+                const ZIDX  = { 0: 10,  1: 9,   2: 8   }
+
+                const k = pos as keyof typeof TX
+
+                return (
+                  <div key={i}
+                    className="absolute top-0 left-0 cursor-pointer"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      transform: `translateX(${TX[k]}px) scale(${SCALE[k]})`,
+                      transformOrigin: 'bottom left',
+                      zIndex: ZIDX[k],
+                      transition: 'all 0.45s cubic-bezier(0.34, 1.2, 0.64, 1)',
+                    }}
+                    onClick={() => { setActiveIdx(i); setAutoKey(k2 => k2 + 1) }}
+                  >
+                    <ExpertCard expert={expert} index={i} isActive={pos === 0} />
+                  </div>
+                )
+              })}
             </div>
-            <div className="flex justify-center items-center gap-4 mt-4">
-              <button onClick={mobilePrev} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
+            <div className="flex justify-start items-center gap-4 mt-4">
+              <button onClick={prev} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
                 <EditableImage id="home.team.img.navprev" fallbackSrc={icLeft} alt="Prev" className="size-full object-cover" />
               </button>
               <span className="text-sm font-[Manrope] font-semibold text-text-secondary tabular-nums">
-                {mobileActive + 1}/{total}
+                {activeIdx + 1}/{total}
               </span>
-              <button onClick={mobileNext} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
+              <button onClick={next} className="size-9 rounded-full overflow-hidden shrink-0 transition-opacity hover:opacity-80">
                 <EditableImage id="home.team.img.navnext" fallbackSrc={icRight} alt="Next" className="size-full object-cover" />
               </button>
             </div>

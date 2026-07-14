@@ -209,7 +209,7 @@ export function FeaturedProjects() {
 
   return (
     <section className="py-8 bg-secondary overflow-hidden">
-      <div className="container mx-auto px-4 md:px-50">
+      <div className="max-w-7xl container mx-auto px-4 md:px-0">
 
         {/* Header */}
         <motion.div
@@ -256,7 +256,7 @@ export function FeaturedProjects() {
                 {visible.map((project, idx) => (
                   <div
                     key={project.name}
-                    className="overflow-hidden max-w-102.75 rounded-2xl flex flex-col"
+                    className="overflow-hidden w-full rounded-2xl flex flex-col"
                     style={{
                       border: '1px solid rgba(246,247,249,0.08)',
                       background: 'rgba(11,31,58,0.60)',

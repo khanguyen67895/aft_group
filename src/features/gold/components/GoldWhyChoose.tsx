@@ -13,7 +13,7 @@ const REASONS = [
 
 export function GoldWhyChoose() {
   return (
-    <section className="pb-24 relative z-10 overflow-hidden">
+    <section className="md:pb-24 relative z-10 overflow-hidden">
       {/* Top fade — blends into the bg-secondary section above */}
       <div
         className="absolute top-0 inset-x-0 h-64 pointer-events-none"
@@ -24,7 +24,7 @@ export function GoldWhyChoose() {
           className="relative overflow-hidden p-6 md:p-10"
           variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
         >
-          <motion.div className="text-center mb-14" variants={staggerContainer(0.1)}>
+          <motion.div className="text-start mb-14" variants={staggerContainer(0.1)}>
             <motion.h2 variants={fadeUp} className="font-[Playfair_Display] font-bold text-2xl md:text-[32px] text-text-primary uppercase">
               <EditableText id="gold.whychoose.title" fallbackVi="Vì sao chọn AFT trong lĩnh vực vàng" />
             </motion.h2>
@@ -48,7 +48,7 @@ export function GoldWhyChoose() {
                 <div className="text-primary shrink-0 [&>svg]:w-13.5 [&>svg]:h-13.5">
                   <Icon />
                 </div>
-                <div className='flex flex-col md:flex-row'>
+                <div className='flex flex-col gap-3'>
                   <EditableText id={`gold.whychoose.item.${i}.title`} fallbackVi={title} as="div" className="text-xl text-left md:text-center font-bold text-text-primary font-[Playfair Display] leading-snug" />
                   <EditableText id={`gold.whychoose.item.${i}.desc`} fallbackVi={desc} as="div" className="text-base text-left md:text-center text-text-secondary font-[Manrope] leading-relaxed" />
                 </div>

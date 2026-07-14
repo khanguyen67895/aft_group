@@ -65,6 +65,22 @@ export function DerivativesHero() {
 
         </div>
 
+        {/* Mobile-only: brand description above the stats row, centered */}
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+          className="md:hidden text-center mx-auto max-w-140 text-base text-text-secondary leading-relaxed"
+        >
+          <EditableText id="derivatives.hero.statsDescription.brand" fallbackVi="AFT GROUP" as="span" className="text-text-primary font-semibold" />{' '}
+          <EditableText
+            id="derivatives.hero.statsDescription.body"
+            fallbackVi="phát triển và quản lý dự án bất động sản cao cấp, khu đô thị hiện đại và bất động sản công nghiệp. Chúng tôi kiến tạo không gian sống đẳng cấp, góp phần thúc đẩy phát triển kinh tế – xã hội bền vững."
+            as="span"
+          />
+        </motion.p>
+
         {/* Stats row */}
         <motion.div
           variants={staggerContainer(0.1)}
@@ -94,7 +110,7 @@ export function DerivativesHero() {
                   <EditableText
                     id={`derivatives.hero.stat.${i}.label`}
                     fallbackVi={label}
-                    className="mt-1.5 text-xs md:text-base text-text-secondary font-[Manrope] leading-snug"
+                    className="mt-1.5 text-base text-text-secondary font-[Manrope] leading-snug"
                   />
                 </motion.div>
               ))}

@@ -13,13 +13,19 @@ export function SplashScreen({
   minDuration = 800,
   maxDuration = 8000,
 }: SplashScreenProps) {
-  const [gone, setGone]  = useState(false)
+  const [gone, setGone]     = useState(false)
+  const [fading, setFading] = useState(false)
   const startedAt = useRef(Date.now())
   const dismissed = useRef(false)
 
   const dismiss = useCallback(() => {
     if (dismissed.current) return
     dismissed.current = true
+    // Stop swallowing taps/scroll the instant dismissal starts, rather than only
+    // after the exit fade finishes — otherwise a touch landing during that ~750ms
+    // window (or during the wait below on slow connections) hits this full-screen
+    // overlay instead of the page underneath, making scroll intermittently "not work".
+    setFading(true)
     const wait = Math.max(0, minDuration - (Date.now() - startedAt.current))
     setTimeout(() => setGone(true), wait)
   }, [minDuration])
@@ -34,7 +40,7 @@ export function SplashScreen({
       {!gone && (
         <motion.div
           key="splash"
-          className="fixed inset-0 z-9999 overflow-hidden bg-bg"
+          className={`fixed inset-0 z-9999 overflow-hidden bg-bg ${fading ? 'pointer-events-none' : ''}`}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.04, transition: { duration: 0.75, ease: [0.4, 0, 0.2, 1] } }}
         >

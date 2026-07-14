@@ -24,24 +24,30 @@ import icEco4x3  from '@/assets/image/ic_ecosystem4@3x.png'
 import icEco5    from '@/assets/image/ic_ecosystem5.png'
 import icEco5x2  from '@/assets/image/ic_ecosystem5@2x.png'
 import icEco5x3  from '@/assets/image/ic_ecosystem5@3x.png'
+import icEco1Mb  from '@/assets/image/ic_ecosystem1_mb.png'
+import icEco2Mb  from '@/assets/image/ic_ecosystem2_mb.png'
+import icEco3Mb  from '@/assets/image/ic_ecosystem3_mb.png'
+import icEco4Mb  from '@/assets/image/ic_ecosystem4_mb.png'
+import icEco5Mb  from '@/assets/image/ic_ecosystem5_mb.png'
 
 interface Sector {
   id: string; label: string; shortLabel: string
   ecoIcon: string
   ecosystemImg: string; ecosystemImg2x: string; ecosystemImg3x: string
+  ecosystemImgMb: string
 }
 
 const SECTORS: Sector[] = [
   { id: 'realestate', label: 'Bất động sản',             shortLabel: 'BĐS',
-    ecoIcon: icItemEco1, ecosystemImg: icEco1, ecosystemImg2x: icEco1x2, ecosystemImg3x: icEco1x3 },
+    ecoIcon: icItemEco1, ecosystemImg: icEco1, ecosystemImg2x: icEco1x2, ecosystemImg3x: icEco1x3, ecosystemImgMb: icEco1Mb },
   { id: 'commodity',  label: 'Giao dịch hàng hóa',       shortLabel: 'Hàng hóa',
-    ecoIcon: icItemEco3, ecosystemImg: icEco2, ecosystemImg2x: icEco2x2, ecosystemImg3x: icEco2x3 },
+    ecoIcon: icItemEco3, ecosystemImg: icEco2, ecosystemImg2x: icEco2x2, ecosystemImg3x: icEco2x3, ecosystemImgMb: icEco2Mb },
   { id: 'mining',     label: 'Thiết bị khai thác vàng',  shortLabel: 'Khai thác',
-    ecoIcon: icItemEco4, ecosystemImg: icEco3, ecosystemImg2x: icEco3x2, ecosystemImg3x: icEco3x3 },
+    ecoIcon: icItemEco4, ecosystemImg: icEco3, ecosystemImg2x: icEco3x2, ecosystemImg3x: icEco3x3, ecosystemImgMb: icEco3Mb },
   { id: 'asset',      label: 'Quản lý tài sản',          shortLabel: 'Tài sản',
-    ecoIcon: icItemEco5, ecosystemImg: icEco4, ecosystemImg2x: icEco4x2, ecosystemImg3x: icEco4x3 },
+    ecoIcon: icItemEco5, ecosystemImg: icEco4, ecosystemImg2x: icEco4x2, ecosystemImg3x: icEco4x3, ecosystemImgMb: icEco4Mb },
   { id: 'education',  label: 'Viện nghiên cứu & đào tạo', shortLabel: 'Đào tạo',
-    ecoIcon: icItemEco2, ecosystemImg: icEco5, ecosystemImg2x: icEco5x2, ecosystemImg3x: icEco5x3 },
+    ecoIcon: icItemEco2, ecosystemImg: icEco5, ecosystemImg2x: icEco5x2, ecosystemImg3x: icEco5x3, ecosystemImgMb: icEco5Mb },
 ]
 
 export function EcosystemSection() {
@@ -121,10 +127,16 @@ export function EcosystemSection() {
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               >
                 <EditableImage
+                  id={`home.ecosystem.img.sector${currentIndex}.mobile`}
+                  fallbackSrc={current.ecosystemImgMb}
+                  alt={current.label}
+                  className="md:hidden w-full max-w-full h-auto object-contain"
+                />
+                <EditableImage
                   id={`home.ecosystem.img.sector${currentIndex}`}
                   fallbackSrc={current.ecosystemImg}
                   alt={current.label}
-                  className="w-full max-w-full md:max-w-180 h-auto md:w-180 md:h-160 object-contain"
+                  className="hidden md:block md:max-w-180 h-auto md:w-180 md:h-160 object-contain"
                 />
               </motion.div>
             </AnimatePresence>

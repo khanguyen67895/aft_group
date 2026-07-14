@@ -84,51 +84,57 @@ export function Footer() {
           </div>
         </motion.div>
 
-        {/* Menu col */}
-        <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.05 }}>
-          <EditableText
-            id="footer.menu.heading"
-            fallbackVi="Menu"
-            as="h4"
-            className="font-bold tracking-wider font-[Manrope] mb-5"
-            style={{ color: '#FFF', fontSize: '20px' }}
-          />
-          <motion.ul
-            className="flex flex-col gap-3"
-            variants={staggerContainer(0.06)} initial="hidden" whileInView="show" viewport={viewport}
-          >
-            {MENU_LINKS.map(({ label, to }, i) => (
-              <motion.li key={label} variants={staggerItem}>
-                <Link to={to} className="hover:text-primary transition-colors" style={{ color: '#DBDBDB', fontSize: '16px' }}>
-                  <EditableText id={`footer.menulinks.${i}.label`} fallbackVi={label} />
-                </Link>
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.div>
+        {/* Menu + Sectors — side by side on mobile, separate grid cols from md up */}
+        <div className="flex gap-4 md:contents">
+          {/* Menu col */}
+          <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.05 }} className="flex-1">
+            <EditableText
+              id="footer.menu.heading"
+              fallbackVi="Menu"
+              as="h4"
+              className="font-bold tracking-wider font-[Manrope] mb-5"
+              style={{ color: '#FFF', fontSize: '20px' }}
+            />
+            <motion.ul
+              className="flex flex-col gap-3"
+              variants={staggerContainer(0.06)} initial="hidden" whileInView="show" viewport={viewport}
+            >
+              {MENU_LINKS.map(({ label, to }, i) => (
+                <motion.li key={label} variants={staggerItem}>
+                  <Link to={to} className="hover:text-primary transition-colors" style={{ color: '#DBDBDB', fontSize: '16px' }}>
+                    <EditableText id={`footer.menulinks.${i}.label`} fallbackVi={label} />
+                  </Link>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
 
-        {/* Sectors col */}
-        <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.1 }}>
-          <EditableText
-            id="footer.sectors.heading"
-            fallbackVi="Lĩnh vực"
-            as="h4"
-            className="font-bold tracking-wider font-[Manrope] mb-5"
-            style={{ color: '#FFF', fontSize: '20px' }}
-          />
-          <motion.ul
-            className="flex flex-col gap-3"
-            variants={staggerContainer(0.06)} initial="hidden" whileInView="show" viewport={viewport}
-          >
-            {SECTOR_LINKS.map(({ label, to }, i) => (
-              <motion.li key={label} variants={staggerItem}>
-                <Link to={to} className="hover:text-primary transition-colors" style={{ color: '#DBDBDB', fontSize: '16px' }}>
-                  <EditableText id={`footer.sectorlinks.${i}.label`} fallbackVi={label} />
-                </Link>
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.div>
+          {/* Separator — mobile only */}
+          <div key="menu-sectors-sep" className="w-px self-stretch mr-5 md:hidden" style={{ background: 'radial-gradient(50% 50% at 50% 50%, #D9D9D9 0%, rgba(115, 115, 115, 0.00) 100%)' }} />
+
+          {/* Sectors col */}
+          <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.1 }} className="flex-1">
+            <EditableText
+              id="footer.sectors.heading"
+              fallbackVi="Lĩnh vực"
+              as="h4"
+              className="font-bold tracking-wider font-[Manrope] mb-5"
+              style={{ color: '#FFF', fontSize: '20px' }}
+            />
+            <motion.ul
+              className="flex flex-col gap-3"
+              variants={staggerContainer(0.06)} initial="hidden" whileInView="show" viewport={viewport}
+            >
+              {SECTOR_LINKS.map(({ label, to }, i) => (
+                <motion.li key={label} variants={staggerItem}>
+                  <Link to={to} className="hover:text-primary transition-colors" style={{ color: '#DBDBDB', fontSize: '16px' }}>
+                    <EditableText id={`footer.sectorlinks.${i}.label`} fallbackVi={label} />
+                  </Link>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
+        </div>
 
         {/* Contact col */}
         <motion.div variants={colVariants} transition={{ duration: 0.55, ease: [0.25,0.1,0.25,1], delay: 0.15 }}>

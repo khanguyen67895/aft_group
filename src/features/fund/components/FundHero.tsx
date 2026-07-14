@@ -50,6 +50,11 @@ export function FundHero() {
           className="absolute inset-x-0 bottom-0 h-100 pointer-events-none"
           style={{ zIndex: 2, background: 'linear-gradient(to top, #0B1F3A 40%, transparent 100%)' }}
         />
+      {/* Left fade: bg-secondary (#0B1F3A) → transparent */}
+        <div
+          className="absolute inset-y-0 left-0 w-400 pointer-events-none"
+          style={{ zIndex: 2, background: 'linear-gradient(to right, #0B1F3A 0%, transparent 150%)' }}
+        />
 
       <div className="relative z-10 container mx-auto px-4 md:px-8 pb-14">
         <motion.div
@@ -108,8 +113,8 @@ export function FundHero() {
             {FEATURES.map(({ icon, title, desc }, i) => (
               <>
                 <motion.div key={title} variants={staggerItem} className="flex-1 flex flex-col items-start gap-1 sm:gap-3">
-                  <div className="flex items-center justify-start gap-2 sm:gap-3">
-                    <div className="size-5 md:size-7 rounded-lg flex items-center justify-center shrink-0">
+                  <div className="flex flex-col md:flex-row items-center justify-start gap-2 sm:gap-3">
+                    <div className="size-7 rounded-lg flex items-center justify-center shrink-0">
                       <EditableImage
                         id={`fund.hero.feature.${i}.icon`}
                         fallbackSrc={icon}
@@ -121,14 +126,14 @@ export function FundHero() {
                       id={`fund.hero.feature.${i}.title`}
                       fallbackVi={title}
                       as="div"
-                      className="text-sm sm:text-xl font-bold font-[Playfair_Display] text-text-primary leading-tight"
+                      className="text-base sm:text-xl font-bold font-[Playfair_Display] text-text-primary leading-tight"
                     />
                   </div>
                   <EditableText
                     id={`fund.hero.feature.${i}.desc`}
                     fallbackVi={desc}
                     as="div"
-                    className="text-xs sm:text-base text-text-secondary leading-snug"
+                    className="text-sm sm:text-base text-text-secondary leading-snug"
                   />
                 </motion.div>
                 {i < FEATURES.length - 1 && (
@@ -189,7 +194,7 @@ export function FundHero() {
                   id={`fund.hero.stat.${i}.value`}
                   fallbackVi={value}
                   as="span"
-                  className="font-[Manrope] font-bold text-3xl md:text-[52px]"
+                  className="font-[Manrope] font-bold text-5xl md:text-[52px]"
                   style={{
                     background: 'linear-gradient(90deg, #C6A15B 25%, #F8EBC0 50%, #C6A15B 75%)',
                     backgroundSize: '200% 100%',
@@ -203,7 +208,7 @@ export function FundHero() {
                   id={`fund.hero.stat.${i}.label`}
                   fallbackVi={label}
                   as="span"
-                  className="mt-1.5 text-xs md:text-base text-text-secondary font-[Manrope] leading-snug"
+                  className="mt-1.5 text-base text-text-secondary font-[Manrope] leading-snug"
                 />
               </motion.div>
             ))}

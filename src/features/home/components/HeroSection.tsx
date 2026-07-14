@@ -156,7 +156,7 @@ export function HeroSection() {
           {/* CTA */}
           <motion.div variants={fadeUp} className="mt-6 md:mt-10 flex justify-center md:justify-start">
             <Button variant="gold" size="lg" icon={true}
-              className="h-11 px-5 text-sm gap-2 md:h-16 md:px-8 md:text-2xl md:gap-3"
+              className="gap-2 h-16 px-8 text-2xl md:gap-3"
               onClick={() => navigate(ROUTES.CONTACT)}>
               <EditableText id="home.hero.cta" fallbackVi="Kết nối hợp tác" />
             </Button>

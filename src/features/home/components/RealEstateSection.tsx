@@ -79,7 +79,7 @@ export function RealEstateSection() {
 
       {/* Semi-transparent navy overlay on right — bg still visible through it */}
       <div className="absolute inset-y-0 right-0 w-full lg:w-[65%] pointer-events-none" style={{
-        background: 'linear-gradient(to right, transparent, rgba(11,31,58,0.78) 55%, rgba(11,31,58,0.88) 100%)',
+        background: 'linear-gradient(to right, transparent, rgba(11,31,58,0.78) 0%, rgba(11,31,58,0.88) 100%)',
       }} />
 
       <div className="relative grid grid-cols-1 lg:grid-cols-[55fr_45fr] min-h-140">

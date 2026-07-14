@@ -9,6 +9,12 @@ import icBgEco3 from '@/assets/image/ic_item_ecosystem3.png'
 import icBgEco4 from '@/assets/image/ic_item_ecosystem4.png'
 import icBgEco5 from '@/assets/image/ic_item_ecosystem5.png'
 
+import icBgEco1Mb from '@/assets/image/ic_item_ecosystem1_mb.png'
+import icBgEco2Mb from '@/assets/image/ic_item_ecosystem2_mb.png'
+import icBgEco3Mb from '@/assets/image/ic_item_ecosystem3_mb.png'
+import icBgEco4Mb from '@/assets/image/ic_item_ecosystem4_mb.png'
+import icBgEco5Mb from '@/assets/image/ic_item_ecosystem5_mb.png'
+
 import icItemIdea from '@/assets/image/ic_item_idea.png'
 
 import icCheckbox from '@/assets/image/ic_checkbox.png'
@@ -19,6 +25,7 @@ interface SectorDetail {
   description: string
   features: string[]
   img: string
+  imgMb: string
   reverse: boolean
   bgColor: string
 }
@@ -36,6 +43,7 @@ const SECTORS: SectorDetail[] = [
       'Đồng hành cùng khách hàng dài hạn',
     ],
     img: icBgEco1,
+    imgMb: icBgEco1Mb,
     reverse: false, bgColor: '#0B1527',
   },
   {
@@ -50,6 +58,7 @@ const SECTORS: SectorDetail[] = [
       'Tối ưu chuỗi cung ứng và giá trị.',
     ],
     img: icBgEco2,
+    imgMb: icBgEco2Mb,
     reverse: true, bgColor: '#0B1527',
   },
   {
@@ -64,6 +73,7 @@ const SECTORS: SectorDetail[] = [
       'Đồng hành cùng đối tác trên mọi dự án',
     ],
     img: icBgEco3,
+    imgMb: icBgEco3Mb,
     reverse: false, bgColor: '#0B1527',
   },
   {
@@ -78,6 +88,7 @@ const SECTORS: SectorDetail[] = [
       'Đồng hành cùng khách hàng dài hạn',
     ],
     img: icBgEco4,
+    imgMb: icBgEco4Mb,
     reverse: true, bgColor: '#0B1527',
   },
   {
@@ -92,6 +103,7 @@ const SECTORS: SectorDetail[] = [
       'Đóng góp cho cộng đồng và xã hội',
     ],
     img: icBgEco5,
+    imgMb: icBgEco5Mb,
     reverse: false, bgColor: '#0B1527',
   },
 ]
@@ -151,7 +163,7 @@ function SectorSection({ sector, index }: { sector: SectorDetail; index: number 
       >
         {/* Number badge */}
         <motion.div variants={fadeUp} className="mb-6">
-          <div className="relative w-21.5 h-21.5">
+          <div className="relative w-16.5 h-16.5 md:w-21.5 md:h-21.5">
             <EditableImage
               id={`ecosystem.detail.item.${index}.badgeIcon`}
               fallbackSrc={icItemIdea}
@@ -181,13 +193,6 @@ function SectorSection({ sector, index }: { sector: SectorDetail; index: number 
           <EditableText id={`ecosystem.detail.item.${index}.title`} fallbackVi={sector.title} />
         </motion.h2>
 
-        {/* Divider */}
-        <motion.div
-          variants={fadeUp}
-          className="w-47.75 h-0.5 mb-6"
-          style={{ background: 'linear-gradient(270deg, rgba(203, 150, 76, 0.00) 3.28%, #DBAB59 96.34%)' }}
-        />
-
         {/* Description */}
         <motion.p
           variants={fadeUp}
@@ -195,6 +200,13 @@ function SectorSection({ sector, index }: { sector: SectorDetail; index: number 
         >
           <EditableText id={`ecosystem.detail.item.${index}.description`} fallbackVi={sector.description} />
         </motion.p>
+
+        {/* Divider */}
+        <motion.div
+          variants={fadeUp}
+          className="w-47.75 h-0.5 mb-6"
+          style={{ background: 'linear-gradient(270deg, rgba(203, 150, 76, 0.00) 3.28%, #DBAB59 96.34%)' }}
+        />
 
         {/* Feature list */}
         <motion.ul variants={staggerContainer(0.07)} className="space-y-4">
@@ -222,8 +234,8 @@ function SectorSection({ sector, index }: { sector: SectorDetail; index: number 
           viewport={viewport}
         >
           <EditableImage
-            id={`ecosystem.detail.item.${index}.image`}
-            fallbackSrc={sector.img}
+            id={`ecosystem.detail.item.${index}.image.mobile`}
+            fallbackSrc={sector.imgMb}
             alt={sector.title}
             className="w-full h-full object-cover object-center"
           />

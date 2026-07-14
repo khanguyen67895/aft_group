@@ -188,11 +188,11 @@ function VisionCard({ title, icon, desc, isActive, center, floatDelay = 0, index
               </span>
               <EditableText
                 id={`home.vision.cards.${index}.title`} fallbackVi={title}
-                style={titleStyle} className="font-[Playfair_Display] font-bold text-text-primary text-sm md:text-2xl uppercase tracking-widest"
+                style={titleStyle} className="font-[Playfair_Display] font-bold text-text-primary text-xl md:text-2xl uppercase tracking-widest"
               />
               <EditableText
                 id={`home.vision.cards.${index}.desc`} fallbackVi={desc} as="p"
-                style={descStyle} className="text-xs md:text-xl text-text-secondary leading-snug max-w-[90%] md:max-w-60"
+                style={descStyle} className="text-base md:text-xl text-text-secondary leading-snug max-w-[90%] md:max-w-60"
               />
             </div>
           ) : (
