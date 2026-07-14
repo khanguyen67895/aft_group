@@ -197,7 +197,7 @@ export function FeaturedProjects() {
 
   return (
     <section className="py-8 bg-secondary overflow-hidden">
-      <div className="container mx-auto px-4 md:px-50">
+      <div className="container max-w-7xl mx-auto px-4 md:px-0">
 
         {/* Header */}
         <motion.div
