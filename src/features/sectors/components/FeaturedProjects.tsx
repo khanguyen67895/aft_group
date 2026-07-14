@@ -4,10 +4,9 @@ import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
 import { EditableText, EditableImage } from '@/components/cms'
 import icLeft  from '@/assets/image/ic_left.png'
 import icRight from '@/assets/image/ic_right.png'
-import icField1 from '@/assets/image/ic_item_field1.jfif'
-import icField2 from '@/assets/image/ic_item_field2.jfif'
-import icField3 from '@/assets/image/ic_item_field3.jfif'
-import icField4 from '@/assets/image/ic_item_field4.jfif'
+import icField1 from '@/assets/image/ic_field1.png'
+import icField2 from '@/assets/image/ic_field2.jpg'
+import icField3 from '@/assets/image/ic_field3.jpg'
 
 interface Project {
   img: string
@@ -26,45 +25,34 @@ const PROJECTS: Project[] = [
     img: icField1,
     name: 'S-Light Tower: Đà Nẵng',
     location: 'Đà Nẵng',
-    view: 'View sông Sài Gòn',
+    view: 'View sông Hàn',
     area: '57,6–89m²',
     beds: 2,
     wc: 2,
-    developer: 'Tập đoàn AFT Group',
-    address: 'Quận 7, TP. Hồ Chí Minh',
+    developer: 'Tập đoàn Sun Group',
+    address: 'Ngã tư đường Nguyễn Đình Thi - 29/3, Hòa Xuân, Đà Nẵng',
   },
   {
     img: icField2,
     name: 'AFT Riverside',
     location: 'Đà Nẵng',
-    view: 'View sông Hàn',
+    view: 'View bến du thuyền',
     area: '65–95m²',
     beds: 2,
     wc: 2,
-    developer: 'Tập đoàn AFT Group',
-    address: 'Quận Sơn Trà, TP. Đà Nẵng',
+    developer: 'Tập đoàn Sun Group',
+    address: 'Sun Symphony Residence, Lê Văn Duyệt, phường Sơn Trà, TP.Đà Nẵng',
   },
   {
     img: icField3,
     name: 'Golden Gate Tower',
-    location: 'Hà Nội',
+    location: 'Đà Nẵng',
     view: 'View thành phố',
     area: '75,6–110m²',
     beds: 3,
     wc: 2,
-    developer: 'Tập đoàn AFT Group',
-    address: 'Cầu Giấy, TP. Hà Nội',
-  },
-  {
-    img: icField4,
-    name: 'Binh Phuoc Land',
-    location: 'Bình Phước',
-    view: 'View thiên nhiên',
-    area: '500 ha',
-    beds: 2,
-    wc: 2,
-    developer: 'Tập đoàn AFT Group',
-    address: 'Đồng Phú, Bình Phước',
+    developer: 'Địa ốc Foodinco',
+    address: 'Số 58 Bạch Đằng, phường Hải Châu, TP.Đà Nẵng',
   },
 ]
 
