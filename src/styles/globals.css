@@ -83,11 +83,11 @@
        x transform before their whileInView triggers) can otherwise widen the page's
        scrollable area even though nothing is visually meant to show there, which makes
        mobile browsers miscompute the initial viewport until the user scrolls. */
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4, h5, h6 {
