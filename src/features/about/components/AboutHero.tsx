@@ -10,8 +10,13 @@ import slide1 from '@/assets/image/ic_about1.png'
 import slide2 from '@/assets/image/ic_about2.png'
 import slide3 from '@/assets/image/ic_about3.png'
 import slide4 from '@/assets/image/ic_about4.png'
+import slide5 from '@/assets/image/ic_about5.png'
+import slide6 from '@/assets/image/ic_about6.png'
+import slide7 from '@/assets/image/ic_about7.png'
+import slide8 from '@/assets/image/ic_about8.png'
+import slide9 from '@/assets/image/ic_about9.png'
 
-const SLIDES = [slide1, slide2, slide3, slide4]
+const SLIDES = [slide1, slide2, slide3, slide4, slide5, slide6, slide7, slide8, slide9]
 
 export function AboutHero() {
   return (
@@ -54,7 +59,7 @@ export function AboutHero() {
               id={`about.hero.slide.${i % SLIDES.length}.img`}
               fallbackSrc={src}
               alt=""
-              className="h-72 sm:h-96 md:h-120 w-104 sm:w-136 md:w-2xl rounded-2xl object-cover shrink-0"
+              className="h-64 md:h-80 w-88 sm:w-md md:w-136 rounded-2xl object-cover shrink-0"
             />
           ))}
         </div>
