@@ -1,24 +1,21 @@
 import { motion } from 'framer-motion'
-import { fadeUp, fadeLeft, staggerContainer, viewport } from '@/lib/motion'
+import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
 import { EditableText, EditableImage } from '@/components/cms'
-
-import videoAbout from '@/assets/video/video_about.mp4'
 
 import icBgField   from '@/assets/image/ic_bg_field.png'
 import icBgField2x from '@/assets/image/ic_bg_field@2x.png'
 import icBgField3x from '@/assets/image/ic_bg_field@3x.png'
 
-import icCheckbox   from '@/assets/image/ic_checkbox.png'
+import slide1 from '@/assets/image/ic_about1.png'
+import slide2 from '@/assets/image/ic_about2.png'
+import slide3 from '@/assets/image/ic_about3.png'
+import slide4 from '@/assets/image/ic_about4.png'
 
-const FEATURES = [
-  'Kết nối giá trị toàn cầu với cơ hội tài chính cho mọi người.',
-  'Kiến tạo hệ sinh thái tài chính mở, minh bạch và bền vững.',
-  'Đồng hành cùng khách hàng trên hành trình tự do tài chính.',
-]
+const SLIDES = [slide1, slide2, slide3, slide4]
 
 export function AboutHero() {
   return (
-    <section className="relative overflow-hidden bg-secondary pt-28 md:pb-24">
+    <section className="relative overflow-hidden bg-secondary pt-28">
       {/* Ambient gold glow background */}
       <div className="absolute inset-0 pointer-events-none" style={{
         backgroundImage: `image-set(url(${icBgField}) 1x, url(${icBgField2x}) 2x, url(${icBgField3x}) 3x)`,
@@ -43,40 +40,34 @@ export function AboutHero() {
             <EditableText id="about.hero.subtitle" fallbackVi="AFT Group hệ sinh thái Tài chính – Tài sản – Công nghệ. Tầm nhìn 2035." />
           </motion.p>
         </motion.div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Video */}
-          <motion.video
-            src={videoAbout}
-            autoPlay muted loop playsInline
-            disablePictureInPicture
-            className="w-full h-auto rounded-2xl object-cover"
-            variants={fadeLeft} initial="hidden" whileInView="show" viewport={viewport}
-          />
-
-          {/* Content */}
-          <motion.div
-            variants={staggerContainer(0.1)} initial="hidden" whileInView="show" viewport={viewport}
-          >
-            <motion.p variants={fadeUp} className="text-base md:text-xl text-text-secondary leading-relaxed">
-              <EditableText id="about.hero.description" fallbackVi="AFT là tập đoàn công nghệ tài chính toàn cầu, tiên phong trong việc số hóa tài sản thực và ứng dụng công nghệ blockchain, AI, Data để tạo ra các giải pháp tài chính minh bạch - an toàn - hiệu quả." />
-            </motion.p>
-
-            <motion.ul variants={staggerContainer(0.07)} className="mt-6 space-y-4">
-              {FEATURES.map((feat, i) => (
-                <motion.li key={feat} variants={fadeUp} className="flex items-center gap-3">
-                  <EditableImage
-                    id={`about.hero.feature.${i}.icon`}
-                    fallbackSrc={icCheckbox}
-                    alt=""
-                    className="w-5 h-5 shrink-0"
-                  />
-                  <EditableText id={`about.hero.feature.${i}.text`} fallbackVi={feat} className="text-text-secondary text-base md:text-xl" />
-                </motion.li>
-              ))}
-            </motion.ul>
-          </motion.div>
+      {/* Auto-scrolling image slideshow — full viewport width */}
+      <motion.div
+        className="relative z-10 w-full overflow-hidden"
+        variants={fadeUp} initial="hidden" whileInView="show" viewport={viewport}
+      >
+        <div className="flex gap-4 md:gap-8 w-max marquee-track" style={{ animationDuration: '60s' }}>
+          {[...SLIDES, ...SLIDES].map((src, i) => (
+            <EditableImage
+              key={i}
+              id={`about.hero.slide.${i % SLIDES.length}.img`}
+              fallbackSrc={src}
+              alt=""
+              className="h-72 sm:h-96 md:h-120 w-104 sm:w-136 md:w-2xl rounded-2xl object-cover shrink-0"
+            />
+          ))}
         </div>
+      </motion.div>
+
+      <div className="relative z-10 container mx-auto px-4 md:px-8">
+        {/* Description */}
+        <motion.p
+          className="mt-10 md:mt-12 max-w-3xl mx-auto text-center text-base md:text-xl text-text-secondary leading-relaxed"
+          variants={fadeUp} initial="hidden" whileInView="show" viewport={viewport}
+        >
+          <EditableText id="about.hero.description" fallbackVi="AFT là tập đoàn công nghệ tài chính toàn cầu, tiên phong trong việc số hóa tài sản thực và ứng dụng công nghệ blockchain, AI, Data để tạo ra các giải pháp tài chính minh bạch - an toàn - hiệu quả. Kết nối giá trị toàn cầu với cơ hội tài chính cho mọi người. Kiến tạo hệ sinh thái tài chính mở, minh bạch và bền vững. Đồng hành cùng khách hàng trên hành trình tự do tài chính." />
+        </motion.p>
       </div>
     </section>
   )
