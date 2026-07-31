@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, viewport } from '@/lib/motion'
-import { EditableText, EditableImage } from '@/components/cms'
+import { EditableText, EditableImage, EditableGalleryImage, AddGalleryImageButton } from '@/components/cms'
+import { useContentStore } from '@/stores/content.store'
 
 import icBgField   from '@/assets/image/ic_bg_field.png'
 import icBgField2x from '@/assets/image/ic_bg_field@2x.png'
@@ -18,7 +19,17 @@ import slide9 from '@/assets/image/ic_about9.png'
 
 const SLIDES = [slide1, slide2, slide3, slide4, slide5, slide6, slide7, slide8, slide9]
 
+const SLIDES_GALLERY_ID = 'about.hero.slides.extra'
+const SLIDE_CLASSNAME = 'h-64 md:h-80 w-88 sm:w-md md:w-136 rounded-2xl object-cover shrink-0'
+const EMPTY_IMAGES: string[] = []
+
 export function AboutHero() {
+  const extraSlides = useContentStore(state => state.content[SLIDES_GALLERY_ID]?.images ?? EMPTY_IMAGES)
+  const allSlides = [
+    ...SLIDES.map((src, index) => ({ kind: 'fixed' as const, index, src })),
+    ...extraSlides.map((src, index) => ({ kind: 'extra' as const, index, src })),
+  ]
+
   return (
     <section className="relative overflow-hidden bg-secondary pt-28">
       {/* Ambient gold glow background */}
@@ -53,16 +64,29 @@ export function AboutHero() {
         variants={fadeUp} initial="hidden" whileInView="show" viewport={viewport}
       >
         <div className="flex gap-4 md:gap-8 w-max marquee-track" style={{ animationDuration: '60s' }}>
-          {[...SLIDES, ...SLIDES].map((src, i) => (
-            <EditableImage
-              key={i}
-              id={`about.hero.slide.${i % SLIDES.length}.img`}
-              fallbackSrc={src}
-              alt=""
-              className="h-64 md:h-80 w-88 sm:w-md md:w-136 rounded-2xl object-cover shrink-0"
-            />
-          ))}
+          {[...allSlides, ...allSlides].map((slide, i) =>
+            slide.kind === 'fixed' ? (
+              <EditableImage
+                key={`fixed-${slide.index}-${i}`}
+                id={`about.hero.slide.${slide.index}.img`}
+                fallbackSrc={slide.src}
+                alt=""
+                className={SLIDE_CLASSNAME}
+              />
+            ) : (
+              <EditableGalleryImage
+                key={`extra-${slide.index}-${i}`}
+                id={SLIDES_GALLERY_ID}
+                index={slide.index}
+                src={slide.src}
+                alt=""
+                className={SLIDE_CLASSNAME}
+              />
+            )
+          )}
         </div>
+
+        <AddGalleryImageButton id={SLIDES_GALLERY_ID} className="absolute top-4 right-4 z-20" />
       </motion.div>
 
       <div className="relative z-10 container mx-auto px-4 md:px-8">
